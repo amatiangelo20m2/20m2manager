@@ -3,17 +3,23 @@ import { FuseNavigationItem } from '@fuse/components/navigation';
 
 export const defaultNavigation: FuseNavigationItem[] = [
     {
-        id   : 'example',
-        title: 'Example',
+        id   : 'prenotazioni',
+        title: 'Prenotazioni',
         type : 'basic',
-        icon : 'heroicons_outline:chart-pie',
+        icon : 'heroicons_outline:book-open',
+        link : '/example'
+    }, {
+        id   : 'prenotazioni2',
+        title: 'Calendar',
+        type : 'basic',
+        icon : 'heroicons_outline:calendar-days',
         link : '/example'
     }
 ];
 export const compactNavigation: FuseNavigationItem[] = [
     {
         id   : 'example',
-        title: 'Example',
+        title: 'compact',
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
         link : '/example'
@@ -22,7 +28,7 @@ export const compactNavigation: FuseNavigationItem[] = [
 export const futuristicNavigation: FuseNavigationItem[] = [
     {
         id   : 'example',
-        title: 'Example',
+        title: 'futuristic',
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
         link : '/example'
@@ -31,7 +37,7 @@ export const futuristicNavigation: FuseNavigationItem[] = [
 export const horizontalNavigation: FuseNavigationItem[] = [
     {
         id   : 'example',
-        title: 'Example',
+        title: 'horizontal',
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
         link : '/example'
