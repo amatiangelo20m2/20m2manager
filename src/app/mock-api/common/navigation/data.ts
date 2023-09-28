@@ -29,6 +29,18 @@ export const compactNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
         link : '/example'
+    }, {
+        id   : 'calendar',
+        title: 'Calendar',
+        type : 'basic',
+        icon : 'heroicons_outline:calendar-days',
+        link : '/example'
+    }, {
+        id   : 'customers',
+        title: 'Clienti',
+        type : 'basic',
+        icon : 'heroicons_outline:users',
+        link : '/example'
     }
 ];
 export const futuristicNavigation: FuseNavigationItem[] = [
@@ -38,6 +50,19 @@ export const futuristicNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
         link : '/example'
+    },
+    , {
+        id   : 'calendar',
+        title: 'Calendar',
+        type : 'basic',
+        icon : 'heroicons_outline:calendar-days',
+        link : '/example'
+    }, {
+        id   : 'customers',
+        title: 'Clienti',
+        type : 'basic',
+        icon : 'heroicons_outline:users',
+        link : '/example'
     }
 ];
 export const horizontalNavigation: FuseNavigationItem[] = [
@@ -46,6 +71,18 @@ export const horizontalNavigation: FuseNavigationItem[] = [
         title: 'horizontal',
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
+        link : '/example'
+    }, {
+        id   : 'calendar',
+        title: 'Calendar',
+        type : 'basic',
+        icon : 'heroicons_outline:calendar-days',
+        link : '/example'
+    }, {
+        id   : 'customers',
+        title: 'Clienti',
+        type : 'basic',
+        icon : 'heroicons_outline:users',
         link : '/example'
     }
 ];
