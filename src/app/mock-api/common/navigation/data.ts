@@ -13,13 +13,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         title: 'Calendar',
         type : 'basic',
         icon : 'heroicons_outline:calendar-days',
-        link : '/example'
+        link : '/XXXX'
     }, {
         id   : 'customers',
         title: 'Clienti',
         type : 'basic',
         icon : 'heroicons_outline:users',
-        link : '/example'
+        link : '/werrwe'
     }
 ];
 export const compactNavigation: FuseNavigationItem[] = [
