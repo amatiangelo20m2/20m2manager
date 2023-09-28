@@ -9,10 +9,16 @@ export const defaultNavigation: FuseNavigationItem[] = [
         icon : 'heroicons_outline:book-open',
         link : '/example'
     }, {
-        id   : 'prenotazioni2',
+        id   : 'calendar',
         title: 'Calendar',
         type : 'basic',
         icon : 'heroicons_outline:calendar-days',
+        link : '/example'
+    }, {
+        id   : 'customers',
+        title: 'Clienti',
+        type : 'basic',
+        icon : 'heroicons_outline:users',
         link : '/example'
     }
 ];
