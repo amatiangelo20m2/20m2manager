@@ -71,7 +71,7 @@ export const appRoutes: Route[] = [
         },
         children: [
             {path: 'example', loadChildren: () => import('app/modules/admin/example/example.routes')},
-            {path: 'reservationform', loadChildren: () => import('app/modules/admin/reservation/reservation.routes')},
+            {path: 'reservationform', loadChildren: () => import('app/modules/admin/reservationform/reservationforma.routers')},
         ]
     }
 ];
