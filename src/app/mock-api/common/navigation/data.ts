@@ -1,6 +1,7 @@
 /* eslint-disable */
 import { FuseNavigationItem } from '@fuse/components/navigation';
 
+
 export const defaultNavigation: FuseNavigationItem[] = [
     {
         id   : 'prenotazioni',
@@ -13,7 +14,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         title: 'Calendar',
         type : 'basic',
         icon : 'heroicons_outline:calendar-days',
-        link : '/XXXX'
+        link : '/reservationform'
     }, {
         id   : 'customers',
         title: 'Clienti',
@@ -34,7 +35,7 @@ export const compactNavigation: FuseNavigationItem[] = [
         title: 'Calendar',
         type : 'basic',
         icon : 'heroicons_outline:calendar-days',
-        link : '/example'
+        link : '/reservationform'
     }, {
         id   : 'customers',
         title: 'Clienti',
@@ -50,13 +51,12 @@ export const futuristicNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
         link : '/example'
-    },
-    , {
+    }, {
         id   : 'calendar',
         title: 'Calendar',
         type : 'basic',
         icon : 'heroicons_outline:calendar-days',
-        link : '/example'
+        link : '/reservationform'
     }, {
         id   : 'customers',
         title: 'Clienti',
@@ -77,7 +77,7 @@ export const horizontalNavigation: FuseNavigationItem[] = [
         title: 'Calendar',
         type : 'basic',
         icon : 'heroicons_outline:calendar-days',
-        link : '/example'
+        link : '/reservationform'
     }, {
         id   : 'customers',
         title: 'Clienti',
