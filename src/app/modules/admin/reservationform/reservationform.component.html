@@ -4,17 +4,14 @@
             <form
                 class="p-4 bg-card shadow rounded overflow-hidden"
                 [formGroup]="horizontalStepperForm">
-                <mat-horizontal-stepper
+                <mat-vertical-stepper
                     [linear]="true"
                     #horizontalStepper>
                     <mat-step
                         [formGroupName]="'step1'"
                         [stepControl]="horizontalStepperForm.get('step1')"
                         #horizontalStepperStep1>
-                        <ng-template matStepLabel>Basic information</ng-template>
-                        <p class="my-6 font-medium">
-                            Fill in your basic information to let us know your preferences
-                        </p>
+                        <ng-template matStepLabel>Prenotazione {{branchname}}</ng-template>
                         <div class="flex">
                             <mat-form-field class="flex-auto">
                                 <input
@@ -25,37 +22,22 @@
                                 <mat-icon
                                     class="icon-size-5"
                                     matPrefix
-                                    [svgIcon]="'heroicons_solid:envelope'"></mat-icon>
+                                    [svgIcon]="'heroicons_solid:envelope'">
+
+                                </mat-icon>
                             </mat-form-field>
                         </div>
-                        <div class="flex flex-col gt-xs:flex-row">
-                            <mat-form-field class="flex-auto gt-xs:pr-3">
-                                <mat-select
-                                    [formControlName]="'country'"
-                                    [placeholder]="'Country / Region'"
+                        <div class="flex">
+                            <mat-form-field class="flex-auto">
+                                <input
+                                    matInput
+                                    [formControlName]="'phone'"
+                                    [placeholder]="'Phone'"
                                     required>
-                                    <mat-option value="country-1">Country 1</mat-option>
-                                    <mat-option value="country-2">Country 2</mat-option>
-                                    <mat-option value="country-3">Country 3</mat-option>
-                                </mat-select>
                                 <mat-icon
                                     class="icon-size-5"
                                     matPrefix
-                                    [svgIcon]="'heroicons_solid:map-pin'"></mat-icon>
-                            </mat-form-field>
-                            <mat-form-field class="flex-auto gt-xs:pl-3">
-                                <mat-select
-                                    [formControlName]="'language'"
-                                    [placeholder]="'Language'"
-                                    required>
-                                    <mat-option value="language-1">Language 1</mat-option>
-                                    <mat-option value="language-2">Language 2</mat-option>
-                                    <mat-option value="language-3">Language 3</mat-option>
-                                </mat-select>
-                                <mat-icon
-                                    class="icon-size-5"
-                                    matPrefix
-                                    [svgIcon]="'heroicons_solid:language'"></mat-icon>
+                                    [svgIcon]="'heroicons_solid:phone'"></mat-icon>
                             </mat-form-field>
                         </div>
                         <div class="flex justify-end">
@@ -66,7 +48,7 @@
                                 [disabled]="horizontalStepperStep1.stepControl.pristine || horizontalStepperStep1.stepControl.invalid"
                                 type="button"
                                 matStepperNext>
-                                Next
+                                Avanti
                             </button>
                         </div>
                     </mat-step>
@@ -75,10 +57,7 @@
                         [formGroupName]="'step2'"
                         [stepControl]="horizontalStepperForm.get('step2')"
                         #horizontalStepperStep2>
-                        <ng-template matStepLabel>Profile</ng-template>
-                        <p class="my-6 font-medium">
-                            People here will get to know you with this information
-                        </p>
+                        <ng-template matStepLabel>Dati Anagrafici</ng-template>
                         <div class="flex flex-col gt-xs:flex-row">
                             <mat-form-field class="flex-auto gt-xs:pr-3">
                                 <input
@@ -117,8 +96,8 @@
                             <mat-form-field class="flex-auto">
                                 <textarea
                                     matInput
-                                    [formControlName]="'about'"
-                                    [placeholder]="'About'"
+                                    [formControlName]="'requests'"
+                                    [placeholder]="'Requests'"
                                     [rows]="3"></textarea>
                                 <mat-icon
                                     class="icon-size-5"
@@ -245,7 +224,7 @@
                             </button>
                         </div>
                     </mat-step>
-                </mat-horizontal-stepper>
+                </mat-vertical-stepper>
             </form>
         </div>
     </div>
