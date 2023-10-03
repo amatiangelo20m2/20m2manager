@@ -36,7 +36,6 @@ export class ReservationformComponent {
      */
     ngOnInit(): void
     {
-        // Horizontal stepper form
         this.horizontalStepperForm = this._formBuilder.group({
             step1: this._formBuilder.group({
                 email   : ['', [Validators.required, Validators.email]],
