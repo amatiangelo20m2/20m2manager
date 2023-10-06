@@ -11,6 +11,8 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
+import {CommonMessages} from "../common/common_messages";
+
 
 @Component({
     selector     : 'auth-sign-in',
@@ -18,7 +20,10 @@ import { AuthService } from 'app/core/auth/auth.service';
     encapsulation: ViewEncapsulation.None,
     animations   : fuseAnimations,
     standalone   : true,
-    imports      : [RouterLink, FuseAlertComponent, NgIf, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, MatCheckboxModule, MatProgressSpinnerModule],
+    imports      : [RouterLink, FuseAlertComponent, NgIf, FormsModule,
+        ReactiveFormsModule, MatFormFieldModule, MatInputModule,
+        MatButtonModule, MatIconModule, MatCheckboxModule, MatProgressSpinnerModule
+    ],
 })
 export class AuthSignInComponent implements OnInit
 {
@@ -39,6 +44,7 @@ export class AuthSignInComponent implements OnInit
         private _authService: AuthService,
         private _formBuilder: UntypedFormBuilder,
         private _router: Router,
+        public _common: CommonMessages
     )
     {
     }
