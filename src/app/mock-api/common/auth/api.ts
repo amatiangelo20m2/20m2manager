@@ -15,18 +15,13 @@ export class AuthMockApi
     /**
      * Constructor
      */
-    constructor(private _fuseMockApiService: FuseMockApiService)
-    {
+    constructor(private _fuseMockApiService: FuseMockApiService) {
         // Set the mock-api
         this._secret = 'YOUR_VERY_CONFIDENTIAL_SECRET_FOR_SIGNING_JWT_TOKENS!!!';
 
         // Register Mock API handlers
         this.registerHandlers();
     }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
 
     /**
      * Register Mock API handlers

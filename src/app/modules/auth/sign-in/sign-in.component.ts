@@ -70,8 +70,7 @@ export class AuthSignInComponent implements OnInit
     signIn(): void
     {
         // Return if the form is invalid
-        if ( this.signInForm.invalid )
-        {
+        if ( this.signInForm.invalid ) {
             return;
         }
 
@@ -86,10 +85,6 @@ export class AuthSignInComponent implements OnInit
             .subscribe(
                 () =>
                 {
-                    // Set the redirect url.
-                    // The '/signed-in-redirect' is a dummy url to catch the request and redirect the user
-                    // to the correct page after a successful sign in. This way, that url can be set via
-                    // routing file and we don't have to touch here.
                     const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
 
                     // Navigate to the redirect url
@@ -101,10 +96,8 @@ export class AuthSignInComponent implements OnInit
                     // Re-enable the form
                     this.signInForm.enable();
 
-                    // Reset the form
                     this.signInNgForm.resetForm();
 
-                    // Set the alert
                     this.alert = {
                         type   : 'error',
                         message: 'Wrong email or password',

@@ -5,8 +5,7 @@ import { FuseConfirmationDialogComponent } from '@fuse/services/confirmation/dia
 import { merge } from 'lodash-es';
 
 @Injectable({providedIn: 'root'})
-export class FuseConfirmationService
-{
+export class FuseConfirmationService {
     private _matDialog: MatDialog = inject(MatDialog);
     private _defaultConfig: FuseConfirmationConfig = {
         title      : 'Confirm action',
