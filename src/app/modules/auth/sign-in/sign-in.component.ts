@@ -11,6 +11,8 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
+import {CommonMessages} from "../common/common_messages";
+
 
 @Component({
     selector     : 'auth-sign-in',
@@ -18,7 +20,10 @@ import { AuthService } from 'app/core/auth/auth.service';
     encapsulation: ViewEncapsulation.None,
     animations   : fuseAnimations,
     standalone   : true,
-    imports      : [RouterLink, FuseAlertComponent, NgIf, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, MatCheckboxModule, MatProgressSpinnerModule],
+    imports      : [RouterLink, FuseAlertComponent, NgIf, FormsModule,
+        ReactiveFormsModule, MatFormFieldModule, MatInputModule,
+        MatButtonModule, MatIconModule, MatCheckboxModule, MatProgressSpinnerModule
+    ],
 })
 export class AuthSignInComponent implements OnInit
 {
@@ -39,6 +44,7 @@ export class AuthSignInComponent implements OnInit
         private _authService: AuthService,
         private _formBuilder: UntypedFormBuilder,
         private _router: Router,
+        public _common: CommonMessages
     )
     {
     }
@@ -70,8 +76,7 @@ export class AuthSignInComponent implements OnInit
     signIn(): void
     {
         // Return if the form is invalid
-        if ( this.signInForm.invalid )
-        {
+        if ( this.signInForm.invalid ) {
             return;
         }
 
@@ -86,10 +91,6 @@ export class AuthSignInComponent implements OnInit
             .subscribe(
                 () =>
                 {
-                    // Set the redirect url.
-                    // The '/signed-in-redirect' is a dummy url to catch the request and redirect the user
-                    // to the correct page after a successful sign in. This way, that url can be set via
-                    // routing file and we don't have to touch here.
                     const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
 
                     // Navigate to the redirect url
@@ -101,10 +102,8 @@ export class AuthSignInComponent implements OnInit
                     // Re-enable the form
                     this.signInForm.enable();
 
-                    // Reset the form
                     this.signInNgForm.resetForm();
 
-                    // Set the alert
                     this.alert = {
                         type   : 'error',
                         message: 'Wrong email or password',

@@ -4,10 +4,9 @@ import { shortcuts as shortcutsData } from 'app/mock-api/common/shortcuts/data';
 import { assign, cloneDeep } from 'lodash-es';
 
 @Injectable({providedIn: 'root'})
-export class ShortcutsMockApi
-{
-    private _shortcuts: any = shortcutsData;
+export class ShortcutsMockApi {
 
+    private _shortcuts: any = shortcutsData;
     /**
      * Constructor
      */

@@ -1543,6 +1543,19 @@
                 d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1v0h3z"/>
         </svg>
         <svg
+            id="google"
+            x="48"
+            y="192"
+            viewBox="0 0 24 24">
+            <path
+                fill="none"
+                stroke-linejoin="round"
+                stroke-linecap="round"
+                stroke-width="2"
+                stroke="currentColor"
+                d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1v0h3z"/>
+        </svg>
+        <svg
             id="fast-forward"
             x="96"
             y="192"
@@ -1568,6 +1581,7 @@
                 stroke="currentColor"
                 d="M20.24 12.24a6.003 6.003 0 10-8.49-8.49v0L5 10.5V19h8.5zM16 8L2 22M17.5 15H9"/>
         </svg>
+
         <svg
             id="figma"
             x="192"
