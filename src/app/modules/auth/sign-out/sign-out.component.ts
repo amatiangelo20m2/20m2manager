@@ -37,9 +37,7 @@ export class AuthSignOutComponent implements OnInit, OnDestroy
     /**
      * On init
      */
-    ngOnInit(): void
-    {
-        // Sign out
+    ngOnInit(): void {
         this._authService.signOut();
 
         // Redirect after the countdown

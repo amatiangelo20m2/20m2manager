@@ -60,7 +60,6 @@
                     </mat-error>
                 </mat-form-field>
 
-                <!-- Password field -->
                 <mat-form-field class="w-full">
                     <mat-label>Password</mat-label>
                     <input
@@ -84,17 +83,32 @@
                             [svgIcon]="'heroicons_solid:eye-slash'"></mat-icon>
                     </button>
                     <mat-error>
-                        Password is required
+                        Password required, longer than 10 char with special characters
                     </mat-error>
                 </mat-form-field>
 
-                <!-- Company field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Company</mat-label>
-                    <input
-                        id="company-confirm"
-                        matInput
-                        [formControlName]="'company'">
+                    <mat-label>Confirm Password</mat-label>
+                    <input id="password_confirm" matInput type="password" [formControlName]="'password_confirm'" #passwordFieldConfirm>
+                    <button
+                        mat-icon-button
+                        type="button"
+                        (click)="passwordFieldConfirm.type === 'password'
+                        ? passwordFieldConfirm.type = 'text'
+                        : passwordFieldConfirm.type = 'password'"
+                        matSuffix>
+                        <mat-icon
+                            class="icon-size-5"
+                            *ngIf="passwordFieldConfirm.type === 'password'"
+                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                        <mat-icon
+                            class="icon-size-5"
+                            *ngIf="passwordFieldConfirm.type === 'text'"
+                            [svgIcon]="'heroicons_solid:eye-slash'"></mat-icon>
+                    </button>
+                    <mat-error>
+                        Confirmation password is required
+                    </mat-error>
                 </mat-form-field>
 
                 <!-- ToS and PP -->
@@ -124,7 +138,7 @@
                     [disabled]="signUpForm.disabled"
                     (click)="signUp()">
                     <span *ngIf="!signUpForm.disabled">
-                        Create your free account
+                        Create Account
                     </span>
                     <mat-progress-spinner
                         *ngIf="signUpForm.disabled"

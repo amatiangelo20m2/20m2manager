@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import { FuseMockApiService } from '@fuse/lib/mock-api';
 import { user as userData } from 'app/mock-api/common/user/data';

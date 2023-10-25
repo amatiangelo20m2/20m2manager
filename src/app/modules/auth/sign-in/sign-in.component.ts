@@ -12,6 +12,8 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
 import {CommonMessages} from "../common/common_messages";
+import {AngularFirestore} from "@angular/fire/compat/firestore";
+import {AngularFireAuth} from "@angular/fire/compat/auth";
 
 
 @Component({
@@ -73,9 +75,8 @@ export class AuthSignInComponent implements OnInit
     /**
      * Sign in
      */
-    signIn(): void
-    {
-        // Return if the form is invalid
+    signIn(): void {
+
         if ( this.signInForm.invalid ) {
             return;
         }
@@ -87,19 +88,13 @@ export class AuthSignInComponent implements OnInit
         this.showAlert = false;
 
         // Sign in
-        this._authService.signIn(this.signInForm.value)
-            .subscribe(
-                () =>
-                {
+        this._authService.signIn(this.signInForm.value).subscribe(() => {
                     const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
 
-                    // Navigate to the redirect url
                     this._router.navigateByUrl(redirectURL);
 
                 },
-                (response) =>
-                {
-                    // Re-enable the form
+                (response) => {
                     this.signInForm.enable();
 
                     this.signInNgForm.resetForm();

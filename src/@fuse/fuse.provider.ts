@@ -24,9 +24,7 @@ export type FuseProviderConfig = {
 /**
  * Fuse provider
  */
-export const provideFuse = (config: FuseProviderConfig): Array<Provider | EnvironmentProviders> =>
-{
-    // Base providers
+export const provideFuse = (config: FuseProviderConfig): Array<Provider | EnvironmentProviders> => {
     const providers: Array<Provider | EnvironmentProviders> = [
         {
             // Disable 'theme' sanity check
@@ -90,8 +88,7 @@ export const provideFuse = (config: FuseProviderConfig): Array<Provider | Enviro
     ];
 
     // Mock Api services
-    if ( config?.mockApi?.services )
-    {
+    if ( config?.mockApi?.services ) {
         providers.push(
             provideHttpClient(withInterceptors([mockApiInterceptor])),
             {

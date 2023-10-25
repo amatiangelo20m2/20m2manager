@@ -1,30 +1,18 @@
-// -----------------------------------------------------------------------------------------------------
-// @ AUTH UTILITIES
-//
-// Methods are derivations of the Auth0 Angular-JWT helper service methods
-// https://github.com/auth0/angular2-jwt
-// -----------------------------------------------------------------------------------------------------
-
 export class AuthUtils
 {
     /**
      * Constructor
      */
-    constructor()
-    {
+    constructor() {
     }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
     /**
      * Is token expired?
      *
      * @param token
      * @param offsetSeconds
      */
-    static isTokenExpired(token: string, offsetSeconds?: number): boolean
+    static isTokenExpired(token: string,
+                          offsetSeconds?: number): boolean
     {
         // Return if there is no token
         if ( !token || token === '' )
@@ -86,7 +74,7 @@ export class AuthUtils
                 bc++ % 4
             )
                 ? (output += String.fromCharCode(255 & (bs >> ((-2 * bc) & 6))))
-                : 0
+                 : 0
         )
         {
             // try to find character in table (0-63, not found => -1)
@@ -118,8 +106,7 @@ export class AuthUtils
      * @param str
      * @private
      */
-    private static _urlBase64Decode(str: string): string
-    {
+    private static _urlBase64Decode(str: string): string {
         let output = str.replace(/-/g, '+').replace(/_/g, '/');
         switch ( output.length % 4 )
         {
