@@ -2,52 +2,37 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
-import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
+import {catchError, Observable, of, pipe, switchMap, throwError} from 'rxjs';
+import {environment} from "../../../environments/environment";
+
 
 @Injectable({providedIn: 'root'})
 export class AuthService
 {
     private _authenticated: boolean = false;
 
-    /**
-     * Constructor
-     */
+    private apiUrl = environment.apiURL;
+
     constructor(
         private _httpClient: HttpClient,
         private _userService: UserService) {
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Accessors
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Setter & getter for access token
-     */
     set accessToken(token: string) {
         localStorage.setItem('accessToken', token);
     }
 
     get accessToken(): string {
+        //TODO rimuovi questa riga, quanto arriva dal backend un jwt sbagliato si blocca tutta la giostra
+        localStorage.setItem('accessToken', "");
         return localStorage.getItem('accessToken') ?? '';
     }
 
-    /**
-     * Forgot password
-     *
-     * @param email
-     */
     forgotPassword(email: string): Observable<any> {
         return this._httpClient.post('api/auth/forgot-password', email);
     }
 
-    /**
-     * Reset password
-     *
-     * @param password
-     */
-    resetPassword(password: string): Observable<any>
-    {
+    resetPassword(password: string): Observable<any> {
         return this._httpClient.post('api/auth/reset-password', password);
     }
 
@@ -57,21 +42,21 @@ export class AuthService
      * @param credentials
      */
     signIn(credentials: { email: string; password: string }): Observable<any> {
+
         if ( this._authenticated ) {
             return throwError('User is already logged in.');
         }
 
-        return this._httpClient.post('api/auth/sign-in', credentials).pipe(
+        return this._httpClient.post(this.apiUrl + '/ventimetriauth/api/auth/sign-in', credentials).pipe(
             switchMap((response: any) => {
 
-                // Store the access token in the local storage
-                this.accessToken = response.accessToken;
+                //TODO decommenta quando sarà tutto in ordine
 
+                // this.accessToken = response.accessToken;
                 // Set the authenticated flag to true
                 this._authenticated = true;
                 // Store the user on the user service
                 this._userService.user = response.user;
-
                 return of(response);
             }),
         );
@@ -83,7 +68,7 @@ export class AuthService
     signInUsingToken(): Observable<any>
     {
         // Sign in using the token
-        return this._httpClient.post('api/auth/sign-in-with-token', {
+        return this._httpClient.post('{apiUrl}/api/auth/sign-in-with-token', {
             accessToken: this.accessToken,
         }).pipe(
             catchError(() =>

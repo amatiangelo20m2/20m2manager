@@ -42,7 +42,6 @@ export const appConfig: ApplicationConfig = {
 
         // Transloco Config
         provideTransloco(),
-
         // Fuse
         provideAuth(),
         provideIcons(),

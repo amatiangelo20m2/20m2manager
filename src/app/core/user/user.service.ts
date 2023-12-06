@@ -28,8 +28,7 @@ export class UserService
         this._user.next(value);
     }
 
-    get user$(): Observable<User>
-    {
+    get user$(): Observable<User> {
         return this._user.asObservable();
     }
 

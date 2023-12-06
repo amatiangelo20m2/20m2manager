@@ -25,8 +25,8 @@ import {CommonMessages} from "../common/common_messages";
         MatButtonModule, MatIconModule, MatCheckboxModule, MatProgressSpinnerModule
     ],
 })
-export class AuthSignInComponent implements OnInit
-{
+export class AuthSignInComponent implements OnInit {
+
     @ViewChild('signInNgForm') signInNgForm: NgForm;
 
     alert: { type: FuseAlertType; message: string } = {
@@ -36,73 +36,46 @@ export class AuthSignInComponent implements OnInit
     signInForm: UntypedFormGroup;
     showAlert: boolean = false;
 
-    /**
-     * Constructor
-     */
     constructor(
         private _activatedRoute: ActivatedRoute,
         private _authService: AuthService,
         private _formBuilder: UntypedFormBuilder,
         private _router: Router,
-        public _common: CommonMessages
-    )
-    {
+        public _common: CommonMessages) {
     }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
 
     /**
      * On init
      */
-    ngOnInit(): void
-    {
-        // Create the form
+    ngOnInit(): void {
         this.signInForm = this._formBuilder.group({
-            email     : ['hughes.brian@company.com', [Validators.required, Validators.email]],
-            password  : ['admin', Validators.required],
+            email     : ['', [Validators.required, Validators.email]],
+            password  : ['', Validators.required],
             rememberMe: [''],
         });
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Sign in
-     */
     signIn(): void {
 
         if ( this.signInForm.invalid ) {
             return;
         }
 
-        // Disable the form
         this.signInForm.disable();
-
-        // Hide the alert
         this.showAlert = false;
 
-        // Sign in
         this._authService.signIn(this.signInForm.value).subscribe(() => {
+
                     const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
-
                     this._router.navigateByUrl(redirectURL);
-
-                },
+                    },
                 (response) => {
                     this.signInForm.enable();
-
-                    this.signInNgForm.resetForm();
-
+                    // this.signInNgForm.resetForm();
                     this.alert = {
                         type   : 'error',
                         message: 'Wrong email or password',
                     };
-
-                    // Show the alert
                     this.showAlert = true;
                 },
             );
