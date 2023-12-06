@@ -24,7 +24,7 @@ export class AuthService
 
     get accessToken(): string {
         //TODO rimuovi questa riga, quanto arriva dal backend un jwt sbagliato si blocca tutta la giostra
-        localStorage.setItem('accessToken', "");
+        // localStorage.setItem('accessToken', "");
         return localStorage.getItem('accessToken') ?? '';
     }
 
@@ -42,7 +42,6 @@ export class AuthService
      * @param credentials
      */
     signIn(credentials: { email: string; password: string }): Observable<any> {
-
         if ( this._authenticated ) {
             return throwError('User is already logged in.');
         }
@@ -50,13 +49,12 @@ export class AuthService
         return this._httpClient.post(this.apiUrl + '/ventimetriauth/api/auth/sign-in', credentials).pipe(
             switchMap((response: any) => {
 
-                //TODO decommenta quando sarà tutto in ordine
-
-                // this.accessToken = response.accessToken;
+                this.accessToken = response.accessToken;
                 // Set the authenticated flag to true
                 this._authenticated = true;
                 // Store the user on the user service
                 this._userService.user = response.user;
+
                 return of(response);
             }),
         );
@@ -65,10 +63,9 @@ export class AuthService
     /**
      * Sign in using the access token
      */
-    signInUsingToken(): Observable<any>
-    {
+    signInUsingToken(): Observable<any> {
         // Sign in using the token
-        return this._httpClient.post('{apiUrl}/api/auth/sign-in-with-token', {
+        return this._httpClient.post(this.apiUrl + '/ventimetriauth/api/auth/sign-in-with-token', {
             accessToken: this.accessToken,
         }).pipe(
             catchError(() =>
