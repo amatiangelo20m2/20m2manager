@@ -106,7 +106,7 @@ export class AuthUtils
      * @param str
      * @private
      */
-    private static _urlBase64Decode(str: string): string {
+    private static  _urlBase64Decode(str: string): string {
         let output = str.replace(/-/g, '+').replace(/_/g, '/');
         switch ( output.length % 4 )
         {
@@ -154,11 +154,9 @@ export class AuthUtils
             throw new Error('The inspected token doesn\'t appear to be a JWT. Check to make sure it has three parts and see https://jwt.io for more.');
         }
 
-        // Decode the token using the Base64 decoder
         const decoded = this._urlBase64Decode(parts[1]);
 
-        if ( !decoded )
-        {
+        if ( !decoded ) {
             throw new Error('Cannot decode the token.');
         }
 

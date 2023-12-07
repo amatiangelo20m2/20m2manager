@@ -74,7 +74,7 @@ export class AuthSignInComponent implements OnInit {
                     // this.signInNgForm.resetForm();
                     this.alert = {
                         type   : 'error',
-                        message: 'Wrong email or password',
+                        message: 'Error code: ' + response,
                     };
                     this.showAlert = true;
                 },

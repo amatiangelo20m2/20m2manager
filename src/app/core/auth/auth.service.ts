@@ -24,7 +24,7 @@ export class AuthService
 
     get accessToken(): string {
         //TODO rimuovi questa riga, quanto arriva dal backend un jwt sbagliato si blocca tutta la giostra
-        // localStorage.setItem('accessToken', "");
+        //localStorage.setItem('accessToken', "");
         return localStorage.getItem('accessToken') ?? '';
     }
 
@@ -42,6 +42,7 @@ export class AuthService
      * @param credentials
      */
     signIn(credentials: { email: string; password: string }): Observable<any> {
+
         if ( this._authenticated ) {
             return throwError('User is already logged in.');
         }
@@ -69,31 +70,14 @@ export class AuthService
             accessToken: this.accessToken,
         }).pipe(
             catchError(() =>
-
-                // Return false
                 of(false),
             ),
-            switchMap((response: any) =>
-            {
-                // Replace the access token with the new one if it's available on
-                // the response object.
-                //
-                // This is an added optional step for better security. Once you sign
-                // in using the token, you should generate a new one on the server
-                // side and attach it to the response object. Then the following
-                // piece of code can replace the token with the refreshed one.
-                if ( response.accessToken )
-                {
+            switchMap((response: any) => {
+                if ( response.accessToken ) {
                     this.accessToken = response.accessToken;
                 }
-
-                // Set the authenticated flag to true
                 this._authenticated = true;
-
-                // Store the user on the user service
                 this._userService.user = response.user;
-
-                // Return true
                 return of(true);
             }),
         );
@@ -102,15 +86,9 @@ export class AuthService
     /**
      * Sign out
      */
-    signOut(): Observable<any>
-    {
-        // Remove the access token from the local storage
+    signOut(): Observable<any> {
         localStorage.removeItem('accessToken');
-
-        // Set the authenticated flag to false
         this._authenticated = false;
-
-        // Return the observable
         return of(true);
     }
 
@@ -119,9 +97,8 @@ export class AuthService
      *
      * @param user
      */
-    signUp(user: { name: string; email: string; password: string; company: string }): Observable<any>
-    {
-        return this._httpClient.post('api/auth/sign-up', user);
+    signUp(user: { name: string; email: string; password: string; company: string }): Observable<any> {
+        return this._httpClient.post(environment.apiURL + '/ventimetriauth/api/auth/sign-up', user);
     }
 
     /**

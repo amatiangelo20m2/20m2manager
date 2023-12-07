@@ -54,7 +54,7 @@ export class AuthSignUpComponent implements OnInit {
                 private _router: Router) {}
     passwordValidator(control: AbstractControl): ValidationErrors | null {
         const password = control.value;
-        const specialCharacters = /[!@#$%^&*(),.?":{}|<>]/; // Define a regex pattern for special characters
+        const specialCharacters = /[!@#$%^&*(),.?":{}|<>]/;
 
         if (password.length <= 10 || password.length >= 20 || !specialCharacters.test(password)) {
             return { invalidPassword: true };
@@ -87,6 +87,7 @@ export class AuthSignUpComponent implements OnInit {
     }
 
     signUp(): void {
+        console.log("ciaoje")
         if ( this.signUpForm.invalid ) {
             return;
         }
@@ -100,7 +101,7 @@ export class AuthSignUpComponent implements OnInit {
                 },
                 (response) => {
                     this.signUpForm.enable();
-                    this.signUpNgForm.resetForm();
+                    // this.signUpNgForm.resetForm();
                     this.alert = {
                         type   : 'error',
                         message: 'Something went wrong, please try again.',
