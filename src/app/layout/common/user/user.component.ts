@@ -19,11 +19,8 @@ import { Subject, takeUntil } from 'rxjs';
     standalone     : true,
     imports        : [MatButtonModule, MatMenuModule, NgIf, MatIconModule, NgClass, MatDividerModule],
 })
-export class UserComponent implements OnInit, OnDestroy
-{
-    /* eslint-disable @typescript-eslint/naming-convention */
+export class UserComponent implements OnInit, OnDestroy {
     static ngAcceptInputType_showAvatar: BooleanInput;
-    /* eslint-enable @typescript-eslint/naming-convention */
 
     @Input() showAvatar: boolean = true;
     user: User;
@@ -36,9 +33,7 @@ export class UserComponent implements OnInit, OnDestroy
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
-        private _userService: UserService,
-    )
-    {
+        private _userService: UserService) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -81,9 +76,7 @@ export class UserComponent implements OnInit, OnDestroy
      *
      * @param status
      */
-    updateUserStatus(status: string): void
-    {
-        // Return if user is not available
+    updateUserStatus(status: string): void {
         if ( !this.user )
         {
             return;

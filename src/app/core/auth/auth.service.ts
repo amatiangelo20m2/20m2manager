@@ -15,7 +15,9 @@ export class AuthService
 
     constructor(
         private _httpClient: HttpClient,
-        private _userService: UserService) {
+        private _userService: UserService,
+        // private _businessService: BusinessService
+        ) {
     }
 
     set accessToken(token: string) {
@@ -23,8 +25,6 @@ export class AuthService
     }
 
     get accessToken(): string {
-        //TODO rimuovi questa riga, quanto arriva dal backend un jwt sbagliato si blocca tutta la giostra
-        //localStorage.setItem('accessToken', "");
         return localStorage.getItem('accessToken') ?? '';
     }
 

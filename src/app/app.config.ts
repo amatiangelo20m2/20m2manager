@@ -51,7 +51,8 @@ export const appConfig: ApplicationConfig = {
                 services: mockApiServices,
             },
             fuse   : {
-                layout : 'classy',
+                //TODO : se vuoi cambiare il layout iniziale fallo da qui
+                layout : 'material',
                 scheme : 'light',
                 screens: {
                     sm: '600px',
@@ -59,11 +60,11 @@ export const appConfig: ApplicationConfig = {
                     lg: '1280px',
                     xl: '1440px',
                 },
-                theme  : 'theme-default',
+                theme  : 'theme-brand',
                 themes : [
                     {
                         id  : 'theme-default',
-                        name: 'Default',
+                        name: 'Ugl',
                     },
                     {
                         id  : 'theme-brand',
