@@ -13,16 +13,6 @@ export class UserService
      */
     constructor(private _httpClient: HttpClient) {
     }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Accessors
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Setter & getter for user
-     *
-     * @param value
-     */
     set user(value: User) {
         // Store the value
         this._user.next(value);

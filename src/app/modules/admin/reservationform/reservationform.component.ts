@@ -1,25 +1,19 @@
 import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import {MatOptionModule, MatRippleModule} from '@angular/material/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
-import { MatStepperModule } from '@angular/material/stepper';
-import {FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
+import {MatButtonModule} from '@angular/material/button';
+import {MatRippleModule} from '@angular/material/core';
+import {MatIconModule} from '@angular/material/icon';
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatTabsModule} from "@angular/material/tabs";
-import {CurrencyPipe, NgClass, NgFor, NgForOf, NgIf} from "@angular/common";
+import {CurrencyPipe, NgClass, NgFor, NgIf} from "@angular/common";
 import {TranslocoModule} from "@ngneat/transloco";
 import {MatMenuModule} from "@angular/material/menu";
 import {ApexOptions, NgApexchartsModule} from "ng-apexcharts";
 import {MatTableModule} from "@angular/material/table";
 import {Product} from "./model/product";
-import {Subject, takeUntil} from "rxjs";
+import {Subject} from "rxjs";
 import {ProductControllerService} from "./api/productController.service";
 import {Router} from "@angular/router";
+
 @Component({
     selector: 'app-reservationform',
     standalone   : true,
@@ -47,9 +41,7 @@ export class ReservationformComponent {
      */
     constructor(
         private _prodService : ProductControllerService,
-        private _router: Router,
-    )
-    {
+        private _router: Router) {
     }
 
     // -----------------------------------------------------------------------------------------------------

@@ -7,14 +7,14 @@ import {MatMenuModule} from "@angular/material/menu";
 import {Subject, takeUntil} from "rxjs";
 import {AuthService} from "../../../core/auth/auth.service";
 import {Router} from "@angular/router";
-import {ProjectService} from "./project.service";
+import {DashboardService} from "./dashboard.service";
 import {MatTableModule} from "@angular/material/table";
 import {CurrencyPipe, NgClass, NgFor, NgIf} from "@angular/common";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatTabsModule} from "@angular/material/tabs";
 import {TranslocoModule} from "@ngneat/transloco";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {CreateBranchComponent} from "./create_branch/create-branch/create-branch.component";
+import {CreateBranchComponent} from "./create_branch/create-branch.component";
 import {ViewportRuler} from "@angular/cdk/overlay";
 import {UserService} from "../../../core/user/user.service";
 import {User} from "../../../core/user/user.types";
@@ -47,14 +47,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   chartMonthlyExpenses: ApexOptions = {};
   chartYearlyExpenses: ApexOptions = {};
   data: any;
-  selectedProject: string = 'ACME Corp. Backend App';
+  selectedProject: string = '20m2 Cisternino';
   private _unsubscribeAll: Subject<any> = new Subject<any>();
   user : User;
   /**
    * Constructor
    */
   constructor(
-      private _projectService: ProjectService,
+      private _projectService: DashboardService,
       private _router: Router,
       private _service: AuthService,
       private _userService: UserService,

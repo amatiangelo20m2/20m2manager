@@ -1,14 +1,12 @@
-/* eslint-disable */
 import { DateTime } from 'luxon';
 
-/* Get the current instant */
 const now = DateTime.now();
 
 export const project = {
     githubIssues      : {
         overview: {
             'this-week': {
-                'new-issues'   : 214,
+                'new-issues'   : 12,
                 'closed-issues': 75,
                 'fixed'        : 3,
                 'wont-fix'     : 4,

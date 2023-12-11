@@ -18,7 +18,7 @@ import {
 } from "@angular/forms";
 import {MatDialogRef} from "@angular/material/dialog";
 import {NgIf} from "@angular/common";
-import {FuseAlertComponent, FuseAlertType} from "../../../../../../@fuse/components/alert";
+import {FuseAlertComponent, FuseAlertType} from "../../../../../@fuse/components/alert";
 
 @Component({
     selector: 'app-create-branch',
@@ -60,7 +60,7 @@ export class CreateBranchComponent implements OnInit{
             address : ['', Validators.required],
             email: ['', [Validators.required, Validators.email]],
             phone: ['', Validators.required],
-            type: ['restaurant']
+            type: ['RESTAURANT']
         });
     }
 

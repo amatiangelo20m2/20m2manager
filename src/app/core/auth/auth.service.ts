@@ -4,20 +4,18 @@ import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
 import {catchError, Observable, of, pipe, switchMap, throwError} from 'rxjs';
 import {environment} from "../../../environments/environment";
+import {BranchControllerService} from "../business/branch/branchController.service";
+import {BASE_PATH} from "../common/variables";
 
 
 @Injectable({providedIn: 'root'})
-export class AuthService
-{
-    private _authenticated: boolean = false;
+export class AuthService {
 
-    private apiUrl = environment.apiURL;
+    private _authenticated: boolean = false;
 
     constructor(
         private _httpClient: HttpClient,
-        private _userService: UserService,
-        // private _businessService: BusinessService
-        ) {
+        private _userService: UserService) {
     }
 
     set accessToken(token: string) {
@@ -47,7 +45,7 @@ export class AuthService
             return throwError('User is already logged in.');
         }
 
-        return this._httpClient.post(this.apiUrl + '/ventimetriauth/api/auth/sign-in', credentials).pipe(
+        return this._httpClient.post(BASE_PATH + '/ventimetriauth/api/auth/sign-in', credentials).pipe(
             switchMap((response: any) => {
 
                 this.accessToken = response.accessToken;
@@ -66,7 +64,7 @@ export class AuthService
      */
     signInUsingToken(): Observable<any> {
         // Sign in using the token
-        return this._httpClient.post(this.apiUrl + '/ventimetriauth/api/auth/sign-in-with-token', {
+        return this._httpClient.post(BASE_PATH + '/ventimetriauth/api/auth/sign-in-with-token', {
             accessToken: this.accessToken,
         }).pipe(
             catchError(() =>

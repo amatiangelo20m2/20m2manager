@@ -24,7 +24,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         title   : 'Catering',
         subtitle: 'Catering',
         type    : 'group',
-        icon    : 'heroicons_outline:home',
+        icon    : 'mat_outline:wine_bar',
         children: [
             {
                 id   : 'dashboards.project',
@@ -40,7 +40,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         title   : 'Iva e Gestione',
         subtitle: 'Area gestione iva',
         type    : 'group',
-        icon    : 'heroicons_outline:home',
+        icon    : 'heroicons_outline:currency-euro',
         children: [
             {
                 id   : 'dashboards.project',
