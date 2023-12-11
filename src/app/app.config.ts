@@ -50,8 +50,8 @@ export const appConfig: ApplicationConfig = {
                 delay   : 0,
                 services: mockApiServices,
             },
+            //TODO : se vuoi cambiare il layout iniziale fallo da qui
             fuse   : {
-                //TODO : se vuoi cambiare il layout iniziale fallo da qui
                 layout : 'material',
                 scheme : 'light',
                 screens: {

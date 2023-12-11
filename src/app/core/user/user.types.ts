@@ -8,4 +8,5 @@ export interface User
     avatar?: string;
     status?: string;
     profileStatus?: string;
+    userCode?: string;
 }

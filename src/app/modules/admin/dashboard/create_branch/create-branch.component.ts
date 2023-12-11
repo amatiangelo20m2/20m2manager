@@ -19,6 +19,18 @@ import {
 import {MatDialogRef} from "@angular/material/dialog";
 import {NgIf} from "@angular/common";
 import {FuseAlertComponent, FuseAlertType} from "../../../../../@fuse/components/alert";
+import {BranchControllerService, BranchCreationEntity} from "../../../../core/dashboard/branch";
+import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
+import {DashboardComponent} from "../dashboard.component";
+import {catchError, throwError} from "rxjs";
+
+interface BranchForm {
+    name: string;
+    address: string;
+    email: string;
+    phone: string;
+    type: 'RESTAURANT' | 'SUPPLIER';
+}
 
 @Component({
     selector: 'app-create-branch',
@@ -36,7 +48,8 @@ import {FuseAlertComponent, FuseAlertType} from "../../../../../@fuse/components
         FormsModule,
         NgIf,
         FuseAlertComponent,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatSnackBarModule,
     ],
     standalone: true
 })
@@ -49,12 +62,18 @@ export class CreateBranchComponent implements OnInit{
     branchForm: UntypedFormGroup;
     showAlert: boolean = false;
 
+    branchEntity : BranchCreationEntity;
+
     constructor(private dialogRef: MatDialogRef<CreateBranchComponent>,
-                private _formBuilder: UntypedFormBuilder,) {
+                private _formBuilder: UntypedFormBuilder,
+                private _branchService: BranchControllerService,
+                private _snackBar: MatSnackBar) {
     }
 
     ngOnInit(): void {
         this.showAlert = false;
+        this.branchEntity = {};
+
         this.branchForm = this._formBuilder.group({
             name : ['', [Validators.required]],
             address : ['', Validators.required],
@@ -77,6 +96,32 @@ export class CreateBranchComponent implements OnInit{
 
         this.branchForm.disable();
         this.showAlert = false;
+
+        console.log("save data");
+        this.branchEntity = {
+            name: this.branchForm.get('name').value,
+            address: this.branchForm.get('address').value,
+            email: this.branchForm.get('email').value,
+            phone: this.branchForm.get('phone').value,
+            vat: this.branchForm.get('phone').value,
+            type: this.branchForm.get('type').value
+        }
+
+        this._branchService.save(this.branchEntity).pipe(
+            catchError((error) => {
+                this._snackBar.open('error: ' + error, 'Undo', {
+                    duration: 3000
+                });
+                return throwError(error);
+            })
+        ).subscribe(
+            branchResponseEntity => {
+
+                this._snackBar.open('Attività creata con successo', 'Undo', {
+                    duration: 3000,
+                });
+            }
+        );
 
         this.dialogRef.close();
     }

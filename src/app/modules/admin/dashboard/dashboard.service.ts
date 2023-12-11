@@ -1,30 +1,28 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
+import {BASE_PATH} from "../reservationform/variables";
+import {BranchControllerService, BranchCreationEntity} from "../../../core/dashboard/branch";
 
 @Injectable({providedIn: 'root'})
-export class DashboardService
-{
+export class DashboardService {
     private _data: BehaviorSubject<any> = new BehaviorSubject(null);
 
-    /**
-     * Constructor
-     */
     constructor(private _httpClient: HttpClient) {
     }
 
-    /**
-     * Getter for data
-     */
     get data$(): Observable<any> {
         return this._data.asObservable();
     }
 
     getData(): Observable<any> {
+
         return this._httpClient.get('api/dashboards/project').pipe(
             tap((response: any) => {
                 this._data.next(response);
             }),
         );
     }
+
+
 }

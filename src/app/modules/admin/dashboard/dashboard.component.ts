@@ -9,15 +9,16 @@ import {AuthService} from "../../../core/auth/auth.service";
 import {Router} from "@angular/router";
 import {DashboardService} from "./dashboard.service";
 import {MatTableModule} from "@angular/material/table";
-import {CurrencyPipe, NgClass, NgFor, NgIf} from "@angular/common";
+import {CurrencyPipe, NgClass, NgFor, NgIf, NgOptimizedImage} from "@angular/common";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatTabsModule} from "@angular/material/tabs";
 import {TranslocoModule} from "@ngneat/transloco";
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MatDialog} from "@angular/material/dialog";
 import {CreateBranchComponent} from "./create_branch/create-branch.component";
 import {ViewportRuler} from "@angular/cdk/overlay";
 import {UserService} from "../../../core/user/user.service";
 import {User} from "../../../core/user/user.types";
+import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -35,7 +36,8 @@ import {User} from "../../../core/user/user.types";
         MatTableModule,
         NgClass,
         CurrencyPipe,
-        CreateBranchComponent
+        CreateBranchComponent,
+        MatSnackBarModule
     ],
   standalone: true
 })
@@ -54,7 +56,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
    * Constructor
    */
   constructor(
-      private _projectService: DashboardService,
+      private _dashboardService: DashboardService,
       private _router: Router,
       private _service: AuthService,
       private _userService: UserService,
@@ -73,21 +75,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     console.log('access token;- ' + this._service.accessToken);
 
+    this.qrCodeData = "data:image/png;base64,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";
       // Subscribe to the user service
       this._userService.user$
           .pipe((takeUntil(this._unsubscribeAll)))
-          .subscribe((user: User) =>
-          {
+          .subscribe((user: User) => {
               this.user = user;
           });
 
-    this._projectService.data$
+    this._dashboardService.data$
         .pipe(takeUntil(this._unsubscribeAll))
         .subscribe((data) => {
           // Store the data
           this.data = data;
 
-          console.log("thi: " + this.data)
+          console.log("this : " + this.data)
           // Prepare the chart data
           this._prepareChartData();
         });
@@ -137,6 +139,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   // -----------------------------------------------------------------------------------------------------
   // @ Private methods
   // -----------------------------------------------------------------------------------------------------
+    qrCodeData: any;
 
   /**
    * Fix the SVG fill references. This fix must be applied to all ApexCharts
