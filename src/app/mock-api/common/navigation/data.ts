@@ -21,8 +21,8 @@ export const defaultNavigation: FuseNavigationItem[] = [
 
     },{
         id      : 'dashboards',
-        title   : 'Dashboard',
-        subtitle: 'Area gestione attività',
+        title   : 'Catering',
+        subtitle: 'Catering',
         type    : 'group',
         icon    : 'heroicons_outline:home',
         children: [
@@ -37,8 +37,8 @@ export const defaultNavigation: FuseNavigationItem[] = [
 
     },{
         id      : 'dashboards',
-        title   : 'Dashboard',
-        subtitle: 'Area gestione attività',
+        title   : 'Iva e Gestione',
+        subtitle: 'Area gestione iva',
         type    : 'group',
         icon    : 'heroicons_outline:home',
         children: [
