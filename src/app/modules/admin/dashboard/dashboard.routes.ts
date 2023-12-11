@@ -8,6 +8,7 @@ export default [
         path     : '',
         component: DashboardComponent,
         resolve  : {
+            branchList: () => inject(DashboardService).getBranches(),
             data: () => inject(DashboardService).getData(),
         },
     },

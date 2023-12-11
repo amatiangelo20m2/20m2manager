@@ -23,6 +23,7 @@ import {BranchControllerService, BranchCreationEntity} from "../../../../core/da
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 import {DashboardComponent} from "../dashboard.component";
 import {catchError, throwError} from "rxjs";
+import {UserService} from "../../../../core/user/user.service";
 
 interface BranchForm {
     name: string;
@@ -67,6 +68,7 @@ export class CreateBranchComponent implements OnInit{
     constructor(private dialogRef: MatDialogRef<CreateBranchComponent>,
                 private _formBuilder: UntypedFormBuilder,
                 private _branchService: BranchControllerService,
+                private _userService: UserService,
                 private _snackBar: MatSnackBar) {
     }
 
@@ -97,15 +99,19 @@ export class CreateBranchComponent implements OnInit{
         this.branchForm.disable();
         this.showAlert = false;
 
-        console.log("save data");
-        this.branchEntity = {
-            name: this.branchForm.get('name').value,
-            address: this.branchForm.get('address').value,
-            email: this.branchForm.get('email').value,
-            phone: this.branchForm.get('phone').value,
-            vat: this.branchForm.get('phone').value,
-            type: this.branchForm.get('type').value
-        }
+        this._userService.user$.subscribe((user) => {
+            this.branchEntity = {
+                name: this.branchForm.get('name').value,
+                address: this.branchForm.get('address').value,
+                email: this.branchForm.get('email').value,
+                phone: this.branchForm.get('phone').value,
+                vat: this.branchForm.get('phone').value,
+                type: this.branchForm.get('type').value,
+                userCode: user.userCode,
+            }
+        });
+
+
 
         this._branchService.save(this.branchEntity).pipe(
             catchError((error) => {

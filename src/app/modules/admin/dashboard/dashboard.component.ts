@@ -19,6 +19,7 @@ import {ViewportRuler} from "@angular/cdk/overlay";
 import {UserService} from "../../../core/user/user.service";
 import {User} from "../../../core/user/user.types";
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
+import {BranchResponseEntity} from "../../../core/dashboard/branch";
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -52,6 +53,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   selectedProject: string = '20m2 Cisternino';
   private _unsubscribeAll: Subject<any> = new Subject<any>();
   user : User;
+  branchList : BranchResponseEntity[] = [];
+
   /**
    * Constructor
    */

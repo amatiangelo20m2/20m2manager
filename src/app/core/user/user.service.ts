@@ -14,7 +14,6 @@ export class UserService
     constructor(private _httpClient: HttpClient) {
     }
     set user(value: User) {
-        // Store the value
         this._user.next(value);
     }
 

@@ -8,6 +8,8 @@ import {BranchControllerService, BranchCreationEntity} from "../../../core/dashb
 export class DashboardService {
     private _data: BehaviorSubject<any> = new BehaviorSubject(null);
 
+    private _branchList = [];
+
     constructor(private _httpClient: HttpClient) {
     }
 
@@ -25,4 +27,11 @@ export class DashboardService {
     }
 
 
+    getBranches() {
+        return this._httpClient.get('api/dashboards/project').pipe(
+            tap((response: any) => {
+                this._data.next(response);
+            }),
+        );
+    }
 }

@@ -67,16 +67,23 @@ export class AuthService {
         return this._httpClient.post(BASE_PATH + '/ventimetriauth/api/auth/sign-in-with-token', {
             accessToken: this.accessToken,
         }).pipe(
-            catchError(() =>
-                of(false),
+            catchError(() =>{
+                    this.accessToken = '';
+                    return of(false);
+                }
             ),
             switchMap((response: any) => {
+                if(response == null){
+                    this.accessToken = '';
+                    return of(false);
+                }
                 if ( response.accessToken ) {
                     this.accessToken = response.accessToken;
                 }
                 this._authenticated = true;
                 this._userService.user = response.user;
                 return of(true);
+                
             }),
         );
     }
