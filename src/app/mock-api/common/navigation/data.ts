@@ -18,5 +18,38 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link : '/dashboards/project',
             },
         ],
+
+    },{
+        id      : 'dashboards',
+        title   : 'Dashboard',
+        subtitle: 'Area gestione attività',
+        type    : 'group',
+        icon    : 'heroicons_outline:home',
+        children: [
+            {
+                id   : 'dashboards.project',
+                title: 'Project',
+                type : 'basic',
+                icon : 'heroicons_outline:clipboard-document-check',
+                link : '/dashboards/project',
+            },
+        ],
+
+    },{
+        id      : 'dashboards',
+        title   : 'Dashboard',
+        subtitle: 'Area gestione attività',
+        type    : 'group',
+        icon    : 'heroicons_outline:home',
+        children: [
+            {
+                id   : 'dashboards.project',
+                title: 'Project',
+                type : 'basic',
+                icon : 'heroicons_outline:clipboard-document-check',
+                link : '/dashboards/project',
+            },
+        ],
+
     },
 ];

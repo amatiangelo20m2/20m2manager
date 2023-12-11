@@ -1,0 +1,75 @@
+<div class="flex flex-auto p-2 sm:p-2" style="overflow-y: auto; max-height: 600px;">
+    <div>
+        <fuse-alert
+            class="mt-8"
+            *ngIf="showAlert"
+            [appearance]="'outline'"
+            [showIcon]="false"
+            [type]="alert.type"
+            [@shake]="alert.type === 'error'">
+            {{alert.message}}
+        </fuse-alert>
+        <form class="flex flex-col mt-4 px-8 pt-10 bg-card shadow rounded overflow-hidden" [formGroup]="branchForm">
+            <p class="text-lg font-medium">Registra la tua attività</p>
+            <p class="text-secondary mb-6">
+                Set your login preferences, help us personalize your experience, and make big account changes here
+            </p>
+
+            <div class="flex">
+                <mat-form-field class="flex-auto">
+                    <input
+                        id="name"
+                        matInput
+                        [formControlName]="'name'"
+                        [placeholder]="'Nome attività'">
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:star'"></mat-icon>
+                </mat-form-field>
+            </div>
+<!--            <mat-error *ngIf="branchForm.get('name').hasError('name')">-->
+<!--                Nome attività obbligatorio-->
+<!--            </mat-error>-->
+            <div class="flex">
+                <mat-form-field class="flex-auto">
+                    <input
+                        id="address"
+                        [formControlName]="'address'"
+                        matInput [placeholder]="'Indirizzo'">
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:map-pin'"></mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="flex">
+                <mat-form-field class="flex-auto">
+                    <input
+                        id="email"
+                        [formControlName]="'email'"
+                        matInput [placeholder]="'Email'">
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:envelope'"></mat-icon>
+                </mat-form-field>
+            </div>
+
+            <div class="flex">
+                <mat-form-field class="flex-auto">
+                    <input
+                        id="phone"
+                        [formControlName]="'phone'"
+                        matInput [placeholder]="'Phone'">
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:phone'"></mat-icon>
+                </mat-form-field>
+            </div>
+
+            <div class="flex">
+                <mat-radio-group [formControlName]="'type'">
+                    <mat-radio-button value="restaurant" [checked]="true">Ristorante</mat-radio-button>
+                    <mat-radio-button value="supplier">Fornitore</mat-radio-button>
+                </mat-radio-group>
+            </div>
+
+            <mat-divider class="mt-6 mb-10"></mat-divider>
+
+            <div class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700">
+                <button mat-button (click)="onCancelClick()">Cancel</button>
+                <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="onSaveClick()">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
