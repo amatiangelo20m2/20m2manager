@@ -24,6 +24,7 @@ import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 import {DashboardComponent} from "../dashboard.component";
 import {catchError, throwError} from "rxjs";
 import {UserService} from "../../../../core/user/user.service";
+import {User} from "../../../../core/user/user.types";
 
 interface BranchForm {
     name: string;
@@ -62,6 +63,7 @@ export class CreateBranchComponent implements OnInit{
     };
     branchForm: UntypedFormGroup;
     showAlert: boolean = false;
+    user : User;
 
     branchEntity : BranchCreationEntity;
 
@@ -75,6 +77,10 @@ export class CreateBranchComponent implements OnInit{
     ngOnInit(): void {
         this.showAlert = false;
         this.branchEntity = {};
+
+        this._userService.user$.subscribe((user) => {
+            this.user = user;
+        });
 
         this.branchForm = this._formBuilder.group({
             name : ['', [Validators.required]],
@@ -99,23 +105,21 @@ export class CreateBranchComponent implements OnInit{
         this.branchForm.disable();
         this.showAlert = false;
 
-        this._userService.user$.subscribe((user) => {
-            this.branchEntity = {
-                name: this.branchForm.get('name').value,
-                address: this.branchForm.get('address').value,
-                email: this.branchForm.get('email').value,
-                phone: this.branchForm.get('phone').value,
-                vat: this.branchForm.get('phone').value,
-                type: this.branchForm.get('type').value,
-                userCode: user.userCode,
-            }
-        });
 
 
+        this.branchEntity = {
+            name: this.branchForm.get('name').value,
+            address: this.branchForm.get('address').value,
+            email: this.branchForm.get('email').value,
+            phone: this.branchForm.get('phone').value,
+            vat: this.branchForm.get('phone').value,
+            type: this.branchForm.get('type').value,
+            userCode: this.user.userCode,
+        }
 
         this._branchService.save(this.branchEntity).pipe(
             catchError((error) => {
-                this._snackBar.open('error: ' + error, 'Undo', {
+                this._snackBar.open('error: ' + error.statusCode, 'Undo', {
                     duration: 3000
                 });
                 return throwError(error);

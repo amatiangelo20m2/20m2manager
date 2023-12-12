@@ -6,8 +6,8 @@ import { LayoutComponent } from 'app/layout/layout.component';
 
 export const appRoutes: Route[] = [
 
-    {path: '', pathMatch : 'full', redirectTo: 'dashboard'},
-    {path: 'signed-in-redirect', pathMatch : 'full', redirectTo: 'dashboard'},
+    {path: '', pathMatch : 'full', redirectTo: 'dashboard/managment'},
+    {path: 'signed-in-redirect', pathMatch : 'full', redirectTo: 'dashboard/managment'},
 
     // Auth routes for guests
     {
@@ -57,7 +57,7 @@ export const appRoutes: Route[] = [
 
     // Admin routes
     {
-        path: '',
+        path: 'dashboard',
         canActivate: [AuthGuard],
         canActivateChild: [AuthGuard],
         component: LayoutComponent,
@@ -65,8 +65,9 @@ export const appRoutes: Route[] = [
             initialData: initialDataResolver
         },
         children: [
-            {path: 'dashboard', loadChildren: () => import('app/modules/admin/dashboard/dashboard.routes')},
-            {path: 'reservationform', loadChildren: () => import('app/modules/admin/reservationform/reservationforma.routers')},
+            {path: 'managment', loadChildren: () => import('app/modules/admin/dashboard/dashboard.routes')},
+            // {path: 'reservationform', loadChildren: () => import('app/modules/admin/reservationform/reservationforma.routers')},
+            {path: 'settings', loadChildren: () => import('app/modules/pages/settings/settings.routes')},
         ]
     }
 ];

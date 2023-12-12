@@ -4,27 +4,16 @@ import { FuseNavigationItem } from '@fuse/components/navigation';
 
 export const defaultNavigation: FuseNavigationItem[] = [
     {
-        id      : 'dashboards',
-        title   : 'Dashboard',
-        subtitle: 'Area gestione attività',
-        type    : 'group',
-        icon    : 'heroicons_outline:home',
-        children: [
-            {
-                id   : 'dashboards.project',
-                title: 'Project',
-                type : 'basic',
-                icon : 'heroicons_outline:clipboard-document-check',
-                link : '/dashboards/project',
-            },
-        ],
-
+        id   : 'dashboard',
+        title: 'Dashboard',
+        type : 'basic',
+        icon : 'heroicons_outline:home',
+        link : '/dashboard/managment',
     },{
         id      : 'dashboards',
-        title   : 'Catering',
-        subtitle: 'Catering',
+        title   : 'Dashboard',
         type    : 'group',
-        icon    : 'mat_outline:wine_bar',
+        icon    : 'heroicons_outline:currency-euro',
         children: [
             {
                 id   : 'dashboards.project',
@@ -38,7 +27,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
     },{
         id      : 'dashboards',
         title   : 'Iva e Gestione',
-        subtitle: 'Area gestione iva',
         type    : 'group',
         icon    : 'heroicons_outline:currency-euro',
         children: [
@@ -51,5 +39,11 @@ export const defaultNavigation: FuseNavigationItem[] = [
             },
         ],
 
+    },{
+        id   : 'pages.settings',
+        title: 'Settings',
+        type : 'basic',
+        icon : 'heroicons_outline:cog-8-tooth',
+        link : '/dashboard/settings',
     },
 ];

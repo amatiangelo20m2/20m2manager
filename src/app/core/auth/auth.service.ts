@@ -6,6 +6,7 @@ import {catchError, Observable, of, pipe, switchMap, throwError} from 'rxjs';
 import {environment} from "../../../environments/environment";
 import {BranchControllerService} from "../business/branch/branchController.service";
 import {BASE_PATH} from "../common/variables";
+import {DashboardService} from "../../modules/admin/dashboard/dashboard.service";
 
 
 @Injectable({providedIn: 'root'})
@@ -15,7 +16,8 @@ export class AuthService {
 
     constructor(
         private _httpClient: HttpClient,
-        private _userService: UserService) {
+        private _userService: UserService,
+        private _dashboardService: DashboardService) {
     }
 
     set accessToken(token: string) {
@@ -83,7 +85,6 @@ export class AuthService {
                 this._authenticated = true;
                 this._userService.user = response.user;
                 return of(true);
-                
             }),
         );
     }
