@@ -16,8 +16,7 @@ export class AuthService {
 
     constructor(
         private _httpClient: HttpClient,
-        private _userService: UserService,
-        private _dashboardService: DashboardService) {
+        private _userService: UserService) {
     }
 
     set accessToken(token: string) {

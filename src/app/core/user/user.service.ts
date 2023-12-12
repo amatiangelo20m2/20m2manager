@@ -4,8 +4,7 @@ import { User } from 'app/core/user/user.types';
 import { map, Observable, ReplaySubject, tap } from 'rxjs';
 
 @Injectable({providedIn: 'root'})
-export class UserService
-{
+export class UserService {
     private _user: ReplaySubject<User> = new ReplaySubject<User>(1);
 
     /**
@@ -28,11 +27,9 @@ export class UserService
     /**
      * Get the current logged in user data
      */
-    get(): Observable<User>
-    {
+    get(): Observable<User> {
         return this._httpClient.get<User>('api/common/user').pipe(
-            tap((user) =>
-            {
+            tap((user) => {
                 this._user.next(user);
             }),
         );

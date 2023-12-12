@@ -5,11 +5,10 @@ import {MatRippleModule} from "@angular/material/core";
 import {ApexOptions, NgApexchartsModule} from "ng-apexcharts";
 import {MatMenuModule} from "@angular/material/menu";
 import {Subject, takeUntil} from "rxjs";
-import {AuthService} from "../../../core/auth/auth.service";
 import {Router} from "@angular/router";
 import {DashboardService} from "./dashboard.service";
 import {MatTableModule} from "@angular/material/table";
-import {CurrencyPipe, NgClass, NgFor, NgIf, NgOptimizedImage} from "@angular/common";
+import {CurrencyPipe, NgClass, NgFor, NgIf} from "@angular/common";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatTabsModule} from "@angular/material/tabs";
 import {TranslocoModule} from "@ngneat/transloco";
@@ -19,7 +18,9 @@ import {ViewportRuler} from "@angular/cdk/overlay";
 import {UserService} from "../../../core/user/user.service";
 import {User} from "../../../core/user/user.types";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {BranchResponseEntity} from "../../../core/dashboard/branch";
+import {BranchControllerService, BranchResponseEntity} from "../../../core/dashboard/branch";
+import {MatTooltipModule} from "@angular/material/tooltip";
+
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
@@ -38,57 +39,72 @@ import {BranchResponseEntity} from "../../../core/dashboard/branch";
         NgClass,
         CurrencyPipe,
         CreateBranchComponent,
-        MatSnackBarModule
+        MatSnackBarModule,
+        MatTooltipModule
     ],
     standalone: true
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
+
     chartGithubIssues: ApexOptions = {};
     chartTaskDistribution: ApexOptions = {};
     chartBudgetDistribution: ApexOptions = {};
     chartWeeklyExpenses: ApexOptions = {};
     chartMonthlyExpenses: ApexOptions = {};
-    chartYearlyExpenses: ApexOptions = {};
 
+    chartYearlyExpenses: ApexOptions = {};
     data: any;
 
-    private _unsubscribeAll: Subject<any> = new Subject<any>();
     user : User;
-    branchList : BranchResponseEntity[] = [];
-
-
+    _branches : BranchResponseEntity[];
+    _currentBranch : BranchResponseEntity = null;
     /**
      * Constructor
      */
     constructor(
         private _dashboardService: DashboardService,
         private _router: Router,
-        private _service: AuthService,
+        private _branchControllerService: BranchControllerService,
         private _userService: UserService,
         private _dialog: MatDialog,
         private viewportRuler: ViewportRuler) {
     }
 
     ngOnInit(): void {
-        console.log('access token;- ' + this._service.accessToken);
 
-
-        this.branchList.push();
-        // Subscribe to the user service
         this._userService.user$
             .pipe((takeUntil(this._unsubscribeAll)))
             .subscribe((user: User) => {
                 this.user = user;
+                this._userService.user$.pipe(
+                    (takeUntil(this._unsubscribeAll)))
+                    .subscribe((user: User) => {
+                        console.log("Retrieve branches with code : " + user.userCode)
+                        this._branchControllerService.branchResponseEntityList(user.userCode).subscribe(
+                            value => {
+                                this._branches = value;
+                                if(this._branches){
+                                    let branchCodeRetrieved = localStorage.getItem("branchCode") ?? '';
+
+                                    if(branchCodeRetrieved == ''){
+                                        this.selectBranch(value[0]);
+                                    }else{
+                                        this.selectBranch(
+                                            this._branches.find(branch => branch.branchCode === branchCodeRetrieved) ?? value[0]
+                                        );
+                                    }
+                                }
+                            }
+                        );
+                    });
             });
 
-        this.branchList.push()
         this._dashboardService.data$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((data) => {
                 // Store the data
                 this.data = data;
-
-                console.log("this : " + this.data)
                 // Prepare the chart data
                 this._prepareChartData();
             });
@@ -486,12 +502,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
         });
 
 
-        dialogRef.afterClosed().subscribe(result => {
+        dialogRef.afterClosed().subscribe(branch => {
+            if (branch) {
+                this.addBranch(branch);
+            }
         });
 
     }
 
-    openBottomSheet() {
 
+    selectBranch(branch: BranchResponseEntity) {
+        localStorage.setItem('branchCode', branch.branchCode);
+        this._currentBranch = branch;
+    }
+
+    private addBranch(branch: BranchResponseEntity) {
+        this._branches.push(branch);
+        if(this._branches.length == 1){
+            this.selectBranch(this._branches[0]);
+        }
     }
 }

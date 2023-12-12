@@ -126,13 +126,16 @@ export class CreateBranchComponent implements OnInit{
             })
         ).subscribe(
             branchResponseEntity => {
-
                 this._snackBar.open('Attività creata con successo', 'Undo', {
                     duration: 3000,
+                });
+
+                this.dialogRef.close({
+                    resultData: branchResponseEntity
                 });
             }
         );
 
-        this.dialogRef.close();
+
     }
 }
