@@ -52,7 +52,7 @@ export const appConfig: ApplicationConfig = {
             },
             //TODO : se vuoi cambiare il layout iniziale fallo da qui
             fuse   : {
-                layout : 'material',
+                layout : 'centered',
                 scheme : 'light',
                 screens: {
                     sm: '600px',
