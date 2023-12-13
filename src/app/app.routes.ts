@@ -3,6 +3,7 @@ import { initialDataResolver } from 'app/app.resolvers';
 import { AuthGuard } from 'app/core/auth/guards/auth.guard';
 import { NoAuthGuard } from 'app/core/auth/guards/noAuth.guard';
 import { LayoutComponent } from 'app/layout/layout.component';
+import {BookingformComponent} from "./modules/admin/dashboard/booking/bookingform/bookingform.component";
 
 export const appRoutes: Route[] = [
 
@@ -10,7 +11,6 @@ export const appRoutes: Route[] = [
     {path: 'dashboard', pathMatch : 'full', redirectTo: 'dashboard/managment'},
     {path: 'signed-in-redirect', pathMatch : 'full', redirectTo: 'dashboard/managment'},
 
-    // Auth routes for guests
     {
         path: '',
         canActivate: [NoAuthGuard],
@@ -25,6 +25,7 @@ export const appRoutes: Route[] = [
             {path: 'reset-password', loadChildren: () => import('app/modules/auth/reset-password/reset-password.routes')},
             {path: 'sign-in', loadChildren: () => import('app/modules/auth/sign-in/sign-in.routes')},
             {path: 'sign-up', loadChildren: () => import('app/modules/auth/sign-up/sign-up.routes')},
+            {path: 'reservation', component: BookingformComponent },
         ]
     },
 
@@ -66,8 +67,8 @@ export const appRoutes: Route[] = [
         },
         children: [
             {path: 'managment', loadChildren: () => import('app/modules/admin/dashboard/dashboard.routes')},
-            // {path: 'reservationform', loadChildren: () => import('app/modules/admin/reservationform/reservationforma.routers')},
             {path: 'settings', loadChildren: () => import('app/modules/pages/settings/settings.routes')},
+            {path: 'reservation', component: BookingformComponent },
         ]
     }
 ];
