@@ -125,10 +125,12 @@ export class CreateBranchComponent implements OnInit{
                 return throwError(error);
             })
         ).subscribe(
-            branchResponseEntity => {
+            (branchResponseEntity) => {
                 this._snackBar.open('Attività creata con successo', 'Undo', {
                     duration: 3000,
                 });
+
+                console.log('valeria' + branchResponseEntity.branchCode)
 
                 this.dialogRef.close({
                     resultData: branchResponseEntity
