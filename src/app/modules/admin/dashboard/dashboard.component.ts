@@ -19,6 +19,12 @@ import {User} from "../../../core/user/user.types";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {BranchResponseEntity} from "../../../core/dashboard/branch";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {SettingsComponent} from "../../pages/settings/settings.component";
+import {FormBuilder, FormsModule, ReactiveFormsModule, UntypedFormGroup, Validators} from "@angular/forms";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {MatSelectModule} from "@angular/material/select";
+import {BookingformComponent} from "./booking/bookingform/bookingform.component";
 
 @Component({
     selector: 'app-dashboard',
@@ -39,7 +45,14 @@ import {MatTooltipModule} from "@angular/material/tooltip";
         CurrencyPipe,
         CreateBranchComponent,
         MatSnackBarModule,
-        MatTooltipModule
+        MatTooltipModule,
+        SettingsComponent,
+        FormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatSelectModule,
+        BookingformComponent
     ],
     standalone: true
 })
@@ -50,6 +63,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     user : User;
     currentBranch : BranchResponseEntity;
     currentBranchList : BranchResponseEntity[];
+
     /**
      * Constructor
      */
@@ -57,6 +71,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         private _dashboardService: DashboardService,
         private _dialog: MatDialog,
         private viewportRuler: ViewportRuler) {
+
+
     }
 
     ngOnInit(): void {

@@ -63,13 +63,13 @@ export class BranchControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public branchResponseEntityList(userCode: string, observe?: 'body', reportProgress?: boolean): Observable<Array<BranchResponseEntity>>;
-    public branchResponseEntityList(userCode: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<BranchResponseEntity>>>;
-    public branchResponseEntityList(userCode: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<BranchResponseEntity>>>;
-    public branchResponseEntityList(userCode: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getbranchlist(userCode: string, observe?: 'body', reportProgress?: boolean): Observable<Array<BranchResponseEntity>>;
+    public getbranchlist(userCode: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<BranchResponseEntity>>>;
+    public getbranchlist(userCode: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<BranchResponseEntity>>>;
+    public getbranchlist(userCode: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (userCode === null || userCode === undefined) {
-            throw new Error('Required parameter userCode was null or undefined when calling branchResponseEntityList.');
+            throw new Error('Required parameter userCode was null or undefined when calling getbranchlist.');
         }
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
@@ -149,5 +149,4 @@ export class BranchControllerService {
             }
         );
     }
-
 }

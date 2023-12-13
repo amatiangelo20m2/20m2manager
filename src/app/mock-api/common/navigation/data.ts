@@ -11,21 +11,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
         link : '/dashboard/managment',
     },{
         id      : 'dashboards',
-        title   : 'Dashboard',
-        type    : 'group',
-        icon    : 'heroicons_outline:currency-euro',
-        children: [
-            {
-                id   : 'dashboards.project',
-                title: 'Project',
-                type : 'basic',
-                icon : 'heroicons_outline:clipboard-document-check',
-                link : '/dashboards/project',
-            },
-        ],
-
-    },{
-        id      : 'dashboards',
         title   : 'Iva e Gestione',
         type    : 'group',
         icon    : 'heroicons_outline:currency-euro',

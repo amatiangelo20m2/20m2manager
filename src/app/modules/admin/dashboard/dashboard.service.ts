@@ -36,7 +36,7 @@ export class DashboardService {
                     .subscribe((user: User) => {
                         console.log("Retrieve branches with code : " + user.userCode)
 
-                        this._branchControllerService.branchResponseEntityList(user.userCode).subscribe(
+                        this._branchControllerService.getbranchlist(user.userCode).subscribe(
                             value => {
                                 this.currentBranchesList.next(value);
 
