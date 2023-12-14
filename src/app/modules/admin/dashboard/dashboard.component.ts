@@ -4,8 +4,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatRippleModule} from "@angular/material/core";
 import {NgApexchartsModule} from "ng-apexcharts";
 import {MatMenuModule} from "@angular/material/menu";
-import {Subject, takeUntil} from "rxjs";
-import {Router} from "@angular/router";
+import {Subject} from "rxjs";
 import {DashboardService} from "./dashboard.service";
 import {MatTableModule} from "@angular/material/table";
 import {CurrencyPipe, NgClass, NgFor, NgIf} from "@angular/common";
@@ -20,11 +19,11 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {BranchResponseEntity} from "../../../core/dashboard/branch";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {SettingsComponent} from "../../pages/settings/settings.component";
-import {FormBuilder, FormsModule, ReactiveFormsModule, UntypedFormGroup, Validators} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
-import {BookingformComponent} from "./booking/bookingform/bookingform.component";
+import {BookingformComponent} from "./booking/reservation/bookingform.component";
 
 @Component({
     selector: 'app-dashboard',
