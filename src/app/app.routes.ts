@@ -55,7 +55,6 @@ export const appRoutes: Route[] = [
         ]
     },
 
-    // Admin routes
     {
         path: 'dashboard',
         canActivate: [AuthGuard],
@@ -67,7 +66,7 @@ export const appRoutes: Route[] = [
         children: [
             {path: 'managment', loadChildren: () => import('app/modules/admin/dashboard/dashboard.routes')},
             {path: 'settings', loadChildren: () => import('app/modules/pages/settings/settings.routes')},
-            {path: 'reservation', loadChildren: () => import('app/modules/admin/dashboard/booking/bookingform/bookingform.routes')},
+            // {path: 'reservation', loadChildren: () => import('app/modules/admin/dashboard/booking/bookingform/bookingform.routes')},
         ]
     }
 ];

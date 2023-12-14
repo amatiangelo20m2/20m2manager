@@ -21,7 +21,6 @@ import {NgIf} from "@angular/common";
 import {FuseAlertComponent, FuseAlertType} from "../../../../../@fuse/components/alert";
 import {BranchControllerService, BranchCreationEntity} from "../../../../core/dashboard/branch";
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
-import {DashboardComponent} from "../dashboard.component";
 import {catchError, throwError} from "rxjs";
 import {UserService} from "../../../../core/user/user.service";
 import {User} from "../../../../core/user/user.types";
