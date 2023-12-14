@@ -22,6 +22,8 @@ import { BranchResponseEntity } from '../model/branchResponseEntity';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
+import {BranchReservationConfiguration} from "../model/branchReservationConfiguration";
+import {DashboardData} from "../model/dashboardData";
 
 
 @Injectable({providedIn: 'root'})
@@ -59,17 +61,119 @@ export class BranchControllerService {
     /**
      *
      *
+     * @param branchCode
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getBranchReservationConfiguration(branchCode: string, observe?: 'body', reportProgress?: boolean): Observable<BranchReservationConfiguration>;
+    public getBranchReservationConfiguration(branchCode: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<BranchReservationConfiguration>>;
+    public getBranchReservationConfiguration(branchCode: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<BranchReservationConfiguration>>;
+    public getBranchReservationConfiguration(branchCode: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (branchCode === null || branchCode === undefined) {
+            throw new Error('Required parameter branchCode was null or undefined when calling getBranchReservationConfiguration.');
+        }
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (branchCode !== undefined && branchCode !== null) {
+            queryParameters = queryParameters.set('branchCode', <any>branchCode);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<BranchReservationConfiguration>('get',`${this.basePath}/api/dashboard/branch/configuration`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     *
+     *
+     * @param userCode
+     * @param branchCode
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getbranchlist(userCode: string, branchCode: string, observe?: 'body', reportProgress?: boolean): Observable<BranchResponseEntity>;
+    public getbranchlist(userCode: string, branchCode: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<BranchResponseEntity>>;
+    public getbranchlist(userCode: string, branchCode: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<BranchResponseEntity>>;
+    public getbranchlist(userCode: string, branchCode: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (userCode === null || userCode === undefined) {
+            throw new Error('Required parameter userCode was null or undefined when calling getbranchlist.');
+        }
+
+        if (branchCode === null || branchCode === undefined) {
+            throw new Error('Required parameter branchCode was null or undefined when calling getbranchlist.');
+        }
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (userCode !== undefined && userCode !== null) {
+            queryParameters = queryParameters.set('userCode', <any>userCode);
+        }
+        if (branchCode !== undefined && branchCode !== null) {
+            queryParameters = queryParameters.set('branchCode', <any>branchCode);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<BranchResponseEntity>('get',`${this.basePath}/api/dashboard/branch`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     *
+     *
      * @param userCode
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getbranchlist(userCode: string, observe?: 'body', reportProgress?: boolean): Observable<Array<BranchResponseEntity>>;
-    public getbranchlist(userCode: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<BranchResponseEntity>>>;
-    public getbranchlist(userCode: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<BranchResponseEntity>>>;
-    public getbranchlist(userCode: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public retrieveDashboardData(userCode: string, observe?: 'body', reportProgress?: boolean): Observable<DashboardData>;
+    public retrieveDashboardData(userCode: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<DashboardData>>;
+    public retrieveDashboardData(userCode: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<DashboardData>>;
+    public retrieveDashboardData(userCode: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (userCode === null || userCode === undefined) {
-            throw new Error('Required parameter userCode was null or undefined when calling getbranchlist.');
+            throw new Error('Required parameter userCode was null or undefined when calling retrieveDashboardData.');
         }
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
@@ -92,7 +196,7 @@ export class BranchControllerService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<Array<BranchResponseEntity>>('get',`${this.basePath}/api/branch/getbranchlist`,
+        return this.httpClient.request<DashboardData>('get',`${this.basePath}/api/dashboard/retrievedata`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -139,7 +243,7 @@ export class BranchControllerService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<BranchResponseEntity>('post',`${this.basePath}/api/branch/save`,
+        return this.httpClient.request<BranchResponseEntity>('post',`${this.basePath}/api/dashboard/branch/save`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,
@@ -149,4 +253,5 @@ export class BranchControllerService {
             }
         );
     }
+
 }

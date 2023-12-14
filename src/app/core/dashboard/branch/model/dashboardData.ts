@@ -9,9 +9,8 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { BranchResponseEntity } from './branchResponseEntity';
 
-export interface BranchConfiguration { 
-    branchConfId?: number;
-    waapiInstanceId?: string;
-    instanceStatus?: string;
+export interface DashboardData { 
+    branches?: Array<BranchResponseEntity>;
 }

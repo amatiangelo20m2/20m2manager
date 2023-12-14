@@ -10,8 +10,7 @@
  * Do not edit the class manually.
  */
 
-export interface BranchConfiguration { 
-    branchConfId?: number;
-    waapiInstanceId?: string;
-    instanceStatus?: string;
+export interface BranchReservationConfiguration { 
+    branchCode?: string;
+    cazzone?: string;
 }
