@@ -9,6 +9,10 @@ import {BranchControllerService} from "../../../../../core/dashboard/branch";
 import {ActivatedRoute} from "@angular/router";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatButtonModule} from "@angular/material/button";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {Observable} from "rxjs";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
+import {MatDatepickerModule} from "@angular/material/datepicker";
 
 @Component({
     selector: 'bookingform',
@@ -23,6 +27,11 @@ import {MatButtonModule} from "@angular/material/button";
         ReactiveFormsModule,
         MatProgressSpinnerModule,
         MatButtonModule,
+        MatButtonToggleModule,
+        NgClass,
+        NgForOf,
+        NgIf,
+        MatDatepickerModule,
     ],
     standalone: true
 })
@@ -31,18 +40,18 @@ export class    BookingformComponent implements OnInit{
     branchCode: string;
 
     ngOnInit(): void {
-
         this.route.queryParams.subscribe((params) => {
-            // Get the branchCode from the query parameter
             this.branchCode = params['branchCode'];
-            // You can use this.branchCode as needed, e.g., to update the form
             console.log('Branch Code from URL:', this.branchCode);
         });
     }
 
 
     reservationForm: UntypedFormGroup;
-    unlockSessionForm: UntypedFormGroup;
+    numbers$ = Array.from({ length: 32 }, (_, index) => index + 1);
+    selectedNumber: any;
+
+
     constructor(
         private fb: FormBuilder,
         private route: ActivatedRoute,
@@ -58,10 +67,13 @@ export class    BookingformComponent implements OnInit{
                 console.log('trigger e method', value);
             }
         });
-
     }
 
     unlock() {
-
     }
+
+    selectNumber(number: any) {
+        this.selectedNumber = number;
+    }
+
 }

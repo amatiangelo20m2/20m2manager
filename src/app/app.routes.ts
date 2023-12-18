@@ -7,6 +7,7 @@ import { LayoutComponent } from 'app/layout/layout.component';
 export const appRoutes: Route[] = [
 
     {path: '', pathMatch : 'full', redirectTo: 'dashboard/managment'},
+
     {path: 'dashboard', pathMatch : 'full', redirectTo: 'dashboard/managment'},
     {path: 'signed-in-redirect', pathMatch : 'full', redirectTo: 'dashboard/managment'},
 
@@ -39,7 +40,8 @@ export const appRoutes: Route[] = [
         },
         children: [
             {path: 'sign-out', loadChildren: () => import('app/modules/auth/sign-out/sign-out.routes')},
-            {path: 'unlock-session', loadChildren: () => import('app/modules/auth/unlock-session/unlock-session.routes')}
+            {path: 'unlock-session', loadChildren: () => import('app/modules/auth/unlock-session/unlock-session.routes')},
+
         ]
     },
 
@@ -52,9 +54,10 @@ export const appRoutes: Route[] = [
         },
         children: [
             {path: 'home', loadChildren: () => import('app/modules/landing/home/home.routes')},
+            {path: 'reservation', loadChildren: () => import('app/modules/admin/dashboard/booking/reservation/bookingform.routes')},
+
         ]
     },
-
     {
         path: 'dashboard',
         canActivate: [AuthGuard],
@@ -66,7 +69,6 @@ export const appRoutes: Route[] = [
         children: [
             {path: 'managment', loadChildren: () => import('app/modules/admin/dashboard/dashboard.routes')},
             {path: 'settings', loadChildren: () => import('app/modules/pages/settings/settings.routes')},
-            // {path: 'reservation', loadChildren: () => import('app/modules/admin/dashboard/booking/bookingform/bookingform.routes')},
         ]
     }
 ];
