@@ -4,53 +4,71 @@
         backdrop-filter: blur(5px);
         border-radius: 10px;
         overflow: hidden;
+        margin: 10px;
+        display: flex;
     }
 
+    .mat-calendar-body-disabled {
+        color: #999; /* Adjust the color for disabled dates */
+        cursor: not-allowed;
+    }
 
 </style>
 
 <div class="w-full h-full flex justify-center transparent-background">
 
     <div class="w-full max-w-180 sm:w-180 mx-auto sm:mx-0">
-        <div class="w-12 mx-auto mb-4"  style="margin-top: 10px;">
-            <img ngSrc="assets/images/logo/logo.png" alt="Logo" height="500" width="500">
+        <div class="w-12 mx-auto mb-4">
+            <img src="assets/images/logo/logo.png" alt="Logo" height="500" width="500">
         </div>
 
+
         <div style="display: flex; justify-content: center;">
-            <mat-button-toggle-group appearance="legacy" name="fontStyle" aria-label="Font Style">
-                <mat-button-toggle value="bold"> <mat-icon class="icon-size-6" [svgIcon]="'mat_solid:people_outline'"></mat-icon> Persone</mat-button-toggle>
-                <mat-button-toggle value="italic"><mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:calendar-days'"></mat-icon> Data</mat-button-toggle>
-                <mat-button-toggle value="underline"><mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:clock'"></mat-icon> Ora</mat-button-toggle>
+            <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+                <mat-button-toggle value="date" (change)="selectToggle('date')">
+                    <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:calendar-days'"></mat-icon> {{selectedDate | date:'yyyy-MM-dd' }} <span *ngIf="selectedDate == null">Data</span>
+                </mat-button-toggle>
+                <mat-button-toggle value="pax" (change)="selectToggle('pax')">
+                    <mat-icon class="icon-size-6" [svgIcon]="'mat_solid:people_outline'"></mat-icon>{{selectedNumber}} Persone
+                </mat-button-toggle>
+                <mat-button-toggle value="hour" (change)="selectToggle('hour')">
+                    <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:clock'"></mat-icon> Ora
+                </mat-button-toggle>
             </mat-button-toggle-group>
         </div>
 
-
-        <div class="flex flex-wrap -mx-4">
-
-            <ng-container *ngIf="(numbers$) as numbers">
-
-                <ng-container *ngFor="let number of numbers">
-
-                    <div
-                        class="flex flex-col items-center justify-center m-4 p-4 min-w-36 max-w-36 min-h-30 max-h-30 rounded border-2 cursor-pointer bg-card"
-                        [class.border-primary]="selectedNumber === number"
-                        (click)="selectNumber(number)">
-
-                        <div class="text-3xl text-center break-all text-secondary">{{ number }}</div>
-
-                    </div>
-
-                </ng-container>
-
-            </ng-container>
-
+        <div *ngIf="selectedToggle=='date'">
+            <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+                <div fxFlex="20%">
+                    <mat-calendar [selected]="selectedDate"
+                                  (selectedChange)="onSelect($event)"></mat-calendar>
+                </div>
+            </div>
         </div>
-        <mat-form-field class="w-full">
-            <input matInput [matDatepicker]="datepicker" placeholder="Choose a date" class="p-2 border rounded">
-            <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
-            <mat-datepicker #datepicker></mat-datepicker>
-        </mat-form-field>
-        <!-- Unlock form -->
+        <div *ngIf="selectedToggle=='pax'">
+
+            <div class="flex flex-wrap -mx-4">
+                <ng-container *ngIf="(numbers$) as numbers">
+                    <ng-container *ngFor="let number of numbers">
+                        <div
+                            class="flex flex-col items-center justify-center m-4 p-4 min-w-36 max-w-36 min-h-30 max-h-30 rounded border-2 cursor-pointer bg-card"
+                            [class.border-primary]="selectedNumber === number"
+                            (click)="selectNumber(number)">
+                            <div class="text-3xl text-center break-all text-secondary">{{ number }}</div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--        <mat-form-field class="w-full">-->
+<!--            <input matInput [matDatepicker]="datepicker" placeholder="Choose a date" class="p-2 border rounded">-->
+<!--            <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>-->
+<!--            <mat-datepicker #datepicker></mat-datepicker>-->
+<!--        </mat-form-field>-->
+<!-- Unlock form -->
 <!--        <form class="flex flex-col overflow-hidden" [formGroup]="reservationForm">-->
 <!--            <div class="flex items-center justify-center mb-4">-->
 <!--                <mat-form-field class="flex-auto" style="width: 15%; padding-right: 10px; padding-top: 10px;">-->
@@ -65,5 +83,4 @@
 <!--                </mat-form-field>-->
 <!--            </div>-->
 <!--        </form>-->
-    </div>
-</div>
+

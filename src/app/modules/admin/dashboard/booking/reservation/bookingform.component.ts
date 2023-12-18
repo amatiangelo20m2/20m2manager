@@ -10,10 +10,9 @@ import {ActivatedRoute} from "@angular/router";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatButtonModule} from "@angular/material/button";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
-import {Observable} from "rxjs";
-import {NgClass, NgForOf, NgIf} from "@angular/common";
+import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {MatDatepickerModule} from "@angular/material/datepicker";
-
+import {MatCardModule} from "@angular/material/card";
 @Component({
     selector: 'bookingform',
     templateUrl: './bookingform.component.html',
@@ -32,6 +31,8 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
         NgForOf,
         NgIf,
         MatDatepickerModule,
+        MatCardModule,
+        DatePipe,
     ],
     standalone: true
 })
@@ -40,6 +41,7 @@ export class    BookingformComponent implements OnInit{
     branchCode: string;
 
     ngOnInit(): void {
+
         this.route.queryParams.subscribe((params) => {
             this.branchCode = params['branchCode'];
             console.log('Branch Code from URL:', this.branchCode);
@@ -48,7 +50,7 @@ export class    BookingformComponent implements OnInit{
 
 
     reservationForm: UntypedFormGroup;
-    numbers$ = Array.from({ length: 32 }, (_, index) => index + 1);
+    numbers$ = Array.from({ length: 24 }, (_, index) => index + 1);
     selectedNumber: any;
 
 
@@ -74,6 +76,28 @@ export class    BookingformComponent implements OnInit{
 
     selectNumber(number: any) {
         this.selectedNumber = number;
+    }
+
+    selectedToggle: string = "date";
+    selectedDate: Date = null;
+
+
+    selectToggle(value: string): void {
+        this.selectedToggle = value;
+    }
+
+    onSelect(event){
+        this.selectedDate = event;
+        this.selectedToggle = 'pax';
+    }
+
+    transform(value: any, format: string = 'yyyy-MM-dd'): any {
+
+        if (value) {
+            const datePipe = new DatePipe('en-US');
+            return datePipe.transform(value, format);
+        }
+        return null;
     }
 
 }
