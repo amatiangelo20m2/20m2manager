@@ -64,12 +64,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     /**
      * Constructor
      */
-    constructor(
-        private _dashboardService: DataproviderService,
-        private _dialog: MatDialog,
-        private viewportRuler: ViewportRuler) {
-
-
+    constructor(private _dashboardService: DataproviderService) {
     }
 
     ngOnInit(): void {
@@ -95,8 +90,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
      * @param index
      * @param item
      */
-    trackByFn(index: number, item: any): any
-    {
+    trackByFn(index: number, item: any): any {
         return item.id || index;
     }
 

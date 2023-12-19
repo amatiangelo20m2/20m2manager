@@ -1,5 +1,6 @@
 <button
     mat-icon-button
+    [matTooltip]="tooltip || 'Gestione Attività'"
     (click)="openPanel()"
     #shortcutsOrigin>
     <mat-icon [svgIcon]="'heroicons_outline:squares-plus'"></mat-icon>

@@ -1,7 +1,18 @@
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    Input,
+    OnDestroy,
+    OnInit,
+    TemplateRef,
+    ViewChild,
+    ViewContainerRef,
+    ViewEncapsulation
+} from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -45,6 +56,7 @@ export class ShortcutsComponent implements OnInit, OnDestroy
 {
     @ViewChild('shortcutsOrigin') private _shortcutsOrigin: MatButton;
     @ViewChild('shortcutsPanel') private _shortcutsPanel: TemplateRef<any>;
+    @Input() tooltip: string;
 
     mode: 'view' | 'modify' | 'add' | 'edit' = 'view';
     private _overlayRef: OverlayRef;
