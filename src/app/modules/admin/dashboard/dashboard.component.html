@@ -1,27 +1,5 @@
 <div class="flex flex-col flex-auto min-w-0">
-    <!-- Header -->
-    <div class="bg-card">
-        <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
-            <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-12">
-                <!-- Avatar and name -->
-                <div class="flex flex-auto items-center min-w-0">
-                    <div class="flex-0 w-16 h-16 rounded-full overflow-hidden">
-                        <img class="w-full h-full object-cover" src="assets/images/avatars/cane.png">
-                    </div>
-                    <div class="flex flex-col min-w-0 ml-4">
-                        <ng-container *transloco="let t">
-                            <div class="text-2xl md:text-5xl font-semibold tracking-tight leading-7 md:leading-snug truncate">{{t('welcome')}} {{this.user?.name}}</div>
-                        </ng-container>
-                        <div class="flex items-center">
-                            <mat-icon
-                                class="icon-size-5"
-                                [svgIcon]="'mat_outline:account_circle'"></mat-icon>
-                            <div class="ml-1.5 leading-6 truncate text-secondary">{{this.user?.userCode}} - {{this.currentBranch?.branchCode ?? ''}}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
+    <div class="ml-1.5 leading-6 truncate text-secondary">{{this.currentBranch?.branchCode ?? ''}}</div>
 
 </div>
