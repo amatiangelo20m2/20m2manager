@@ -1,14 +1,14 @@
 import {Routes} from '@angular/router';
 import {DashboardComponent} from "./dashboard.component";
 import {inject} from "@angular/core";
-import {DashboardService} from "./dashboard.service";
+import {DataproviderService} from "./dataprovider.service";
 
 export default [
     {
         path     : '',
         component: DashboardComponent,
         resolve  : {
-            data: () => inject(DashboardService).getDashData(),
+            data: () => inject(DataproviderService).getDashData(),
         },
     },
 ] as Routes;

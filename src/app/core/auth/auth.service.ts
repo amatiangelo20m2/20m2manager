@@ -6,7 +6,7 @@ import {catchError, Observable, of, pipe, switchMap, throwError} from 'rxjs';
 import {environment} from "../../../environments/environment";
 import {BranchControllerService} from "../business/branch/branchController.service";
 import {BASE_PATH} from "../common/variables";
-import {DashboardService} from "../../modules/admin/dashboard/dashboard.service";
+import {DataproviderService} from "../../modules/admin/dashboard/dataprovider.service";
 
 
 @Injectable({providedIn: 'root'})

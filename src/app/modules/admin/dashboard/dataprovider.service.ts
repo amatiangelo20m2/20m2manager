@@ -6,7 +6,7 @@ import {User} from "../../../core/user/user.types";
 import {BranchControllerService, BranchResponseEntity} from "../../../core/dashboard/branch";
 
 @Injectable({providedIn: 'root'})
-export class DashboardService {
+export class DataproviderService {
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 

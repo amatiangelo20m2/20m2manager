@@ -10,9 +10,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
-import { ShortcutsService } from 'app/layout/common/shortcuts/shortcuts.service';
-import { Shortcut } from 'app/layout/common/shortcuts/shortcuts.types';
-import { Subject, takeUntil } from 'rxjs';
+import {catchError, Subject, throwError} from 'rxjs';
+import {DataproviderService} from "../../../modules/admin/dashboard/dataprovider.service";
+import {UserService} from "../../../core/user/user.service";
+import {User} from "../../../core/user/user.types";
+import {MatRadioModule} from "@angular/material/radio";
+import {BranchControllerService, BranchCreationEntity, BranchResponseEntity} from "../../../core/dashboard/branch";
+import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 
 @Component({
     selector       : 'shortcuts',
@@ -21,7 +25,21 @@ import { Subject, takeUntil } from 'rxjs';
     changeDetection: ChangeDetectionStrategy.OnPush,
     exportAs       : 'shortcuts',
     standalone     : true,
-    imports        : [MatButtonModule, MatIconModule, NgIf, MatTooltipModule, NgFor, NgClass, NgTemplateOutlet, RouterLink, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSlideToggleModule],
+    imports: [MatButtonModule,
+        MatIconModule,
+        NgIf,
+        MatTooltipModule,
+        NgFor,
+        NgClass,
+        NgTemplateOutlet,
+        RouterLink,
+        FormsModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSlideToggleModule,
+        MatRadioModule,
+        MatSnackBarModule],
 })
 export class ShortcutsComponent implements OnInit, OnDestroy
 {
@@ -29,54 +47,42 @@ export class ShortcutsComponent implements OnInit, OnDestroy
     @ViewChild('shortcutsPanel') private _shortcutsPanel: TemplateRef<any>;
 
     mode: 'view' | 'modify' | 'add' | 'edit' = 'view';
-    shortcutForm: UntypedFormGroup;
-    shortcuts: Shortcut[];
     private _overlayRef: OverlayRef;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+    branchEntity : BranchCreationEntity;
+    branchForm: UntypedFormGroup;
 
-    /**
-     * Constructor
-     */
+    currentBranch : BranchResponseEntity;
+    currentBranchList : BranchResponseEntity[];
+    user : User;
+
     constructor(
-        private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: UntypedFormBuilder,
-        private _shortcutsService: ShortcutsService,
         private _overlay: Overlay,
         private _viewContainerRef: ViewContainerRef,
-    )
-    {
+        private _dashboardService : DataproviderService,
+        private _branchService : BranchControllerService,
+        private _snackBar: MatSnackBar) {
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
+    ngOnInit(): void {
+        this.user = this._dashboardService.user;
 
-    /**
-     * On init
-     */
-    ngOnInit(): void
-    {
-        // Initialize the form
-        this.shortcutForm = this._formBuilder.group({
-            id         : [null],
-            label      : ['', Validators.required],
-            description: [''],
-            icon       : ['', Validators.required],
-            link       : ['', Validators.required],
-            useRouter  : ['', Validators.required],
+        this._dashboardService.branches$.subscribe((branches) => {
+            this.currentBranchList = branches;
         });
 
-        // Get the shortcuts
-        this._shortcutsService.shortcuts$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((shortcuts: Shortcut[]) =>
-            {
-                // Load the shortcuts
-                this.shortcuts = shortcuts;
+        this._dashboardService.branch$.subscribe((branch) => {
+            this.currentBranch = branch;
+        });
 
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
+        this.branchForm = this._formBuilder.group({
+            name : ['', [Validators.required]],
+            address : ['', Validators.required],
+            email: ['', [Validators.required, Validators.email]],
+            phone: ['', Validators.required],
+            type: ['RESTAURANT']
+        });
     }
 
     /**
@@ -126,8 +132,7 @@ export class ShortcutsComponent implements OnInit, OnDestroy
     /**
      * Close the shortcuts panel
      */
-    closePanel(): void
-    {
+    closePanel(): void {
         this._overlayRef.detach();
     }
 
@@ -146,7 +151,7 @@ export class ShortcutsComponent implements OnInit, OnDestroy
     newShortcut(): void
     {
         // Reset the form
-        this.shortcutForm.reset();
+        this.branchForm.reset();
 
         // Enter the add mode
         this.mode = 'add';
@@ -155,10 +160,9 @@ export class ShortcutsComponent implements OnInit, OnDestroy
     /**
      * Edit a shortcut
      */
-    editShortcut(shortcut: Shortcut): void
-    {
+    editShortcut(branch: BranchResponseEntity): void {
         // Reset the form with the shortcut
-        this.shortcutForm.reset(shortcut);
+        this.branchForm.reset(branch);
 
         // Enter the edit mode
         this.mode = 'edit';
@@ -167,24 +171,43 @@ export class ShortcutsComponent implements OnInit, OnDestroy
     /**
      * Save shortcut
      */
-    save(): void
-    {
-        // Get the data from the form
-        const shortcut = this.shortcutForm.value;
+    save(): void {
+        console.log('Form Data:', this.branchForm.value);
 
-        // If there is an id, update it...
-        if ( shortcut.id )
-        {
-            this._shortcutsService.update(shortcut.id, shortcut).subscribe();
-        }
-        // Otherwise, create a new shortcut...
-        else
-        {
-            this._shortcutsService.create(shortcut).subscribe();
+        if ( this.branchForm.invalid ) {
+            return;
         }
 
-        // Go back the modify mode
-        this.mode = 'modify';
+        this.branchForm.disable();
+
+        this.branchEntity = {
+            name: this.branchForm.get('name').value,
+            address: this.branchForm.get('address').value,
+            email: this.branchForm.get('email').value,
+            phone: this.branchForm.get('phone').value,
+            vat: this.branchForm.get('phone').value,
+            type: this.branchForm.get('type').value,
+            userCode: this.user.userCode,
+        }
+
+        this._branchService.save(this.branchEntity).pipe(
+            catchError((error) => {
+                this._snackBar.open('error: ' + error.statusCode, 'Undo', {
+                    duration: 3000
+                });
+                return throwError(error);
+            })
+        ).subscribe(
+            (branchResponseEntity) => {
+                this._snackBar.open('Attività creata con successo', 'Undo', {
+                    duration: 3000,
+                });
+
+                console.log('valeria' + branchResponseEntity.branchCode)
+                this._dashboardService.addBranch(branchResponseEntity);
+            }
+        );
+        this.mode = 'view';
     }
 
     /**
@@ -193,10 +216,10 @@ export class ShortcutsComponent implements OnInit, OnDestroy
     delete(): void
     {
         // Get the data from the form
-        const shortcut = this.shortcutForm.value;
+        const shortcut = this.branchForm.value;
 
         // Delete
-        this._shortcutsService.delete(shortcut.id).subscribe();
+        // this._shortcutsService.delete(shortcut.id).subscribe();
 
         // Go back the modify mode
         this.mode = 'modify';
@@ -259,10 +282,16 @@ export class ShortcutsComponent implements OnInit, OnDestroy
                 ]),
         });
 
-        // Detach the overlay from the portal on backdrop click
-        this._overlayRef.backdropClick().subscribe(() =>
-        {
+        this._overlayRef.backdropClick().subscribe(() => {
             this._overlayRef.detach();
+        });
+    }
+
+    selectBranch(branch: BranchResponseEntity) {
+        this._dashboardService.selectBranch(branch);
+        this.closePanel();
+        this._snackBar.open('Ora stai lavorando su ' + branch.name , 'Undo', {
+            duration: 3000,
         });
     }
 }

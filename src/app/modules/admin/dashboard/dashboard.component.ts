@@ -5,14 +5,13 @@ import {MatRippleModule} from "@angular/material/core";
 import {NgApexchartsModule} from "ng-apexcharts";
 import {MatMenuModule} from "@angular/material/menu";
 import {Subject} from "rxjs";
-import {DashboardService} from "./dashboard.service";
+import {DataproviderService} from "./dataprovider.service";
 import {MatTableModule} from "@angular/material/table";
 import {CurrencyPipe, NgClass, NgFor, NgIf} from "@angular/common";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatTabsModule} from "@angular/material/tabs";
 import {TranslocoModule} from "@ngneat/transloco";
 import {MatDialog} from "@angular/material/dialog";
-import {CreateBranchComponent} from "./create_branch/create-branch.component";
 import {ViewportRuler} from "@angular/cdk/overlay";
 import {User} from "../../../core/user/user.types";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
@@ -42,7 +41,6 @@ import {BookingformComponent} from "./booking/reservation/bookingform.component"
         MatTableModule,
         NgClass,
         CurrencyPipe,
-        CreateBranchComponent,
         MatSnackBarModule,
         MatTooltipModule,
         SettingsComponent,
@@ -67,7 +65,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
      * Constructor
      */
     constructor(
-        private _dashboardService: DashboardService,
+        private _dashboardService: DataproviderService,
         private _dialog: MatDialog,
         private viewportRuler: ViewportRuler) {
 
@@ -102,26 +100,4 @@ export class DashboardComponent implements OnInit, OnDestroy {
         return item.id || index;
     }
 
-    openModalCreateActivity() {
-        const screenWidth = this.viewportRuler.getViewportSize().width;
-        const modalWidth = Math.floor(screenWidth / 2);
-        const dialogRef = this._dialog.open(CreateBranchComponent, {
-            width: `${modalWidth}px`,
-        });
-
-
-        dialogRef.afterClosed().subscribe((result : any) => {
-
-            if (result && result.resultData) {
-                const branch = result.resultData;
-                console.log("Storing data after saving: " + branch.branchCode);
-                this._dashboardService.addBranch(branch);
-            }
-        });
-
-    }
-
-    selectBranch(branch: BranchResponseEntity) {
-        this._dashboardService.selectBranch(branch);
-    }
 }

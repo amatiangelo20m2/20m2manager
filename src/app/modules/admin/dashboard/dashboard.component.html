@@ -20,35 +20,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
-                    <div *ngIf="this.currentBranch">
-                        <button
-                            mat-flat-button
-                            matTooltip="Sei {{this.currentBranch.role}} per questa attività"
-                            [color]="'primary'" [matMenuTriggerFor]="branchMenu">
-                            <mat-icon
-                                class="icon-size-5"
-                                [svgIcon]="'heroicons_solid:building-storefront'"></mat-icon>
-                            <span class="ml-2">{{this.currentBranch.name}}</span>
-                        </button>
-                        <mat-menu #branchMenu="matMenu">
-                            <button mat-menu-item *ngFor="let branch of this.currentBranchList" (click)="selectBranch(branch)">
-                                {{ branch.name }}
-                            </button>
-                        </mat-menu>
-                    </div>
-
-                    <button
-                        class="bg-accent"
-                        mat-flat-button
-                        [color]="'accent'"
-                        (click)="openModalCreateActivity()">
-                        <mat-icon
-                            class="icon-size-5"
-                            [svgIcon]="'heroicons_solid:plus'"></mat-icon>
-                        <span class="ml-2">Crea nuova attività</span>
-                    </button>
-                </div>
             </div>
         </div>
     </div>
