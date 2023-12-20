@@ -1,9 +1,9 @@
 import {Routes} from "@angular/router";
-import {BookingformComponent} from "./bookingform.component";
+import {BookingComponent} from "./booking.component";
 
 export default [
     {
         path     : '',
-        component: BookingformComponent,
+        component: BookingComponent,
     },
 ] as Routes;

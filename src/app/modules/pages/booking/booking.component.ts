@@ -13,8 +13,8 @@ import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatCardModule} from "@angular/material/card";
 @Component({
-    selector: 'bookingform',
-    templateUrl: './bookingform.component.html',
+    selector: 'booking',
+    templateUrl: './booking.component.html',
     imports: [
         FormsModule,
         MatFormFieldModule,
@@ -35,7 +35,7 @@ import {MatCardModule} from "@angular/material/card";
     ],
     standalone: true
 })
-export class    BookingformComponent implements OnInit{
+export class BookingComponent implements OnInit{
 
     branchCode: string;
 
