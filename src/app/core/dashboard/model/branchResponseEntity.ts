@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 import { BranchConfiguration } from './branchConfiguration';
+import { BranchSchedule } from './branchSchedule';
 
 export interface BranchResponseEntity { 
     name?: string;
@@ -21,6 +22,7 @@ export interface BranchResponseEntity {
     branchCode?: string;
     role?: BranchResponseEntity.RoleEnum;
     branchConfiguration?: BranchConfiguration;
+    branchSchedule?: BranchSchedule;
 }
 export namespace BranchResponseEntity {
     export type TypeEnum = 'RESTAURANT' | 'SUPPLIER';

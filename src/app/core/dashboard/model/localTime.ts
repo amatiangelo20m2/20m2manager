@@ -10,7 +10,9 @@
  * Do not edit the class manually.
  */
 
-export interface BranchReservationConfiguration { 
-    branchCode?: string;
-    cazzone?: string;
+export interface LocalTime { 
+    hour?: number;
+    minute?: number;
+    second?: number;
+    nano?: number;
 }

@@ -18,7 +18,6 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 import { BranchCreationEntity } from '../model/branchCreationEntity';
-import { BranchReservationConfiguration } from '../model/branchReservationConfiguration';
 import { BranchResponseEntity } from '../model/branchResponseEntity';
 import { DashboardData } from '../model/dashboardData';
 
@@ -57,53 +56,6 @@ export class DashboardControllerService {
         return false;
     }
 
-
-    /**
-     *
-     *
-     * @param branchCode
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getBranchReservationConfiguration(branchCode: string, observe?: 'body', reportProgress?: boolean): Observable<BranchReservationConfiguration>;
-    public getBranchReservationConfiguration(branchCode: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<BranchReservationConfiguration>>;
-    public getBranchReservationConfiguration(branchCode: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<BranchReservationConfiguration>>;
-    public getBranchReservationConfiguration(branchCode: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        if (branchCode === null || branchCode === undefined) {
-            throw new Error('Required parameter branchCode was null or undefined when calling getBranchReservationConfiguration.');
-        }
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (branchCode !== undefined && branchCode !== null) {
-            queryParameters = queryParameters.set('branchCode', <any>branchCode);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            '*/*'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.request<BranchReservationConfiguration>('get',`${this.basePath}/api/dashboard/branch/configuration`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
 
     /**
      *
