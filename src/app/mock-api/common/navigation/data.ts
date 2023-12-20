@@ -23,7 +23,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link : '/dashboards/project',
             },
         ],
-
     },{
         id   : 'pages.settings',
         title: 'Settings',

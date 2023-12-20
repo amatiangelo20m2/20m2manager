@@ -5,7 +5,6 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
 import {MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
-import {BranchControllerService} from "../../../../../core/dashboard/branch";
 import {ActivatedRoute} from "@angular/router";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatButtonModule} from "@angular/material/button";
@@ -56,9 +55,7 @@ export class    BookingformComponent implements OnInit{
 
     constructor(
         private fb: FormBuilder,
-        private route: ActivatedRoute,
-        private branchController : BranchControllerService
-        ) {
+        private route: ActivatedRoute) {
         this.reservationForm = this.fb.group({
             phone: ['', Validators.required],
             phonePrefix: ['', Validators.required],

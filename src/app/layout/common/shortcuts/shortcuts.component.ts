@@ -3,7 +3,6 @@ import { TemplatePortal } from '@angular/cdk/portal';
 import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
     ChangeDetectionStrategy,
-    ChangeDetectorRef,
     Component,
     Input,
     OnDestroy,
@@ -23,11 +22,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import {catchError, Subject, throwError} from 'rxjs';
 import {DataproviderService} from "../../../modules/admin/dashboard/dataprovider.service";
-import {UserService} from "../../../core/user/user.service";
 import {User} from "../../../core/user/user.types";
 import {MatRadioModule} from "@angular/material/radio";
-import {BranchControllerService, BranchCreationEntity, BranchResponseEntity} from "../../../core/dashboard/branch";
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
+import {BranchCreationEntity, BranchResponseEntity, DashboardControllerService} from "../../../core/dashboard";
 
 @Component({
     selector       : 'shortcuts',
@@ -73,7 +71,7 @@ export class ShortcutsComponent implements OnInit, OnDestroy
         private _overlay: Overlay,
         private _viewContainerRef: ViewContainerRef,
         private _dashboardService : DataproviderService,
-        private _branchService : BranchControllerService,
+        private _dashboardControllerService : DashboardControllerService,
         private _snackBar: MatSnackBar) {
     }
 
@@ -102,13 +100,11 @@ export class ShortcutsComponent implements OnInit, OnDestroy
      */
     ngOnDestroy(): void
     {
-        // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();
 
         // Dispose the overlay
-        if ( this._overlayRef )
-        {
+        if ( this._overlayRef ) {
             this._overlayRef.dispose();
         }
     }
@@ -120,24 +116,16 @@ export class ShortcutsComponent implements OnInit, OnDestroy
     /**
      * Open the shortcuts panel
      */
-    openPanel(): void
-    {
-        // Return if the shortcuts panel or its origin is not defined
-        if ( !this._shortcutsPanel || !this._shortcutsOrigin )
-        {
+    openPanel(): void {
+        if ( !this._shortcutsPanel || !this._shortcutsOrigin ) {
             return;
         }
-
-        // Make sure to start in 'view' mode
         this.mode = 'view';
 
-        // Create the overlay if it doesn't exist
-        if ( !this._overlayRef )
-        {
+        if ( !this._overlayRef ) {
             this._createOverlay();
         }
 
-        // Attach the portal to the overlay
         this._overlayRef.attach(new TemplatePortal(this._shortcutsPanel, this._viewContainerRef));
     }
 
@@ -160,8 +148,7 @@ export class ShortcutsComponent implements OnInit, OnDestroy
     /**
      * Prepare for a new shortcut
      */
-    newShortcut(): void
-    {
+    newBranch(): void {
         // Reset the form
         this.branchForm.reset();
 
@@ -172,7 +159,7 @@ export class ShortcutsComponent implements OnInit, OnDestroy
     /**
      * Edit a shortcut
      */
-    editShortcut(branch: BranchResponseEntity): void {
+    editBranch(branch: BranchResponseEntity): void {
         // Reset the form with the shortcut
         this.branchForm.reset(branch);
 
@@ -192,17 +179,18 @@ export class ShortcutsComponent implements OnInit, OnDestroy
 
         this.branchForm.disable();
 
+        console.log("this.branchForm.get('type').value," + this.branchForm.get('type').value)
         this.branchEntity = {
             name: this.branchForm.get('name').value,
             address: this.branchForm.get('address').value,
             email: this.branchForm.get('email').value,
             phone: this.branchForm.get('phone').value,
             vat: this.branchForm.get('phone').value,
-            type: this.branchForm.get('type').value,
+            type: this.branchForm.get('type').value ?? 'RESTAURANT',
             userCode: this.user.userCode,
         }
 
-        this._branchService.save(this.branchEntity).pipe(
+        this._dashboardControllerService.save(this.branchEntity).pipe(
             catchError((error) => {
                 this._snackBar.open('error: ' + error.statusCode, 'Undo', {
                     duration: 3000
@@ -219,15 +207,15 @@ export class ShortcutsComponent implements OnInit, OnDestroy
                 this._dashboardService.addBranch(branchResponseEntity);
             }
         );
+        this.branchForm.enable();
+        this.branchForm.reset();
         this.mode = 'view';
     }
 
     /**
      * Delete shortcut
      */
-    delete(): void
-    {
-        // Get the data from the form
+    delete(): void {
         const shortcut = this.branchForm.value;
 
         // Delete

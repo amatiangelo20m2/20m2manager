@@ -11,11 +11,8 @@ import {CurrencyPipe, NgClass, NgFor, NgIf} from "@angular/common";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatTabsModule} from "@angular/material/tabs";
 import {TranslocoModule} from "@ngneat/transloco";
-import {MatDialog} from "@angular/material/dialog";
-import {ViewportRuler} from "@angular/cdk/overlay";
 import {User} from "../../../core/user/user.types";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {BranchResponseEntity} from "../../../core/dashboard/branch";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {SettingsComponent} from "../../pages/settings/settings.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -23,6 +20,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
 import {BookingformComponent} from "./booking/reservation/bookingform.component";
+import {BranchResponseEntity} from "../../../core/dashboard";
 
 @Component({
     selector: 'app-dashboard',

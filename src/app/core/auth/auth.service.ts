@@ -1,12 +1,10 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { AuthUtils } from 'app/core/auth/auth.utils';
-import { UserService } from 'app/core/user/user.service';
-import {catchError, Observable, of, pipe, switchMap, throwError} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {AuthUtils} from 'app/core/auth/auth.utils';
+import {UserService} from 'app/core/user/user.service';
+import {catchError, Observable, of, switchMap, throwError} from 'rxjs';
 import {environment} from "../../../environments/environment";
-import {BranchControllerService} from "../business/branch/branchController.service";
 import {BASE_PATH} from "../common/variables";
-import {DataproviderService} from "../../modules/admin/dashboard/dataprovider.service";
 
 
 @Injectable({providedIn: 'root'})

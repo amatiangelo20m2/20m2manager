@@ -1,9 +1,8 @@
-import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, Subject, takeUntil, tap} from 'rxjs';
+import {BehaviorSubject, Subject, takeUntil} from 'rxjs';
 import {UserService} from "../../../core/user/user.service";
 import {User} from "../../../core/user/user.types";
-import {BranchControllerService, BranchResponseEntity} from "../../../core/dashboard/branch";
+import {BranchResponseEntity, DashboardControllerService} from "../../../core/dashboard";
 
 @Injectable({providedIn: 'root'})
 export class DataproviderService {
@@ -20,7 +19,7 @@ export class DataproviderService {
     user : User;
 
     constructor(
-        private _branchControllerService: BranchControllerService,
+        private _dashboardControllerService: DashboardControllerService,
         private _userService: UserService,) {
     }
 
@@ -36,7 +35,7 @@ export class DataproviderService {
                     .subscribe((user: User) => {
                         console.log("Retrieve branches with code : " + user.userCode)
 
-                        this._branchControllerService.retrieveDashboardData(user.userCode).subscribe(
+                        this._dashboardControllerService.retrieveDashboardData(user.userCode).subscribe(
                             value => {
                                 this.currentBranchesList.next(value.branches);
 

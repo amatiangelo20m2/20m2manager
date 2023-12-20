@@ -18,16 +18,16 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 import { BranchCreationEntity } from '../model/branchCreationEntity';
+import { BranchReservationConfiguration } from '../model/branchReservationConfiguration';
 import { BranchResponseEntity } from '../model/branchResponseEntity';
+import { DashboardData } from '../model/dashboardData';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
-import {BranchReservationConfiguration} from "../model/branchReservationConfiguration";
-import {DashboardData} from "../model/dashboardData";
 
 
 @Injectable({providedIn: 'root'})
-export class BranchControllerService {
+export class DashboardControllerService {
 
     protected basePath = 'http://localhost:8088/ventimetridashboard';
     public defaultHeaders = new HttpHeaders();
@@ -113,17 +113,17 @@ export class BranchControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getbranchlist(userCode: string, branchCode: string, observe?: 'body', reportProgress?: boolean): Observable<BranchResponseEntity>;
-    public getbranchlist(userCode: string, branchCode: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<BranchResponseEntity>>;
-    public getbranchlist(userCode: string, branchCode: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<BranchResponseEntity>>;
-    public getbranchlist(userCode: string, branchCode: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getbranch(userCode: string, branchCode: string, observe?: 'body', reportProgress?: boolean): Observable<BranchResponseEntity>;
+    public getbranch(userCode: string, branchCode: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<BranchResponseEntity>>;
+    public getbranch(userCode: string, branchCode: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<BranchResponseEntity>>;
+    public getbranch(userCode: string, branchCode: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (userCode === null || userCode === undefined) {
-            throw new Error('Required parameter userCode was null or undefined when calling getbranchlist.');
+            throw new Error('Required parameter userCode was null or undefined when calling getbranch.');
         }
 
         if (branchCode === null || branchCode === undefined) {
-            throw new Error('Required parameter branchCode was null or undefined when calling getbranchlist.');
+            throw new Error('Required parameter branchCode was null or undefined when calling getbranch.');
         }
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
