@@ -1,5 +1,5 @@
 import { TextFieldModule } from '@angular/cdk/text-field';
-import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
@@ -9,6 +9,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import {DataproviderService} from "../dataprovider.service";
 import {BranchResponseEntity} from "../../../../core/dashboard";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {NgIf} from "@angular/common";
+import {MatStepperModule} from "@angular/material/stepper";
+import {WaApiConfigDTO, WaapiControllerService} from "../../../../core/booking";
 
 @Component({
     selector       : 'booking-dashboard',
@@ -16,16 +20,19 @@ import {BranchResponseEntity} from "../../../../core/dashboard";
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone     : true,
-    imports        : [FormsModule, ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatInputModule, TextFieldModule, MatSelectModule, MatOptionModule, MatButtonModule],
+    imports: [FormsModule, ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatInputModule, TextFieldModule, MatSelectModule, MatOptionModule, MatButtonModule, MatProgressSpinnerModule, NgIf, MatStepperModule],
 })
 export class BookingDashboardComponent implements OnInit
 {
     accountForm: UntypedFormGroup;
     currentBranch : BranchResponseEntity;
-    base64Image: String = 'data:image/png;base64,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';
+    qrCodeImage: String = '';
 
+    waapiConf : WaApiConfigDTO;
     constructor(private _formBuilder: UntypedFormBuilder,
-                private _dataProvideService: DataproviderService) {
+                private _dataProvideService: DataproviderService,
+                private _waapiControllerService: WaapiControllerService,
+                private cdr: ChangeDetectorRef) {
     }
 
     ngOnInit(): void {
@@ -45,4 +52,28 @@ export class BookingDashboardComponent implements OnInit
             this.currentBranch = branch;
         });
     }
+
+
+    buttonConfigurationClick : boolean = false;
+    showQr : boolean = false;
+
+    configureNumber() {
+        this.buttonConfigurationClick = true;
+        this.showQr=false;
+        this._waapiControllerService
+            .configureNumberForWhatsAppMessaging(this.currentBranch.branchCode).subscribe((waApiConfigDTO) =>{
+                this.waapiConf = waApiConfigDTO;
+                this.qrCodeImage = waApiConfigDTO.lastQrCode;
+
+                this.showQr=true;
+                console.log('Delayed action executed!');
+            this.buttonConfigurationClick = false;
+            this.cdr.detectChanges();
+            }
+        );
+
+
+
+    }
+
 }
