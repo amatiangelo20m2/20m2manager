@@ -20,7 +20,18 @@ import {WaApiConfigDTO, WaapiControllerService} from "../../../../core/booking";
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone     : true,
-    imports: [FormsModule, ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatInputModule, TextFieldModule, MatSelectModule, MatOptionModule, MatButtonModule, MatProgressSpinnerModule, NgIf, MatStepperModule],
+    imports: [FormsModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        TextFieldModule,
+        MatSelectModule,
+        MatOptionModule,
+        MatButtonModule,
+        MatProgressSpinnerModule,
+        NgIf,
+        MatStepperModule],
 })
 export class BookingDashboardComponent implements OnInit
 {
