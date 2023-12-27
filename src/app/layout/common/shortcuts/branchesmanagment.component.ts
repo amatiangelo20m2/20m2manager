@@ -28,8 +28,8 @@ import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 import {BranchCreationEntity, BranchResponseEntity, DashboardControllerService} from "../../../core/dashboard";
 
 @Component({
-    selector       : 'shortcuts',
-    templateUrl    : './shortcuts.component.html',
+    selector       : 'branches-managment',
+    templateUrl    : './branchesmanagment.component.html',
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
     exportAs       : 'shortcuts',
@@ -50,7 +50,7 @@ import {BranchCreationEntity, BranchResponseEntity, DashboardControllerService} 
         MatRadioModule,
         MatSnackBarModule],
 })
-export class ShortcutsComponent implements OnInit, OnDestroy
+export class BranchesmanagmentComponent implements OnInit, OnDestroy
 {
     @ViewChild('shortcutsOrigin') private _shortcutsOrigin: MatButton;
     @ViewChild('shortcutsPanel') private _shortcutsPanel: TemplateRef<any>;
@@ -171,7 +171,6 @@ export class ShortcutsComponent implements OnInit, OnDestroy
      * Save shortcut
      */
     save(): void {
-        console.log('Form Data:', this.branchForm.value);
 
         if ( this.branchForm.invalid ) {
             return;
@@ -203,8 +202,9 @@ export class ShortcutsComponent implements OnInit, OnDestroy
                     duration: 3000,
                 });
 
-                console.log('valeria' + branchResponseEntity.branchCode)
+                console.log('valeria' + branchResponseEntity.branchCode);
                 this._dashboardService.addBranch(branchResponseEntity);
+
             }
         );
         this.branchForm.enable();
