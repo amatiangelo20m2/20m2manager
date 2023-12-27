@@ -1,0 +1,10 @@
+<svg width="21" height="15" xmlns="http://www.w3.org/2000/svg">
+    <!-- Green Stripe -->
+    <rect width="7" height="15" fill="#008C45"/>
+
+    <!-- White Stripe -->
+    <rect x="7" width="7" height="15" fill="#FFFFFF"/>
+
+    <!-- Red Stripe -->
+    <rect x="14" width="7" height="15" fill="#CE2B37"/>
+</svg>

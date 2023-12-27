@@ -56,7 +56,7 @@ export class DataproviderService {
             });
     }
     selectBranch(branch: BranchResponseEntity) {
-        localStorage.setItem('branchCode', branch.branchCode);
+        localStorage.setItem('branchCode', branch?.branchCode ?? '');
         this.currentBranch.next(branch);
     }
     addBranch(branch: BranchResponseEntity) {

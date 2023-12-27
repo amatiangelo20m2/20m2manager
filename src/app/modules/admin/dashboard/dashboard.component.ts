@@ -11,7 +11,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {Subject, takeUntil} from "rxjs";
 import {DataproviderService} from "./dataprovider.service";
-import {NgClass, NgFor, NgSwitch, NgSwitchCase} from "@angular/common";
+import {NgClass, NgFor, NgIf, NgSwitch, NgSwitchCase} from "@angular/common";
 import {User} from "../../../core/user/user.types";
 import {BranchResponseEntity} from "../../../core/dashboard";
 import {MatDrawer, MatSidenavModule} from "@angular/material/sidenav";
@@ -39,7 +39,7 @@ import {SettingsTeamComponent} from "./team/team.component";
         SettingsSecurityComponent,
         SettingsPlanBillingComponent,
         SettingsNotificationsComponent,
-        SettingsTeamComponent],
+        SettingsTeamComponent, NgIf],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
     private _unsubscribeAll: Subject<any> = new Subject<any>();
