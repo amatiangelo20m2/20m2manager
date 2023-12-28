@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  *//* tslint:disable:no-unused-variable member-ordering */
 
-import { Inject, Injectable, Optional }                      from '@angular/core';
+import {inject, Inject, Injectable, Optional} from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams,
          HttpResponse, HttpEvent }                           from '@angular/common/http';
 import { CustomHttpUrlEncodingCodec }                        from '../encoder';
@@ -62,6 +62,53 @@ export class WaapiControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
+    public checkWaApiStatus(branchCode: string, observe?: 'body', reportProgress?: boolean): Observable<WaApiConfigDTO>;
+    public checkWaApiStatus(branchCode: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<WaApiConfigDTO>>;
+    public checkWaApiStatus(branchCode: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<WaApiConfigDTO>>;
+    public checkWaApiStatus(branchCode: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (branchCode === null || branchCode === undefined) {
+            throw new Error('Required parameter branchCode was null or undefined when calling checkWaApiStatus.');
+        }
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (branchCode !== undefined && branchCode !== null) {
+            queryParameters = queryParameters.set('branchCode', <any>branchCode);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<WaApiConfigDTO>('get',`${this.basePath}/waapi/instance/checkstatus`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     *
+     *
+     * @param branchCode
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
     public configureNumberForWhatsAppMessaging(branchCode: string, observe?: 'body', reportProgress?: boolean): Observable<WaApiConfigDTO>;
     public configureNumberForWhatsAppMessaging(branchCode: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<WaApiConfigDTO>>;
     public configureNumberForWhatsAppMessaging(branchCode: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<WaApiConfigDTO>>;
@@ -92,52 +139,6 @@ export class WaapiControllerService {
         ];
 
         return this.httpClient.request<WaApiConfigDTO>('get',`${this.basePath}/waapi/instance/configure`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     *
-     *
-     * @param instanceId
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public retrieveUserById(instanceId: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public retrieveUserById(instanceId: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public retrieveUserById(instanceId: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public retrieveUserById(instanceId: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        if (instanceId === null || instanceId === undefined) {
-            throw new Error('Required parameter instanceId was null or undefined when calling retrieveUserById.');
-        }
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (instanceId !== undefined && instanceId !== null) {
-            queryParameters = queryParameters.set('instanceId', <any>instanceId);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.request<any>('delete',`${this.basePath}/waapi/instance/delete`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,

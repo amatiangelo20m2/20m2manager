@@ -10,9 +10,13 @@ import { MatSelectModule } from '@angular/material/select';
 import {DataproviderService} from "../dataprovider.service";
 import {BranchResponseEntity} from "../../../../core/dashboard";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {NgIf} from "@angular/common";
+import {I18nPluralPipe, NgIf} from "@angular/common";
 import {MatStepperModule} from "@angular/material/stepper";
 import {WaApiConfigDTO, WaapiControllerService} from "../../../../core/booking";
+import {interval, take, takeWhile, timer} from "rxjs";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {MatExpansionModule} from "@angular/material/expansion";
+import {MatDatepickerModule} from "@angular/material/datepicker";
 
 @Component({
     selector       : 'booking-dashboard',
@@ -31,7 +35,7 @@ import {WaApiConfigDTO, WaapiControllerService} from "../../../../core/booking";
         MatButtonModule,
         MatProgressSpinnerModule,
         NgIf,
-        MatStepperModule],
+        MatStepperModule, I18nPluralPipe, MatButtonToggleModule, MatExpansionModule, MatDatepickerModule],
 })
 export class BookingDashboardComponent implements OnInit
 {
@@ -40,6 +44,7 @@ export class BookingDashboardComponent implements OnInit
     qrCodeImage: String = '';
 
     waapiConf : WaApiConfigDTO;
+
     constructor(private _formBuilder: UntypedFormBuilder,
                 private _dataProvideService: DataproviderService,
                 private _waapiControllerService: WaapiControllerService,
@@ -47,6 +52,7 @@ export class BookingDashboardComponent implements OnInit
     }
 
     ngOnInit(): void {
+
         this.accountForm = this._formBuilder.group({
             name    : ['Brian Hughes'],
             username: ['brianh'],
@@ -61,30 +67,62 @@ export class BookingDashboardComponent implements OnInit
 
         this._dataProvideService.branch$.subscribe((branch) => {
             this.currentBranch = branch;
+            this.cdr.detectChanges();
         });
+
+        this._waapiControllerService.checkWaApiStatus(this.currentBranch.branchCode).subscribe((waApiStatusConf) =>{
+            this.waapiConf = waApiStatusConf;
+            this.cdr.detectChanges();
+        });
+
+
     }
 
 
     buttonConfigurationClick : boolean = false;
-    showQr : boolean = false;
+    remainingSeconds: number = 0;
+    panelOpenState: boolean = true;
 
     configureNumber() {
         this.buttonConfigurationClick = true;
-        this.showQr=false;
         this._waapiControllerService
             .configureNumberForWhatsAppMessaging(this.currentBranch.branchCode).subscribe((waApiConfigDTO) =>{
                 this.waapiConf = waApiConfigDTO;
                 this.qrCodeImage = waApiConfigDTO.lastQrCode;
+                this.buttonConfigurationClick = false;
+                this.remainingSeconds = 60;
 
-                this.showQr=true;
-                console.log('Delayed action executed!');
-            this.buttonConfigurationClick = false;
-            this.cdr.detectChanges();
+                interval(5000)
+                    .pipe(takeWhile(() => this.loopConditionMet())) // Maximum 75 seconds
+                    .subscribe(() => {
+
+
+                        this._waapiControllerService.checkWaApiStatus(this.currentBranch.branchCode)
+                            .subscribe((waApiConfigDTO)=>{
+                                this.waapiConf = waApiConfigDTO;
+                                console.log('Current status: ' + this.waapiConf?.instanceStatus)
+                                if (this.waapiConf != null && this.waapiConf.instanceStatus === 'OK') {
+                                    console.log('Loop condition met. Stopping the loop.');
+                                    this.remainingSeconds = 0;
+                                }
+                        });
+
+                        this.remainingSeconds -= 5;
+                        if (!this.loopConditionMet()) {
+                            console.log('Error - Cannot configure it. Retry');
+                        }
+                        this.cdr.detectChanges();
+                    });
+
+
             }
         );
+    }
 
-
-
+    loopConditionMet(): boolean {
+        // Define your loop condition here
+        // For example, perform the loop for a maximum of 25 iterations (75 seconds)
+        return this.remainingSeconds > 0;
     }
 
 }

@@ -79,10 +79,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 description: 'Advertising Campaigns',
             },
             {
-                id         : 'notifications',
-                icon       : 'heroicons_outline:bell',
-                title      : 'Notifications',
-                description: 'Manage when you\'ll be notified on which channels',
+                id         : 'catering',
+                icon       : 'mat_outline:local_bar',
+                title      : 'Catering',
+                description: 'Catering and Events',
             },
             {
                 id         : 'team',

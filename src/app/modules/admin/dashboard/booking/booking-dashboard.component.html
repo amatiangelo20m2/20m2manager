@@ -1,219 +1,103 @@
 <div class="flex flex-col flex-auto w-full">
-    <div class="flex flex-wrap w-full max-w-screen-xl mx-auto p-6 md:p-8">
-
-        <div class="flex flex-col w-full">
-            <div class="mb-4">
-                <h2 class="text-3xl font-semibold tracking-tight leading-8">Prenotazioni</h2>
-                <div class="font-medium tracking-tight text-secondary">
-                    Configura un numero what's app per iniziare ad utilizzare il servizio prenotazione
+    <div class="flex flex-wrap w-full max-w-screen-xl mx-auto p-2 md:p-2">
+        <div *ngIf="waapiConf == null || (waapiConf?.instanceStatus!='OK'); else elseBlock">
+            <div class="flex flex-col w-full">
+                <div class="mb-2">
+                    <h2 class="text-xl font-semibold tracking-tight leading-6">Prenotazioni</h2>
+                    <div class="font-medium tracking-tight text-secondary text-xs">
+                        Configura un numero what's app per iniziare ad utilizzare il servizio prenotazione
+                    </div>
+                </div>
+                <div *ngIf="remainingSeconds>1">
+                    <img [src]="qrCodeImage" alt="Base64 Image" style="height: 150px; width: 150px; object-fit: cover;">
+                </div>
+                <div *ngIf="remainingSeconds>1">
+                    <div class="font-medium tracking-tight text-secondary text-xs">
+                        Associa il tuo dispositivo scannerizzando il qr code tramite What's App. Il qr code ha validità di {{remainingSeconds}} secondi.
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <button
+                        class="fuse-mat-button-large mt-4"
+                        mat-flat-button
+                        [color]="'primary'"
+                        [disabled]="buttonConfigurationClick"
+                        (click)="configureNumber()">
+                        <mat-icon [svgIcon]="'heroicons_outline:qr-code'"></mat-icon>
+                        <span *ngIf="!buttonConfigurationClick" style="margin-left: 3px; font-size: 12px;">Ottieni il Qr Code</span>
+                        <mat-progress-spinner
+                            *ngIf="buttonConfigurationClick"
+                            [diameter]="20"
+                            [mode]="'indeterminate'"
+                        ></mat-progress-spinner>
+                    </button>
                 </div>
             </div>
-            <div *ngIf="showQr">
-                <img [src]="qrCodeImage" alt="Base64 Image" style="height: 300px; width: 300px; object-fit: cover;">
-            </div>
-            <div class="flex items-center">
-                <button
-                    class="fuse-mat-button-large mt-6"
-                    mat-flat-button
-                    [color]="'primary'"
-                    [disabled]="buttonConfigurationClick"
-                    (click)="configureNumber()">
-                    <span *ngIf="!buttonConfigurationClick">Configura</span>
-                    <mat-progress-spinner
-                        *ngIf="buttonConfigurationClick"
-                        [diameter]="24"
-                        [mode]="'indeterminate'"
-                    ></mat-progress-spinner>
-                </button>
-            </div>
         </div>
+        <ng-template #elseBlock>
+            <div class="flex flex-col shadow bg-card w-full rounded-xl mt-2">
+                <div class="flex flex-col flex-0 lg:flex-row items-center max-w-7xl w-full mx-auto px-4 lg:h-12 bg-card">
+                    <div class="-mt-20 lg:-mt-18 rounded-full">
+                        <img
+                            class="w-20 h-20 rounded-full ring-2 ring-bg-card"
+                            src="{{this.waapiConf?.profilePicUrl}}"
+                            alt="User avatar">
+                    </div>
 
+                    <!-- Details -->
+                    <div class="flex flex-col items-center lg:items-start mt-2 lg:mt-0 lg:ml-4">
+                        <div class="text-sm font-bold leading-none">{{this.waapiConf?.displayName}}</div>
+                        <div class="text-xs text-secondary">{{this.waapiConf?.formattedNumber}}</div>
+                    </div>
 
+                    <!-- Separator -->
+                    <div class="hidden lg:flex h-4 mx-4 border-l-2"></div>
 
+                    <!-- Stats -->
+                    <div class="flex items-center mt-2 lg:mt-0 space-x-2 flex-grow">
+                        <div class="flex flex-col items-center">
+                            <span class="font-bold text-xs">STATO</span>
+                            <span class="text-xxs text-secondary">{{this.waapiConf?.instanceStatus}}</span>
+                        </div>
+                        <!-- Separator -->
+                        <div class="hidden lg:flex h-4 mx-4 border-l-2"></div>
+
+                        <div class="flex flex-col items-center">
+                            <span class="font-bold text-xs">OWNER</span>
+                            <span class="text-xxs text-secondary">{{this.waapiConf?.owner}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col w-full mt-2">
+                <mat-accordion>
+                    <mat-expansion-panel hideToggle>
+                        <mat-expansion-panel-header class="flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <mat-icon [svgIcon]="'heroicons_outline:calendar-days'"></mat-icon>
+                                <mat-panel-description>
+                                     Configura i giorni d'apertura
+                                </mat-panel-description>
+                            </div>
+                        </mat-expansion-panel-header>
+                   ccc
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel [expanded]="true" (opened)="panelOpenState = true"
+                                         (closed)="panelOpenState = false">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Prenotazioni
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                Currently I am {{panelOpenState ? 'open' : 'closed'}}
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <p>I'm visible because I am open</p>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+        </ng-template>
     </div>
-
-    <!-- Form -->
-    <!--    <form [formGroup]="accountForm">-->
-
-    <!--        <div class="w-full">-->
-    <!--            <div class="text-xl">Profile</div>-->
-    <!--            <div class="text-secondary">Following information is publicly displayed, be careful!</div>-->
-    <!--        </div>-->
-    <!--        <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">-->
-    <!--            &lt;!&ndash; Name &ndash;&gt;-->
-    <!--            <div class="sm:col-span-4">-->
-    <!--                <mat-form-field-->
-    <!--                    class="w-full"-->
-    <!--                    [subscriptSizing]="'dynamic'">-->
-    <!--                    <mat-label>Name</mat-label>-->
-    <!--                    <mat-icon-->
-    <!--                        class="icon-size-5"-->
-    <!--                        [svgIcon]="'heroicons_solid:user'"-->
-    <!--                        matPrefix></mat-icon>-->
-    <!--                    <input-->
-    <!--                        [formControlName]="'name'"-->
-    <!--                        matInput>-->
-    <!--                </mat-form-field>-->
-    <!--            </div>-->
-    <!--            &lt;!&ndash; Username &ndash;&gt;-->
-    <!--            <div class="sm:col-span-4">-->
-    <!--                <mat-form-field-->
-    <!--                    class="fuse-mat-emphasized-affix w-full"-->
-    <!--                    [subscriptSizing]="'dynamic'">-->
-    <!--                    <mat-label>Username</mat-label>-->
-    <!--                    <div-->
-    <!--                        class="text-secondary"-->
-    <!--                        matPrefix>-->
-    <!--                        fusetheme.com/-->
-    <!--                    </div>-->
-    <!--                    <input-->
-    <!--                        [formControlName]="'username'"-->
-    <!--                        matInput>-->
-    <!--                </mat-form-field>-->
-    <!--            </div>-->
-    <!--            &lt;!&ndash; Title &ndash;&gt;-->
-    <!--            <div class="sm:col-span-2">-->
-    <!--                <mat-form-field-->
-    <!--                    class="w-full"-->
-    <!--                    [subscriptSizing]="'dynamic'">-->
-    <!--                    <mat-label>Title</mat-label>-->
-    <!--                    <mat-icon-->
-    <!--                        class="icon-size-5"-->
-    <!--                        [svgIcon]="'heroicons_solid:briefcase'"-->
-    <!--                        matPrefix></mat-icon>-->
-    <!--                    <input-->
-    <!--                        [formControlName]="'title'"-->
-    <!--                        matInput>-->
-    <!--                </mat-form-field>-->
-    <!--            </div>-->
-    <!--            &lt;!&ndash; Company &ndash;&gt;-->
-    <!--            <div class="sm:col-span-2">-->
-    <!--                <mat-form-field-->
-    <!--                    class="w-full"-->
-    <!--                    [subscriptSizing]="'dynamic'">-->
-    <!--                    <mat-label>Company</mat-label>-->
-    <!--                    <mat-icon-->
-    <!--                        class="icon-size-5"-->
-    <!--                        [svgIcon]="'heroicons_solid:building-office-2'"-->
-    <!--                        matPrefix></mat-icon>-->
-    <!--                    <input-->
-    <!--                        [formControlName]="'company'"-->
-    <!--                        matInput>-->
-    <!--                </mat-form-field>-->
-    <!--            </div>-->
-    <!--            &lt;!&ndash; About &ndash;&gt;-->
-    <!--            <div class="sm:col-span-4">-->
-    <!--                <mat-form-field-->
-    <!--                    class="w-full"-->
-    <!--                    [subscriptSizing]="'dynamic'">-->
-    <!--                    <mat-label>About</mat-label>-->
-    <!--                    <textarea-->
-    <!--                        matInput-->
-    <!--                        [formControlName]="'about'"-->
-    <!--                        cdkTextareaAutosize-->
-    <!--                        [cdkAutosizeMinRows]="5"></textarea>-->
-    <!--                </mat-form-field>-->
-    <!--                <div class="mt-1 text-md text-hint">Brief description for your profile. Basic HTML and Emoji are allowed.</div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-
-    <!--        &lt;!&ndash; Divider &ndash;&gt;-->
-    <!--        <div class="my-10 border-t"></div>-->
-
-    <!--        &lt;!&ndash; Section &ndash;&gt;-->
-    <!--        <div class="w-full">-->
-    <!--            <div class="text-xl">Personal Information</div>-->
-    <!--            <div class="text-secondary">Communication details in case we want to connect with you. These will be kept private.</div>-->
-    <!--        </div>-->
-    <!--        <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">-->
-    <!--            &lt;!&ndash; Email &ndash;&gt;-->
-    <!--            <div class="sm:col-span-2">-->
-    <!--                <mat-form-field-->
-    <!--                    class="w-full"-->
-    <!--                    [subscriptSizing]="'dynamic'">-->
-    <!--                    <mat-label>Email</mat-label>-->
-    <!--                    <mat-icon-->
-    <!--                        class="icon-size-5"-->
-    <!--                        [svgIcon]="'heroicons_solid:envelope'"-->
-    <!--                        matPrefix></mat-icon>-->
-    <!--                    <input-->
-    <!--                        [formControlName]="'email'"-->
-    <!--                        matInput>-->
-    <!--                </mat-form-field>-->
-    <!--            </div>-->
-    <!--            &lt;!&ndash; Phone &ndash;&gt;-->
-    <!--            <div class="sm:col-span-2">-->
-    <!--                <mat-form-field-->
-    <!--                    class="w-full"-->
-    <!--                    [subscriptSizing]="'dynamic'">-->
-    <!--                    <mat-label>Phone</mat-label>-->
-    <!--                    <mat-icon-->
-    <!--                        class="icon-size-5"-->
-    <!--                        [svgIcon]="'heroicons_solid:phone'"-->
-    <!--                        matPrefix></mat-icon>-->
-    <!--                    <input-->
-    <!--                        [formControlName]="'phone'"-->
-    <!--                        matInput>-->
-    <!--                </mat-form-field>-->
-    <!--            </div>-->
-    <!--            &lt;!&ndash; Country &ndash;&gt;-->
-    <!--            <div class="sm:col-span-2">-->
-    <!--                <mat-form-field-->
-    <!--                    class="w-full"-->
-    <!--                    [subscriptSizing]="'dynamic'">-->
-    <!--                    <mat-label>Country</mat-label>-->
-    <!--                    <mat-icon-->
-    <!--                        class="icon-size-5"-->
-    <!--                        [svgIcon]="'heroicons_solid:map-pin'"-->
-    <!--                        matPrefix></mat-icon>-->
-    <!--                    <mat-select [formControlName]="'country'">-->
-    <!--                        <mat-option [value]="'usa'">United States</mat-option>-->
-    <!--                        <mat-option [value]="'canada'">Canada</mat-option>-->
-    <!--                        <mat-option [value]="'mexico'">Mexico</mat-option>-->
-    <!--                        <mat-option [value]="'france'">France</mat-option>-->
-    <!--                        <mat-option [value]="'germany'">Germany</mat-option>-->
-    <!--                        <mat-option [value]="'italy'">Italy</mat-option>-->
-    <!--                    </mat-select>-->
-    <!--                </mat-form-field>-->
-    <!--            </div>-->
-    <!--            &lt;!&ndash; Language &ndash;&gt;-->
-    <!--            <div class="sm:col-span-2">-->
-    <!--                <mat-form-field-->
-    <!--                    class="w-full"-->
-    <!--                    [subscriptSizing]="'dynamic'">-->
-    <!--                    <mat-label>Language</mat-label>-->
-    <!--                    <mat-icon-->
-    <!--                        class="icon-size-5"-->
-    <!--                        [svgIcon]="'heroicons_solid:globe-alt'"-->
-    <!--                        matPrefix></mat-icon>-->
-    <!--                    <mat-select [formControlName]="'language'">-->
-    <!--                        <mat-option [value]="'english'">English</mat-option>-->
-    <!--                        <mat-option [value]="'french'">French</mat-option>-->
-    <!--                        <mat-option [value]="'spanish'">Spanish</mat-option>-->
-    <!--                        <mat-option [value]="'german'">German</mat-option>-->
-    <!--                        <mat-option [value]="'italian'">Italian</mat-option>-->
-    <!--                    </mat-select>-->
-    <!--                </mat-form-field>-->
-    <!--            </div>-->
-    <!--        </div>-->
-
-    <!--        &lt;!&ndash; Divider &ndash;&gt;-->
-    <!--        <div class="mt-11 mb-10 border-t"></div>-->
-
-    <!--        &lt;!&ndash; Actions &ndash;&gt;-->
-    <!--        <div class="flex items-center justify-end">-->
-    <!--            <button-->
-    <!--                mat-stroked-button-->
-    <!--                type="button">-->
-    <!--                Cancel-->
-    <!--            </button>-->
-    <!--            <button-->
-    <!--                class="ml-4"-->
-    <!--                mat-flat-button-->
-    <!--                type="button"-->
-    <!--                [color]="'primary'">Save-->
-    <!--            </button>-->
-    <!--        </div>-->
-    <!--    </form>-->
-
 </div>

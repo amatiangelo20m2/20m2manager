@@ -1,17 +1,16 @@
 <div class="flex flex-col flex-auto min-w-0">
     <div *ngIf="this.currentBranch?.branchCode">
-        <div class="ml-1.5 leading-6 truncate text-secondary">{{this.currentBranch?.branchCode ?? ''}}</div>
+
         <div class="flex flex-col w-full min-w-0 sm:absolute sm:inset-0 sm:overflow-hidden">
 
             <mat-drawer-container class="flex-auto sm:h-full">
-
                 <!-- Drawer -->
                 <mat-drawer
-                    class="sm:w-96 dark:bg-gray-900"
+                    class="sm:w-72 dark:bg-gray-900"
                     [autoFocus]="false" [mode]="drawerMode" [opened]="drawerOpened" #drawer>
-                    <div class="flex items-center justify-between m-8 mr-6 sm:my-10">
+                    <div class="flex items-center justify-between m-4 mr-2 sm:my-5">
                         <!-- Title -->
-                        <div class="text-2xl font-extrabold tracking-tight leading-none">{{this.currentBranch?.name}}</div>
+                        <div class="text-lg font-extrabold tracking-tight leading-none">{{this.currentBranch?.name}}</div>
                         <!-- Close button -->
                         <div class="lg:hidden">
                             <button
@@ -25,7 +24,7 @@
                     <div class="flex flex-col divide-y border-t border-b">
                         <ng-container *ngFor="let panel of panels; trackBy: trackByFn">
                             <div
-                                class="flex px-8 py-5 cursor-pointer"
+                                class="flex px-6 py-4 cursor-pointer"
                                 [ngClass]="{'hover:bg-gray-100 dark:hover:bg-hover': !selectedPanel || selectedPanel !== panel.id,
                                     'bg-primary-50 dark:bg-hover': selectedPanel && selectedPanel === panel.id}"
                                 (click)="goToPanel(panel.id)">
@@ -33,13 +32,13 @@
                                     [ngClass]="{'text-hint': !selectedPanel || selectedPanel !== panel.id,
                                         'text-primary dark:text-primary-500': selectedPanel && selectedPanel === panel.id}"
                                     [svgIcon]="panel.icon"></mat-icon>
-                                <div class="ml-3">
+                                <div class="ml-2">
                                     <div
-                                        class="font-medium leading-6"
+                                        class="font-medium leading-5 text-sm"
                                         [ngClass]="{'text-primary dark:text-primary-500': selectedPanel && selectedPanel === panel.id}">
                                         {{panel.title}}
                                     </div>
-                                    <div class="mt-0.5 text-secondary">
+                                    <div class="mt-0.5 text-xs text-secondary">
                                         {{panel.description}}
                                     </div>
                                 </div>
@@ -52,21 +51,21 @@
                 <mat-drawer-content class="flex flex-col">
 
                     <!-- Main -->
-                    <div class="flex-auto px-6 pt-9 pb-12 md:p-8 md:pb-12 lg:p-12">
+                    <div class="flex-auto px-4 pt-6 pb-8 md:p-4 md:pb-8 lg:p-8">
 
                         <!-- Panel header -->
                         <div class="flex items-center">
 
                             <!-- Drawer toggle -->
                             <button
-                                class="lg:hidden -ml-2"
+                                class="lg:hidden -ml-1"
                                 mat-icon-button
                                 (click)="drawer.toggle()">
                                 <mat-icon [svgIcon]="'heroicons_outline:bars-3'"></mat-icon>
                             </button>
                         </div>
 
-                        <div class="mt-8">
+                        <div class="mt-4">
                             <ng-container [ngSwitch]="selectedPanel">
                                 <!-- Account -->
                                 <ng-container *ngSwitchCase="'booking'">
