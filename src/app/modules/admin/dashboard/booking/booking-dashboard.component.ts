@@ -17,6 +17,7 @@ import {interval, take, takeWhile, timer} from "rxjs";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatDatepickerModule} from "@angular/material/datepicker";
+import {ConfigureOpeningComponent} from "./configure-opening/configure-opening.component";
 
 @Component({
     selector       : 'booking-dashboard',
@@ -35,7 +36,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
         MatButtonModule,
         MatProgressSpinnerModule,
         NgIf,
-        MatStepperModule, I18nPluralPipe, MatButtonToggleModule, MatExpansionModule, MatDatepickerModule],
+        MatStepperModule, I18nPluralPipe, MatButtonToggleModule, MatExpansionModule, MatDatepickerModule, ConfigureOpeningComponent],
 })
 export class BookingDashboardComponent implements OnInit
 {

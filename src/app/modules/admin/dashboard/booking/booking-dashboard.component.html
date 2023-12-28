@@ -44,17 +44,26 @@
                             alt="User avatar">
                     </div>
 
-                    <!-- Details -->
-                    <div class="flex flex-col items-center lg:items-start mt-2 lg:mt-0 lg:ml-4">
-                        <div class="text-sm font-bold leading-none">{{this.waapiConf?.displayName}}</div>
-                        <div class="text-xs text-secondary">{{this.waapiConf?.formattedNumber}}</div>
-                    </div>
-
-                    <!-- Separator -->
+                                 <!-- Separator -->
                     <div class="hidden lg:flex h-4 mx-4 border-l-2"></div>
 
                     <!-- Stats -->
-                    <div class="flex items-center mt-2 lg:mt-0 space-x-2 flex-grow">
+                    <div class="flex items-center mt-2 lg:mt-0 space-x-2 flex-grow justify-between">
+
+                        <div class="flex flex-col items-center">
+                            <span class="font-bold text-xs">ATTIVITA'</span>
+                            <span class="text-xxs text-secondary">{{this.currentBranch?.name}}</span>
+                        </div>
+
+                        <div class="hidden lg:flex h-4 mx-4 border-l-2"></div>
+                        <div class="flex flex-col items-center">
+                            <span class="font-bold text-xs">ADMIN</span>
+                            <span class="text-xxs text-secondary">{{this.waapiConf?.displayName}}</span>
+                        </div>
+
+
+                        <div class="hidden lg:flex h-4 mx-4 border-l-2"></div>
+
                         <div class="flex flex-col items-center">
                             <span class="font-bold text-xs">STATO</span>
                             <span class="text-xxs text-secondary">{{this.waapiConf?.instanceStatus}}</span>
@@ -62,10 +71,19 @@
                         <!-- Separator -->
                         <div class="hidden lg:flex h-4 mx-4 border-l-2"></div>
 
+
                         <div class="flex flex-col items-center">
-                            <span class="font-bold text-xs">OWNER</span>
+                            <span class="font-bold text-xs">CELLULARE</span>
+                            <span class="text-xxs text-secondary">{{this.waapiConf?.formattedNumber}}</span>
+                        </div>
+                        <div class="hidden lg:flex h-4 mx-4 border-l-2"></div>
+
+
+                        <div class="flex flex-col items-center">
+                            <span class="font-bold text-xs">EMAIL</span>
                             <span class="text-xxs text-secondary">{{this.waapiConf?.owner}}</span>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -74,24 +92,20 @@
                 <mat-accordion>
                     <mat-expansion-panel hideToggle>
                         <mat-expansion-panel-header class="flex items-center justify-between">
-                            <div class="flex items-center space-x-2">
-                                <mat-icon [svgIcon]="'heroicons_outline:calendar-days'"></mat-icon>
-                                <mat-panel-description>
-                                     Configura i giorni d'apertura
-                                </mat-panel-description>
-                            </div>
+                            <mat-icon [svgIcon]="'mat_outline:settings'"></mat-icon>
+                            <mat-panel-description>
+                                Configura apertura
+                            </mat-panel-description>
                         </mat-expansion-panel-header>
-                   ccc
+                        <configure-opening></configure-opening>
                     </mat-expansion-panel>
 
                     <mat-expansion-panel [expanded]="true" (opened)="panelOpenState = true"
-                                         (closed)="panelOpenState = false">
+                                         (closed)="panelOpenState = false" hideToggle>
                         <mat-expansion-panel-header>
-                            <mat-panel-title>
-                                Prenotazioni
-                            </mat-panel-title>
+                            <mat-icon [svgIcon]="'heroicons_outline:calendar-days'"></mat-icon>
                             <mat-panel-description>
-                                Currently I am {{panelOpenState ? 'open' : 'closed'}}
+                                Prenotazioni
                             </mat-panel-description>
                         </mat-expansion-panel-header>
                         <p>I'm visible because I am open</p>
