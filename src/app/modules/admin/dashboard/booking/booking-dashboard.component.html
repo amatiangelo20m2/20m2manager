@@ -1,6 +1,8 @@
 <div class="flex flex-col flex-auto w-full">
     <div class="flex flex-wrap w-full max-w-screen-xl mx-auto p-2 md:p-2">
-        <div *ngIf="waapiConf == null || (waapiConf?.instanceStatus!='OK'); else elseBlock">
+
+        <div *ngIf="bookingConfigurationDTO == null
+            || (bookingConfigurationDTO?.waApiConfigDTO?.instanceStatus!='success'); else elseBlock">
             <div class="flex flex-col w-full">
                 <div class="mb-2">
                     <h2 class="text-xl font-semibold tracking-tight leading-6">Prenotazioni</h2>
@@ -40,25 +42,26 @@
                     <div class="-mt-20 lg:-mt-18 rounded-full">
                         <img
                             class="w-20 h-20 rounded-full ring-2 ring-bg-card"
-                            src="{{this.waapiConf?.profilePicUrl}}"
+                            src="{{this.bookingConfigurationDTO?.waApiConfigDTO?.profilePicUrl}}"
                             alt="User avatar">
                     </div>
 
-                                 <!-- Separator -->
+                    <!-- Separator -->
                     <div class="hidden lg:flex h-4 mx-4 border-l-2"></div>
 
                     <!-- Stats -->
-                    <div class="flex items-center mt-2 lg:mt-0 space-x-2 flex-grow justify-between">
+                    <div class="flex items-center mt-2 lg:mt-0 space-x-2 flex-grow">
 
                         <div class="flex flex-col items-center">
                             <span class="font-bold text-xs">ATTIVITA'</span>
                             <span class="text-xxs text-secondary">{{this.currentBranch?.name}}</span>
                         </div>
 
+
                         <div class="hidden lg:flex h-4 mx-4 border-l-2"></div>
                         <div class="flex flex-col items-center">
                             <span class="font-bold text-xs">ADMIN</span>
-                            <span class="text-xxs text-secondary">{{this.waapiConf?.displayName}}</span>
+                            <span class="text-xxs text-secondary">{{this.bookingConfigurationDTO?.waApiConfigDTO?.displayName}}</span>
                         </div>
 
 
@@ -66,7 +69,7 @@
 
                         <div class="flex flex-col items-center">
                             <span class="font-bold text-xs">STATO</span>
-                            <span class="text-xxs text-secondary">{{this.waapiConf?.instanceStatus}}</span>
+                            <span class="text-xxs text-secondary">{{this.bookingConfigurationDTO?.waApiConfigDTO?.instanceStatus}}</span>
                         </div>
                         <!-- Separator -->
                         <div class="hidden lg:flex h-4 mx-4 border-l-2"></div>
@@ -74,14 +77,14 @@
 
                         <div class="flex flex-col items-center">
                             <span class="font-bold text-xs">CELLULARE</span>
-                            <span class="text-xxs text-secondary">{{this.waapiConf?.formattedNumber}}</span>
+                            <span class="text-xxs text-secondary">{{this.bookingConfigurationDTO?.waApiConfigDTO?.formattedNumber}}</span>
                         </div>
                         <div class="hidden lg:flex h-4 mx-4 border-l-2"></div>
 
 
                         <div class="flex flex-col items-center">
                             <span class="font-bold text-xs">EMAIL</span>
-                            <span class="text-xxs text-secondary">{{this.waapiConf?.owner}}</span>
+                            <span class="text-xxs text-secondary">{{this.bookingConfigurationDTO?.waApiConfigDTO?.owner}}</span>
                         </div>
 
                     </div>

@@ -25,8 +25,7 @@ export class FuseLoadingBarComponent implements OnChanges, OnInit, OnDestroy
     /**
      * Constructor
      */
-    constructor(private _fuseLoadingService: FuseLoadingService)
-    {
+    constructor(private _fuseLoadingService: FuseLoadingService) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -38,8 +37,7 @@ export class FuseLoadingBarComponent implements OnChanges, OnInit, OnDestroy
      *
      * @param changes
      */
-    ngOnChanges(changes: SimpleChanges): void
-    {
+    ngOnChanges(changes: SimpleChanges): void {
         // Auto mode
         if ( 'autoMode' in changes )
         {

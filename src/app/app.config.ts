@@ -19,8 +19,6 @@ export const appConfig: ApplicationConfig = {
             withPreloading(PreloadAllModules),
             withInMemoryScrolling({scrollPositionRestoration: 'enabled'}),
         ),
-
-        // Material Date Adapter
         {
             provide : DateAdapter,
             useClass: LuxonDateAdapter,
@@ -52,7 +50,7 @@ export const appConfig: ApplicationConfig = {
             },
             //TODO : se vuoi cambiare il layout iniziale fallo da qui
             fuse   : {
-                layout : 'modern',
+                layout : 'dense',
                 scheme : 'light',
                 screens: {
                     sm: '600px',

@@ -3,28 +3,26 @@ import {BehaviorSubject, Subject, takeUntil} from 'rxjs';
 import {UserService} from "../../../core/user/user.service";
 import {User} from "../../../core/user/user.types";
 import {BranchResponseEntity, DashboardControllerService} from "../../../core/dashboard";
+import {BookingConfigurationDTO} from "../../../core/booking";
 
 @Injectable({providedIn: 'root'})
 export class DataproviderService {
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
-
-
     private currentBranch: BehaviorSubject<BranchResponseEntity> = new BehaviorSubject(null);
     private currentBranchesList : BehaviorSubject<BranchResponseEntity[]> = new BehaviorSubject(null);
-
     branch$ = this.currentBranch.asObservable();
     branches$ = this.currentBranchesList.asObservable();
-
     user : User;
+
 
     constructor(
         private _dashboardControllerService: DashboardControllerService,
-        private _userService: UserService,) {
+        private _userService: UserService) {
     }
 
-
     getDashData(){
+
         this._userService.user$
             .pipe((takeUntil(this._unsubscribeAll)))
             .subscribe((user: User) => {
@@ -32,6 +30,7 @@ export class DataproviderService {
                 this._userService.user$.pipe(
                     (takeUntil(this._unsubscribeAll)))
                     .subscribe((user: User) => {
+
                         console.log("Retrieve branches with code : " + user.userCode)
 
                         this._dashboardControllerService.retrieveDashboardData(user.userCode).subscribe(

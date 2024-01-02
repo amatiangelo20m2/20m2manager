@@ -21,6 +21,7 @@ import {SettingsSecurityComponent} from "./security/security.component";
 import {SettingsPlanBillingComponent} from "../../pages/settings/plan-billing/plan-billing.component";
 import {SettingsNotificationsComponent} from "./notifications/notifications.component";
 import {SettingsTeamComponent} from "./team/team.component";
+import {MatDialogConfig, MatDialogModule} from "@angular/material/dialog";
 
 @Component({
     selector: 'dashboard',
