@@ -5,7 +5,8 @@ import {BookingControllerService} from "./api/bookingController.service";
 
 @NgModule({
   imports:      [],
-  declarations: [],
+  declarations: [
+  ],
   exports:      [],
   providers: [
     BookingControllerService ]

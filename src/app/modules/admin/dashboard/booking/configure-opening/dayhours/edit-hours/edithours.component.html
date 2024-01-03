@@ -1,0 +1,43 @@
+<div class="flex flex-col flex-auto w-200 p-2 md:p-4" [formGroup]="branchTimeForm">
+    <div class="text-center mb-2">
+        Configura Orario Apertura
+    </div>
+    <div class="text-center mb-2" style="padding-bottom: 20px">
+        <mat-button-toggle-group [(ngModel)]="selectedDays" multiple [ngModelOptions]="{standalone: true}">
+            <mat-button-toggle *ngFor="let day of days" [value]="day">
+                {{ day.charAt(0) }}
+            </mat-button-toggle>
+        </mat-button-toggle-group>
+    </div>
+
+    <div class="flex flex-col text-center mb-2">
+        <div class="mb-2">
+            {{ branchTimeRangeDTO?.timeRanges[0].mealType }}
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Ora apertura pranzo</mat-label>
+                <input matInput placeholder="Placeholder" formControlName="openingTimePranzo" >
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Ora chiusura pranzo</mat-label>
+                <input matInput placeholder="Placeholder" formControlName="closingTimePranzo">
+            </mat-form-field>
+        </div>
+
+        <div>
+            {{ branchTimeRangeDTO?.timeRanges[1].mealType }}
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Ora apertura cena</mat-label>
+                <input matInput placeholder="Placeholder" formControlName="openingTimeCena">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Ora chiusura cena</mat-label>
+                <input matInput placeholder="Placeholder" formControlName="closingTimeCena">
+            </mat-form-field>
+        </div>
+    </div>
+    <mat-button-toggle (click)="saveConfiguration()" value="weekopening">
+        <mat-icon [svgIcon]="'heroicons_outline:clock'"></mat-icon>
+        Salva
+    </mat-button-toggle>
+
+</div>

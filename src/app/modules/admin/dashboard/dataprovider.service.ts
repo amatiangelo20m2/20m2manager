@@ -3,7 +3,12 @@ import {BehaviorSubject, Subject, takeUntil} from 'rxjs';
 import {UserService} from "../../../core/user/user.service";
 import {User} from "../../../core/user/user.types";
 import {BranchResponseEntity, DashboardControllerService} from "../../../core/dashboard";
-import {BookingControllerService, RestaurantConfigurationDTO} from "../../../core/booking";
+import {
+    BookingControllerService,
+    BranchTimeRangeDTO,
+    RestaurantConfigurationDTO,
+    TimeRange
+} from "../../../core/booking";
 
 @Injectable({providedIn: 'root'})
 export class DataproviderService {
@@ -33,7 +38,6 @@ export class DataproviderService {
             .subscribe((user: User) => {
 
                 this.user = user;
-
                 this._userService.user$.pipe(
                     (takeUntil(this._unsubscribeAll)))
                     .subscribe((user: User) => {
@@ -50,12 +54,15 @@ export class DataproviderService {
 
                                     if(branchCodeRetrieved == ''){
                                         this.selectBranch(value[0]);
+
                                     }else{
                                         this.selectBranch(
                                             this.currentBranchesList.value
                                                 .find(branch =>
                                                     branch.branchCode === branchCodeRetrieved) ?? value[0]
                                         );
+
+
                                     }
                                 }
                             }
@@ -70,17 +77,28 @@ export class DataproviderService {
     selectBranch(branch: BranchResponseEntity) {
         localStorage.setItem('branchCode', branch?.branchCode ?? '');
         this.currentBranch.next(branch);
+        this.retrieveBookingConfiguration(branch?.branchCode);
     }
 
     addBranch(branch: BranchResponseEntity) {
 
         this.currentBranchesList.value.push(branch);
-
         if(this.currentBranchesList.value.length == 1){
             this.selectBranch(this.currentBranchesList.value[0]);
         }
-
         this.currentBranchesList.next(this.currentBranchesList.value);
+    }
 
+    retrieveBookingConfiguration(branchCode: string){
+        this._bookingControllerService.checkWaApiStatus(branchCode)
+            .subscribe((bookingConfDTO) =>{
+                this.currentRestaurantConfiguration.next(bookingConfDTO);
+            });
+    }
+
+    branchTimeRangeDTO : BranchTimeRangeDTO = {};
+
+    setBranchTimeRangeDTOToUpdate(branchTimeRangeDTO1: BranchTimeRangeDTO) {
+        this.branchTimeRangeDTO = branchTimeRangeDTO1;
     }
 }

@@ -19,6 +19,7 @@ import {
     BookingControllerService,
     RestaurantConfigurationDTO
 } from "../../../../core/booking";
+import bookingRoutes from "../../../pages/booking/booking.routes";
 @Component({
     selector       : 'booking-dashboard',
     templateUrl    : './booking-dashboard.component.html',
@@ -49,7 +50,7 @@ export class BookingDashboardComponent implements OnInit {
     restaurantConfigurationDTO : RestaurantConfigurationDTO;
 
     constructor(private _dataProvideService: DataproviderService,
-                private _bookingControllerService: BookingControllerService,
+                private _bookingControllerService : BookingControllerService,
                 private cdr: ChangeDetectorRef) {
     }
 
@@ -61,11 +62,11 @@ export class BookingDashboardComponent implements OnInit {
             this.cdr.detectChanges();
         });
 
-        this._bookingControllerService.checkWaApiStatus(this.currentBranch.branchCode)
-            .subscribe((bookingConfDTO) =>{
-                this.restaurantConfigurationDTO = bookingConfDTO;
-                this.cdr.detectChanges();
-            });
+        this._dataProvideService.restaurantConfiguration$.subscribe((restaurantConfiguration)=>{
+            this.restaurantConfigurationDTO = restaurantConfiguration;
+            console.log(this.restaurantConfigurationDTO);
+            this.cdr.detectChanges();
+        });
     }
 
 
