@@ -1,9 +1,7 @@
 import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core';
 import { Configuration } from './configuration';
 import { HttpClient } from '@angular/common/http';
-
-
-import { BookingControllerService } from './api/bookingController.service';
+import {BookingControllerService} from "./api/bookingController.service";
 
 @NgModule({
   imports:      [],

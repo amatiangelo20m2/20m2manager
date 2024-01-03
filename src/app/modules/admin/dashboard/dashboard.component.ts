@@ -47,7 +47,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     @ViewChild('drawer') drawer: MatDrawer;
 
-    data: any;
+    // data: any;
     user : User;
     currentBranch : BranchResponseEntity;
 

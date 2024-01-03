@@ -38,10 +38,12 @@ const OPENING_DATA: OpeningTime[] = [
     standalone: true
 })
 export class DayhoursComponent implements OnInit{
-    displayedColumns: string[] = ['giorno', 'weight', 'symbol'];
+    displayedColumns: string[] = ['giorno', 'pranzo', 'cena'];
     currentBranch : BranchResponseEntity;
     days : any;
+
     dataSource = OPENING_DATA;
+
     editDay(day: any): void {
         // Implement edit logic for the selected day
         console.log('Edit day:', day);

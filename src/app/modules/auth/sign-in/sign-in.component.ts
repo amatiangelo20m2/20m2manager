@@ -13,7 +13,6 @@ import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
 import {CommonMessages} from "../common/common_messages";
 
-
 @Component({
     selector     : 'auth-sign-in',
     templateUrl  : './sign-in.component.html',
@@ -33,6 +32,7 @@ export class AuthSignInComponent implements OnInit {
         type   : 'success',
         message: '',
     };
+
     signInForm: UntypedFormGroup;
     showAlert: boolean = false;
 
@@ -79,5 +79,9 @@ export class AuthSignInComponent implements OnInit {
                     this.showAlert = true;
                 },
             );
+    }
+
+    authenticateWithGoogle() {
+
     }
 }

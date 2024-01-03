@@ -1,8 +1,8 @@
 <div class="flex flex-col flex-auto w-full">
     <div class="flex flex-wrap w-full max-w-screen-xl mx-auto p-2 md:p-2">
 
-        <div *ngIf="bookingConfigurationDTO == null
-            || (bookingConfigurationDTO?.waApiConfigDTO?.instanceStatus!='success'); else elseBlock">
+        <div *ngIf="restaurantConfigurationDTO == null
+            || (restaurantConfigurationDTO?.waApiConfigDTO?.instanceStatus!='success'); else elseBlock">
             <div class="flex flex-col w-full">
                 <div class="mb-2">
                     <h2 class="text-xl font-semibold tracking-tight leading-6">Prenotazioni</h2>
@@ -42,7 +42,7 @@
                     <div class="-mt-20 lg:-mt-18 rounded-full">
                         <img
                             class="w-20 h-20 rounded-full ring-2 ring-bg-card"
-                            src="{{this.bookingConfigurationDTO?.waApiConfigDTO?.profilePicUrl}}"
+                            src="{{this.restaurantConfigurationDTO?.waApiConfigDTO?.profilePicUrl}}"
                             alt="User avatar">
                     </div>
 
@@ -61,7 +61,7 @@
                         <div class="hidden lg:flex h-4 mx-4 border-l-2"></div>
                         <div class="flex flex-col items-center">
                             <span class="font-bold text-xs">ADMIN</span>
-                            <span class="text-xxs text-secondary">{{this.bookingConfigurationDTO?.waApiConfigDTO?.displayName}}</span>
+                            <span class="text-xxs text-secondary">{{this.restaurantConfigurationDTO?.waApiConfigDTO?.displayName}}</span>
                         </div>
 
 
@@ -69,7 +69,7 @@
 
                         <div class="flex flex-col items-center">
                             <span class="font-bold text-xs">STATO</span>
-                            <span class="text-xxs text-secondary">{{this.bookingConfigurationDTO?.waApiConfigDTO?.instanceStatus}}</span>
+                            <span class="text-xxs text-secondary">{{this.restaurantConfigurationDTO?.waApiConfigDTO?.instanceStatus}}</span>
                         </div>
                         <!-- Separator -->
                         <div class="hidden lg:flex h-4 mx-4 border-l-2"></div>
@@ -77,14 +77,14 @@
 
                         <div class="flex flex-col items-center">
                             <span class="font-bold text-xs">CELLULARE</span>
-                            <span class="text-xxs text-secondary">{{this.bookingConfigurationDTO?.waApiConfigDTO?.formattedNumber}}</span>
+                            <span class="text-xxs text-secondary">{{this.restaurantConfigurationDTO?.waApiConfigDTO?.formattedNumber}}</span>
                         </div>
                         <div class="hidden lg:flex h-4 mx-4 border-l-2"></div>
 
 
                         <div class="flex flex-col items-center">
                             <span class="font-bold text-xs">EMAIL</span>
-                            <span class="text-xxs text-secondary">{{this.bookingConfigurationDTO?.waApiConfigDTO?.owner}}</span>
+                            <span class="text-xxs text-secondary">{{this.restaurantConfigurationDTO?.waApiConfigDTO?.owner}}</span>
                         </div>
 
                     </div>

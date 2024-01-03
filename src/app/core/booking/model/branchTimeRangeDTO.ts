@@ -16,7 +16,6 @@ export interface BranchTimeRangeDTO {
     dayOfWeek?: BranchTimeRangeDTO.DayOfWeekEnum;
     timeRanges?: Array<TimeRange>;
     particularDate?: string;
-    open?: boolean;
 }
 export namespace BranchTimeRangeDTO {
     export type DayOfWeekEnum = 'LUNEDI' | 'MARTEDI' | 'MERCOLEDI' | 'GIOVEDI' | 'VENERDI' | 'SABATO' | 'DOMENICA' | 'FESTIVO';

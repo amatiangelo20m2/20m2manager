@@ -15,7 +15,7 @@ import {DayhoursComponent} from "./dayhours/dayhours.component";
 import {BranchResponseEntity} from "../../../../../core/dashboard";
 import {DataproviderService} from "../../dataprovider.service";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {BookingConfigurationDTO, BookingControllerService} from "../../../../../core/booking";
+import {BookingControllerService, RestaurantConfigurationDTO} from "../../../../../core/booking";
 
 @Component({
     selector: 'configure-opening',
@@ -45,7 +45,7 @@ export class ConfigureOpeningComponent implements OnInit{
 
     protected readonly url = "url";
     buttonConfigurationClick: boolean = false;
-    bookingConfigurationDTO : BookingConfigurationDTO;
+    restaurantConfigurationDTO : RestaurantConfigurationDTO;
 
     ngOnInit() {
         this._dataProvideService.branch$.subscribe((branch) => {
@@ -54,8 +54,8 @@ export class ConfigureOpeningComponent implements OnInit{
         });
 
         this._bookingControllerService.checkWaApiStatus(this.currentBranch.branchCode)
-            .subscribe((bookingConfDTO : BookingConfigurationDTO) =>{
-                this.bookingConfigurationDTO = bookingConfDTO;
+            .subscribe((bookingConfDTO : RestaurantConfigurationDTO) =>{
+                this.restaurantConfigurationDTO = bookingConfDTO;
                 this.cdr.detectChanges();
             });
     }

@@ -15,8 +15,10 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {ConfigureOpeningComponent} from "./configure-opening/configure-opening.component";
-import {BookingConfigurationDTO, BookingControllerService} from "../../../../core/booking";
-
+import {
+    BookingControllerService,
+    RestaurantConfigurationDTO
+} from "../../../../core/booking";
 @Component({
     selector       : 'booking-dashboard',
     templateUrl    : './booking-dashboard.component.html',
@@ -44,7 +46,7 @@ export class BookingDashboardComponent implements OnInit {
     currentBranch : BranchResponseEntity;
     qrCodeImage: String = '';
 
-    bookingConfigurationDTO : BookingConfigurationDTO;
+    restaurantConfigurationDTO : RestaurantConfigurationDTO;
 
     constructor(private _dataProvideService: DataproviderService,
                 private _bookingControllerService: BookingControllerService,
@@ -61,7 +63,7 @@ export class BookingDashboardComponent implements OnInit {
 
         this._bookingControllerService.checkWaApiStatus(this.currentBranch.branchCode)
             .subscribe((bookingConfDTO) =>{
-                this.bookingConfigurationDTO = bookingConfDTO;
+                this.restaurantConfigurationDTO = bookingConfDTO;
                 this.cdr.detectChanges();
             });
     }
@@ -76,7 +78,7 @@ export class BookingDashboardComponent implements OnInit {
         this._bookingControllerService
             .configureNumberForWhatsAppMessaging(this.currentBranch.branchCode)
             .subscribe((bookingConfDTO) =>{
-                    this.bookingConfigurationDTO = bookingConfDTO;
+                    this.restaurantConfigurationDTO = bookingConfDTO;
                     this.qrCodeImage = bookingConfDTO?.waApiConfigDTO.lastQrCode;
                     this.buttonConfigurationClick = false;
                     this.remainingSeconds = 60;
@@ -88,11 +90,11 @@ export class BookingDashboardComponent implements OnInit {
 
                             this._bookingControllerService.checkWaApiStatus(this.currentBranch.branchCode)
                                 .subscribe((bookingConfDTO)=>{
-                                    this.bookingConfigurationDTO = bookingConfDTO;
-                                    console.log('Current status: ' + this.bookingConfigurationDTO?.waApiConfigDTO?.instanceStatus)
-                                    if (this.bookingConfigurationDTO != null
-                                        && this.bookingConfigurationDTO?.waApiConfigDTO != null
-                                        && this.bookingConfigurationDTO?.waApiConfigDTO?.instanceStatus === 'OK') {
+                                    this.restaurantConfigurationDTO = bookingConfDTO;
+                                    console.log('Current status: ' + this.restaurantConfigurationDTO?.waApiConfigDTO?.instanceStatus)
+                                    if (this.restaurantConfigurationDTO != null
+                                        && this.restaurantConfigurationDTO?.waApiConfigDTO != null
+                                        && this.restaurantConfigurationDTO?.waApiConfigDTO?.instanceStatus === 'OK') {
                                         console.log('Loop condition met. Stopping the loop.');
                                         this.remainingSeconds = 0;
                                     }
@@ -104,8 +106,6 @@ export class BookingDashboardComponent implements OnInit {
                             }
                             this.cdr.detectChanges();
                         });
-
-
                 }
             );
     }
