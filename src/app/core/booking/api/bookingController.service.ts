@@ -153,6 +153,53 @@ export class BookingControllerService {
     /**
      *
      *
+     * @param timeRangeId
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public deleteTimeRange(timeRangeId: number, observe?: 'body', reportProgress?: boolean): Observable<RestaurantConfigurationDTO>;
+    public deleteTimeRange(timeRangeId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<RestaurantConfigurationDTO>>;
+    public deleteTimeRange(timeRangeId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<RestaurantConfigurationDTO>>;
+    public deleteTimeRange(timeRangeId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (timeRangeId === null || timeRangeId === undefined) {
+            throw new Error('Required parameter timeRangeId was null or undefined when calling deleteTimeRange.');
+        }
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (timeRangeId !== undefined && timeRangeId !== null) {
+            queryParameters = queryParameters.set('timeRangeId', <any>timeRangeId);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<RestaurantConfigurationDTO>('delete',`${this.basePath}/booking/deletetimerange`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     *
+     *
      * @param branchCode
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.

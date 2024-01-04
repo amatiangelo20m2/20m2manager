@@ -64,7 +64,6 @@ export class BookingDashboardComponent implements OnInit {
 
         this._dataProvideService.restaurantConfiguration$.subscribe((restaurantConfiguration)=>{
             this.restaurantConfigurationDTO = restaurantConfiguration;
-            console.log(this.restaurantConfigurationDTO);
             this.cdr.detectChanges();
         });
     }

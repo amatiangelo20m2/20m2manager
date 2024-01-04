@@ -7,8 +7,9 @@ import {
     BookingControllerService,
     BranchTimeRangeDTO,
     RestaurantConfigurationDTO,
-    TimeRange, TimeRangeUpdateRequest
+    TimeRangeUpdateRequest
 } from "../../../core/booking";
+
 
 
 @Injectable({providedIn: 'root'})
@@ -90,7 +91,7 @@ export class DataproviderService {
     retrieveBookingConfiguration(branchCode: string){
         this._bookingControllerService.checkWaApiStatus(branchCode)
             .subscribe((bookingConfDTO) =>{
-                this.currentRestaurantConfiguration.next(bookingConfDTO);
+                this.currentRestaurantConfiguration?.next(bookingConfDTO);
             });
     }
 

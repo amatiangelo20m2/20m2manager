@@ -6,7 +6,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
-import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {NgForOf, NgIf} from "@angular/common";
@@ -23,9 +23,10 @@ import {
 } from "../../../../../core/booking";
 import {MatTableModule} from "@angular/material/table";
 import {MatTooltipModule} from "@angular/material/tooltip";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {environment} from "../../../../../../environments/environment";
 import {MatTabsModule} from "@angular/material/tabs";
+import {EdithoursComponent} from "./dayhours/edit-hours/edithours.component";
+import {MatSelectModule} from "@angular/material/select";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 
 @Component({
@@ -49,7 +50,9 @@ import {MatTabsModule} from "@angular/material/tabs";
         NgIf,
         MatTableModule,
         MatTooltipModule,
-        MatTabsModule
+        MatTabsModule,
+        MatSelectModule,
+        MatCheckboxModule
     ],
     standalone: true
 })
@@ -59,27 +62,37 @@ export class ConfigureOpeningComponent implements OnInit{
     url = "";
     restaurantConfigurationDTO : RestaurantConfigurationDTO;
     dataSource : BranchTimeRangeDTO[] = [];
-    displayedColumns: string[] = ['day', 'time'];
     urlform: FormGroup;
+
+    restaurantConfigForm: FormGroup;
+    restaurantConfigDTO: RestaurantConfigurationDTO;
 
     ngOnInit() {
         this._dataProvideService.branch$.subscribe((branch) => {
             this.currentBranch = branch;
 
-            this.url = environment.apiURL + '/reservation?branchCode=' + this.currentBranch.branchCode;
+            this.url = 'http://localhost:4200/reservation?branchCode=' + this.currentBranch.branchCode;
             this.urlform = this.fb.group({
-                name: [environment.apiURL + '/reservation?branchCode=' + this.currentBranch.branchCode, /* Other Validators if needed */]
+                url: [this.url, /* Other Validators if needed */],
+                iframe: [`<iframe src="${this.url}" width="600" height="400" frameborder="0" allowfullscreen></iframe>\n`]
             });
-            this.cdr.detectChanges();
+            // this.cdr.detectChanges();
         });
 
         this._bookingControllerService.checkWaApiStatus(this.currentBranch.branchCode)
             .subscribe((bookingConfDTO : RestaurantConfigurationDTO) =>{
                 this.restaurantConfigurationDTO = bookingConfDTO;
-                this.cdr.detectChanges();
+                this.restaurantConfigForm = this.fb.group({
+                    guests: [this.restaurantConfigDTO?.guests ?? 0, Validators.required],
+                    allowOverbooking: [this.restaurantConfigDTO?.allowOverbooking ?? false],
+                    confirmReservation: [this.restaurantConfigDTO?.confirmReservation ?? false],
+                    bookingSlotInMinutes: [this.restaurantConfigDTO?.bookingSlotInMinutes ?? 0, Validators.required],
+                    recoveryNumber: [this.restaurantConfigDTO?.recoveryNumber ?? '', Validators.required]
+                });
+                // this.cdr.detectChanges();
             });
 
-        this._dataProvideService.restaurantConfiguration$.subscribe((restaurantConfiguration)=>{
+        this._dataProvideService?.restaurantConfiguration$.subscribe((restaurantConfiguration)=>{
             this.restaurantConfigurationDTO = restaurantConfiguration;
 
 
@@ -87,15 +100,28 @@ export class ConfigureOpeningComponent implements OnInit{
                 return branchTime;
             }) || [];
 
-            this.cdr.detectChanges();
+            // this.cdr.detectChanges();
         });
     }
 
+    saveConfiguration(): void {
+        // Check if the form is valid
+        if (this.restaurantConfigForm.valid) {
+            // Update the instance with the form values
+            this.restaurantConfigDTO = { ...this.restaurantConfigForm.value };
+
+            // Call your API to save the modified object
+            // Example: this.apiService.updateConfiguration(this.restaurantConfigDTO);
+        } else {
+            // Handle invalid form
+            console.log('Invalid form. Please check the entered values.');
+        }
+    }
 
     constructor(private _matDialog: MatDialog,
                 private _dataProvideService: DataproviderService,
                 private _bookingControllerService: BookingControllerService,
-                private cdr: ChangeDetectorRef,
+                // private cdr: ChangeDetectorRef,
                 private fb: FormBuilder,
                 // private clipboard: Clipboard,
                 // private snackBar: MatSnackBar
@@ -137,5 +163,10 @@ export class ConfigureOpeningComponent implements OnInit{
         // this.snackBar.open('Copied to clipboard', 'Close', {
         //     duration: 2000,
         // });
+    }
+
+    editHour(timeRange: BranchTimeRangeDTO) {
+        this._dataProvideService.setBranchTimeRangeDTOToUpdate(timeRange)
+        this._matDialog.open(EdithoursComponent, {autoFocus: false});
     }
 }
