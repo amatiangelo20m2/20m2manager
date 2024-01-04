@@ -1,6 +1,6 @@
 <div class="flex flex-col flex-auto w-200 p-2 md:p-4" [formGroup]="branchTimeForm">
     <div class="text-center mb-2">
-        Configura Orario Apertura {{ branchTimeRangeDTO.dayOfWeek }}
+        Configura Orario Apertura
     </div>
     <div class="text-center mb-2" style="padding-bottom: 20px">
         <mat-button-toggle-group [(ngModel)]="selectedDays" multiple [ngModelOptions]="{standalone: true}">
@@ -21,7 +21,7 @@
                     <mat-label>Ora chiusura</mat-label>
                     <input type="time" matInput placeholder="Ora Chiusura" [formControlName]="'closingTime' + i">
                     <mat-error *ngIf="branchTimeForm.get('closingTime' + i).hasError('invalidClosingTime')">
-                        Ora chiusura precedente a ora apertura
+                        Ora chiusura deve essere successiva a ora apertura
                     </mat-error>
                 </mat-form-field>
                 <button mat-icon-button (click)="removeTimeRange(i)">
@@ -35,7 +35,7 @@
         Aggiungi fascia oraria
     </mat-button-toggle>
     <div style="padding-bottom: 5px"></div>
-    <mat-button-toggle (click)="saveConfiguration()" value="weekopening" [disabled]="branchTimeForm.invalid">
+    <mat-button-toggle (click)="saveConfiguration()" value="weekopening" [disabled]="branchTimeForm.invalid || selectedDays.length === 0 || branchTimeRangeDTO?.timeRanges.length === 0">
         <mat-icon [svgIcon]="'heroicons_outline:clock'"></mat-icon>
         Salva
     </mat-button-toggle>

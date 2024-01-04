@@ -7,8 +7,9 @@ import {
     BookingControllerService,
     BranchTimeRangeDTO,
     RestaurantConfigurationDTO,
-    TimeRange
+    TimeRange, TimeRangeUpdateRequest
 } from "../../../core/booking";
+
 
 @Injectable({providedIn: 'root'})
 export class DataproviderService {
@@ -100,4 +101,34 @@ export class DataproviderService {
         this.branchTimeRangeDTO.next(branchTimeRangeDTO1);
     }
 
+    ids : number[] = [];
+    fromCurrentTimeRangeListRetrieveIdsByDaysSelected(selectedDays: string[]) {
+        this.ids = [];
+        this.restaurantConfiguration$.subscribe((restaurantConfig)=>{
+            selectedDays.forEach((day)=>{
+                this.ids.push(restaurantConfig.branchTimeRanges.find((branchTimeRange)=>
+                    branchTimeRange.dayOfWeek == this.getDayFromSelectedDay(day)
+                ).id);
+            });
+        });
+
+        return this.ids;
+    }
+
+    private getDayFromSelectedDay(selectedDay: string) {
+
+        const enumValues: string[] = Object.values(BranchTimeRangeDTO.DayOfWeekEnum);
+
+        if (enumValues.includes(selectedDay)) {
+            return selectedDay as BranchTimeRangeDTO.DayOfWeekEnum;
+        }
+
+        return undefined;
+    }
+
+    public updateTimeRange(param: { branchCode: string; timeRanges: Array<TimeRangeUpdateRequest>; listConfIds: number[] }) {
+        this._bookingControllerService.updateTimeRange(param).subscribe((restaurantConf)=>{
+            this.currentRestaurantConfiguration.next(restaurantConf);
+        });
+    }
 }

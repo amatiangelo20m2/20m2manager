@@ -9,9 +9,10 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { LocalTime } from './localTime';
+import { TimeRangeUpdateRequest } from './timeRangeUpdateRequest';
 
-export interface TimeRange { 
-    startTime?: LocalTime;
-    endTime?: LocalTime;
+export interface UpdateRestaurantConfigurationRequest { 
+    branchCode?: string;
+    listConfIds?: Array<number>;
+    timeRanges?: Array<TimeRangeUpdateRequest>;
 }

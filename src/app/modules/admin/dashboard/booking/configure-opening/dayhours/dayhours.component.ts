@@ -58,9 +58,11 @@ export class DayhoursComponent implements OnInit{
     }
 
     getTime(timeRanges: Array<TimeRange>) {
-        if(timeRanges.length != 0){
-            return this.transform(timeRanges[0]?.startTime) + ' - ' + this.transform(timeRanges[0].endTime);
-        }else{
+        if(timeRanges.length == 1){
+            return this.transform(timeRanges[0]?.startTime) + '-' + this.transform(timeRanges[0].endTime);
+        }else if(timeRanges.length > 1){
+            return this.transform(timeRanges[0]?.startTime) + '-' + this.transform(timeRanges[0].endTime) + ' [+' + (timeRanges.length-1) +']';
+        }else {
             return 'CHIUSO';
         }
     }

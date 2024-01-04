@@ -18,6 +18,7 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 import { RestaurantConfigurationDTO } from '../model/restaurantConfigurationDTO';
+import { UpdateRestaurantConfigurationRequest } from '../model/updateRestaurantConfigurationRequest';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -188,6 +189,53 @@ export class BookingControllerService {
         return this.httpClient.request<RestaurantConfigurationDTO>('get',`${this.basePath}/booking/configuration/waapi/instance/reboot`,
             {
                 params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     *
+     *
+     * @param body
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public updateTimeRange(body: UpdateRestaurantConfigurationRequest, observe?: 'body', reportProgress?: boolean): Observable<RestaurantConfigurationDTO>;
+    public updateTimeRange(body: UpdateRestaurantConfigurationRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<RestaurantConfigurationDTO>>;
+    public updateTimeRange(body: UpdateRestaurantConfigurationRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<RestaurantConfigurationDTO>>;
+    public updateTimeRange(body: UpdateRestaurantConfigurationRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling updateTimeRange.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<RestaurantConfigurationDTO>('post',`${this.basePath}/booking/configuration/timerange/update`,
+            {
+                body: body,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
