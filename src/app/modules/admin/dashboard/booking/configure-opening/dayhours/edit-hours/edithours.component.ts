@@ -1,74 +1,74 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {MatButtonModule} from "@angular/material/button";
-import {MatDialogModule} from "@angular/material/dialog";
-import {MatGridListModule} from "@angular/material/grid-list";
-import {MatIconModule} from "@angular/material/icon";
-import {NgForOf, NgIf} from "@angular/common";
-import {MatTableModule} from "@angular/material/table";
-import {DataproviderService} from "../../../../dataprovider.service";
-import {MatInputModule} from "@angular/material/input";
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import { DataproviderService } from "../../../../dataprovider.service";
+import { BranchTimeRangeDTO, LocalTime } from "../../../../../../../core/booking";
+import {MatInputModule} from "@angular/material/input";
+import {MatIconModule} from "@angular/material/icon";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
-import {NgxMaskDirective} from "ngx-mask";
-import {BranchTimeRangeDTO, LocalTime} from "../../../../../../../core/booking";
-
+import {MatButtonModule} from "@angular/material/button";
+import {NgForOf, NgIf} from "@angular/common";
 
 @Component({
     selector: 'edithours',
     templateUrl: './edithours.component.html',
     imports: [
-        MatButtonModule,
-        MatDialogModule,
-        MatGridListModule,
-        MatIconModule,
-        NgForOf,
-        MatTableModule,
         MatInputModule,
+        MatIconModule,
+        MatButtonToggleModule,
         ReactiveFormsModule,
         FormsModule,
-        MatButtonToggleModule,
-        NgxMaskDirective,
+        MatButtonModule,
         NgIf,
+        NgForOf
     ],
+    // Add any required styles
     standalone: true
 })
 export class EdithoursComponent implements OnInit {
-
     branchTimeRangeDTO: BranchTimeRangeDTO = {};
-
     branchTimeForm: FormGroup;
-
     selectedDays: string[] = [];
     days: string[] = Object.values(BranchTimeRangeDTO.DayOfWeekEnum).filter(day => day !== 'FESTIVO');
 
-    constructor(private fb: FormBuilder, private _dataProvideService: DataproviderService) {
-
-    }
+    constructor(private fb: FormBuilder, private _dataProvideService: DataproviderService) {}
 
     ngOnInit(): void {
         this._dataProvideService?.branchTimeRangeDTO$?.subscribe((branchRange) => {
             console.log("Working on day: " + branchRange?.dayOfWeek);
-
-            this.branchTimeForm = this.fb.group({
-                openingTime: ['', Validators.required],
-                closingTime: ['', [Validators.required, this.validateClosingTime]],
-            });
-
             this.branchTimeRangeDTO = branchRange;
             this.selectedDays.push(this.branchTimeRangeDTO.dayOfWeek);
 
+            // Initialize the form
+            this.initializeForm();
         });
     }
 
-    validateClosingTime(control) {
-        const openingTime = control?.parent?.get('openingTime').value;
+    initializeForm() {
+        const formControls = {};
 
-        if (openingTime && control.value < openingTime) {
-            return { invalidClosingTime: true };
+        for (let i = 0; i < this.branchTimeRangeDTO.timeRanges.length; i++) {
+            const timeRange = this.branchTimeRangeDTO.timeRanges[i];
+            formControls[`openingTime${i}`] = [this.transform(timeRange?.startTime), Validators.required];
+            formControls[`closingTime${i}`] = [this.transform(timeRange?.endTime), [Validators.required, (control) => this.validateClosingTime(control, i)]];
+        }
+
+        this.branchTimeForm = this.fb.group(formControls);
+    }
+
+    validateClosingTime(control, index) {
+        const parentGroup = control?.parent;
+
+        if (parentGroup) {
+            const openingTime = parentGroup.get(`openingTime${index}`).value;
+
+            if (openingTime && control.value < openingTime) {
+                return { invalidClosingTime: true };
+            }
         }
 
         return null;
     }
+
 
     transform(localTime: LocalTime): string {
         if (!localTime) {
@@ -102,8 +102,10 @@ export class EdithoursComponent implements OnInit {
                 minute: 0,
             },
         });
-        //
-        // console.log(this.branchTimeRangeDTO.timeRanges);
+        this.initializeForm();
     }
 
+    removeTimeRange(i) {
+
+    }
 }

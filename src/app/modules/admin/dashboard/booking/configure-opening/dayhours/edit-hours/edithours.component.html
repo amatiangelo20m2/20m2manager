@@ -1,6 +1,6 @@
 <div class="flex flex-col flex-auto w-200 p-2 md:p-4" [formGroup]="branchTimeForm">
     <div class="text-center mb-2">
-        Configura Orario Apertura {{branchTimeRangeDTO.dayOfWeek}}
+        Configura Orario Apertura {{ branchTimeRangeDTO.dayOfWeek }}
     </div>
     <div class="text-center mb-2" style="padding-bottom: 20px">
         <mat-button-toggle-group [(ngModel)]="selectedDays" multiple [ngModelOptions]="{standalone: true}">
@@ -15,16 +15,16 @@
             <div *ngFor="let timeRange of branchTimeRangeDTO.timeRanges; let i = index" class="mb-2">
                 <mat-form-field appearance="outline" class="form-field">
                     <mat-label>Ora apertura</mat-label>
-                    <input type="time" matInput placeholder="Ora Apertura" formControlName="openingTime">
+                    <input type="time" matInput placeholder="Ora Apertura" [formControlName]="'openingTime' + i">
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="form-field">
                     <mat-label>Ora chiusura</mat-label>
-                    <input type="time" matInput placeholder="Ora Chiusura" formControlName="closingTime">
-                    <mat-error *ngIf="branchTimeForm.get('closingTime').hasError('invalidClosingTime')">
-                        Ora chiususa precedente a ora apertura
+                    <input type="time" matInput placeholder="Ora Chiusura" [formControlName]="'closingTime' + i">
+                    <mat-error *ngIf="branchTimeForm.get('closingTime' + i).hasError('invalidClosingTime')">
+                        Ora chiusura precedente a ora apertura
                     </mat-error>
                 </mat-form-field>
-                <button mat-icon-button>
+                <button mat-icon-button (click)="removeTimeRange(i)">
                     <mat-icon [svgIcon]="'heroicons_outline:minus'"></mat-icon>
                 </button>
             </div>
@@ -39,5 +39,4 @@
         <mat-icon [svgIcon]="'heroicons_outline:clock'"></mat-icon>
         Salva
     </mat-button-toggle>
-
 </div>
