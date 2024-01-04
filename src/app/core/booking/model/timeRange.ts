@@ -14,13 +14,5 @@ import { LocalTime } from './localTime';
 export interface TimeRange { 
     startTime?: LocalTime;
     endTime?: LocalTime;
-    mealType?: TimeRange.MealTypeEnum;
     open?: boolean;
-}
-export namespace TimeRange {
-    export type MealTypeEnum = 'PRANZO' | 'CENA';
-    export const MealTypeEnum = {
-        PRANZO: 'PRANZO' as MealTypeEnum,
-        CENA: 'CENA' as MealTypeEnum
-    };
 }

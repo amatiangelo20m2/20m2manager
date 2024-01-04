@@ -19,6 +19,7 @@ export class DataproviderService {
 
     private currentRestaurantConfiguration : BehaviorSubject<RestaurantConfigurationDTO> = new BehaviorSubject(null);
 
+
     branch$ = this.currentBranch.asObservable();
     branches$ = this.currentBranchesList.asObservable();
 
@@ -71,15 +72,11 @@ export class DataproviderService {
             });
     }
 
-
-
-
     selectBranch(branch: BranchResponseEntity) {
         localStorage.setItem('branchCode', branch?.branchCode ?? '');
         this.currentBranch.next(branch);
         this.retrieveBookingConfiguration(branch?.branchCode);
     }
-
     addBranch(branch: BranchResponseEntity) {
 
         this.currentBranchesList.value.push(branch);
@@ -96,9 +93,11 @@ export class DataproviderService {
             });
     }
 
-    branchTimeRangeDTO : BranchTimeRangeDTO = {};
+    branchTimeRangeDTO : BehaviorSubject<BranchTimeRangeDTO> = new BehaviorSubject(null);
+    branchTimeRangeDTO$ = this.branchTimeRangeDTO.asObservable();
 
     setBranchTimeRangeDTOToUpdate(branchTimeRangeDTO1: BranchTimeRangeDTO) {
-        this.branchTimeRangeDTO = branchTimeRangeDTO1;
+        this.branchTimeRangeDTO.next(branchTimeRangeDTO1);
     }
+
 }

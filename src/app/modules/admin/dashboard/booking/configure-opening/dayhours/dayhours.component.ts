@@ -8,7 +8,6 @@ import {MatIconModule} from "@angular/material/icon";
 import {NgForOf} from "@angular/common";
 import {MatTableModule} from "@angular/material/table";
 import {BranchTimeRangeDTO, LocalTime, RestaurantConfigurationDTO, TimeRange} from "../../../../../../core/booking";
-import MealTypeEnum = TimeRange.MealTypeEnum;
 import {EdithoursComponent} from "./edit-hours/edithours.component";
 
 @Component({
@@ -29,7 +28,7 @@ export class DayhoursComponent implements OnInit{
     currentBranch : BranchResponseEntity;
     restaurantConfigurationDTO: RestaurantConfigurationDTO;
 
-    displayedColumns: string[] = ['day', 'lunch', 'dinner', 'edit'];
+    displayedColumns: string[] = ['day', 'time', 'edit'];
     dataSource : BranchTimeRangeDTO[] = [];
 
     constructor(private _dataProvideService: DataproviderService,
@@ -58,19 +57,9 @@ export class DayhoursComponent implements OnInit{
         });
     }
 
-    getLunchTime(timeRanges: Array<TimeRange>) {
-
-        if(timeRanges.find(timeRange=> MealTypeEnum.PRANZO == timeRange.mealType)?.open == true){
-            return timeRanges.find(timeRange=> MealTypeEnum.PRANZO == timeRange.mealType)?.startTime + '  - ' + timeRanges.find(timeRange=> MealTypeEnum.PRANZO == timeRange.mealType).endTime;
-        }else{
-            return 'CHIUSO';
-        }
-    }
-
-    getDinnerTime(timeRanges: Array<TimeRange>) {
-        if(timeRanges.find(timeRange=> MealTypeEnum.CENA == timeRange.mealType)?.open == true){
-            return this.transform(timeRanges.find(timeRange=> MealTypeEnum.CENA == timeRange.mealType)?.startTime)
-                + ' - ' + this.transform(timeRanges.find(timeRange=> MealTypeEnum.CENA == timeRange.mealType).endTime);
+    getTime(timeRanges: Array<TimeRange>) {
+        if(timeRanges[0].open == true){
+            return this.transform(timeRanges[0]?.startTime) + ' - ' + this.transform(timeRanges[0].endTime);
         }else{
             return 'CHIUSO';
         }
@@ -92,4 +81,5 @@ export class DayhoursComponent implements OnInit{
         this._dataProvideService.setBranchTimeRangeDTOToUpdate(timeRange)
         this._matDialog.open(EdithoursComponent, {autoFocus: false});
     }
+
 }
