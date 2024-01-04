@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
-    selector       : 'settings-notifications',
+    selector       : 'settings-notifications1',
     templateUrl    : './notifications.component.html',
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,

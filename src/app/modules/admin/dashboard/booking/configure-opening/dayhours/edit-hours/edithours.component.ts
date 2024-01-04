@@ -32,58 +32,63 @@ import {BranchTimeRangeDTO, LocalTime} from "../../../../../../../core/booking";
     ],
     standalone: true
 })
-export class EdithoursComponent implements OnInit{
+export class EdithoursComponent implements OnInit {
 
-    branchTimeRangeDTO : BranchTimeRangeDTO = {};
+    branchTimeRangeDTO: BranchTimeRangeDTO = {};
+
     branchTimeForm: FormGroup;
+
     selectedDays: string[] = [];
-
     days: string[] = Object.values(BranchTimeRangeDTO.DayOfWeekEnum).filter(day => day !== 'FESTIVO');
-    constructor(private fb: FormBuilder,
-                private _dataProvideService: DataproviderService) {}
 
-    hours: number;
-    minutes: number;
+    constructor(private fb: FormBuilder, private _dataProvideService: DataproviderService) {
+
+    }
 
     ngOnInit(): void {
-        this._dataProvideService?.branchTimeRangeDTO$?.subscribe((branchRange)=>{
-            console.log("Working on day : " + branchRange?.dayOfWeek)
+        this._dataProvideService?.branchTimeRangeDTO$?.subscribe((branchRange) => {
+            console.log("Working on day: " + branchRange?.dayOfWeek);
+
+            this.branchTimeForm = this.fb.group({
+                openingTime: ['', Validators.required],
+                closingTime: ['', [Validators.required, this.validateClosingTime]],
+            });
+
             this.branchTimeRangeDTO = branchRange;
-
-
             this.selectedDays.push(this.branchTimeRangeDTO.dayOfWeek);
-            for (let i = 0; i < this.branchTimeRangeDTO.timeRanges.length; i++) {
-                const timeRange = this.branchTimeRangeDTO.timeRanges[i];
-                console.log(`Index: ${i}, startTime: ${timeRange.startTime}, endTime: ${timeRange.endTime}`);
-                this.branchTimeForm.addControl('startTime'+i, this.fb.control(this.transform(timeRange?.startTime), Validators.required));
-                this.branchTimeForm.addControl('endTime'+i, this.fb.control(this.transform(timeRange?.endTime), Validators.required));
-            }
+
         });
+    }
+
+    validateClosingTime(control) {
+        const openingTime = control?.parent?.get('openingTime').value;
+
+        if (openingTime && control.value < openingTime) {
+            return { invalidClosingTime: true };
+        }
+
+        return null;
     }
 
     transform(localTime: LocalTime): string {
         if (!localTime) {
             return '';
         }
-        // Extract hours and minutes
         const hours = localTime.toString().split(':')[0];
         const minutes = localTime.toString().split(':')[1];
-
-
         return `${hours}:${minutes}`;
     }
 
-    // Write value to the input
-    writeValue(value: any): void {
-        const [hours, minutes] = (value || '').split(':').map(Number);
-        this.hours = hours;
-        this.minutes = minutes;
-    }
-
     saveConfiguration() {
-
         console.log(this.branchTimeForm);
         console.log(this.selectedDays);
+        if (this.branchTimeForm.valid) {
+            // Do something with the form values
+            console.log(this.branchTimeForm.value);
+        } else {
+            // Handle invalid form
+            console.log('Form is invalid');
+        }
     }
 
     addTimeRange() {
@@ -96,12 +101,9 @@ export class EdithoursComponent implements OnInit{
                 hour: 0,
                 minute: 0,
             },
-            open: false,
         });
-        console.log(this.branchTimeRangeDTO.timeRanges.length)
+        //
+        // console.log(this.branchTimeRangeDTO.timeRanges);
     }
 
-    removeTimeRange(i: number) {
-
-    }
 }

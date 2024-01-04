@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
-    selector       : 'settings-security',
+    selector       : 'settings-security1',
     templateUrl    : './security.component.html',
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
