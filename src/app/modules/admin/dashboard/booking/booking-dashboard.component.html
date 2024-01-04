@@ -1,8 +1,7 @@
 <div class="flex flex-col flex-auto w-full">
     <div class="flex flex-wrap w-full max-w-screen-xl mx-auto p-2 md:p-2">
 
-        <div *ngIf="restaurantConfigurationDTO == null
-            || (restaurantConfigurationDTO?.waApiConfigDTO?.instanceStatus!='success'); else elseBlock">
+        <div *ngIf="restaurantConfigurationDTO == null || (restaurantConfigurationDTO?.waApiConfigDTO?.instanceStatus!='success'); else elseBlock">
             <div class="flex flex-col w-full">
                 <div class="mb-2">
                     <h2 class="text-xl font-semibold tracking-tight leading-6">Prenotazioni</h2>
@@ -37,58 +36,42 @@
             </div>
         </div>
         <ng-template #elseBlock>
-            <div class="flex flex-col shadow bg-card w-full rounded-xl mt-2">
-                <div class="flex flex-col flex-0 lg:flex-row items-center max-w-7xl w-full mx-auto px-4 lg:h-12 bg-card">
-                    <div class="-mt-20 lg:-mt-18 rounded-full">
-                        <img
-                            class="w-20 h-20 rounded-full ring-2 ring-bg-card"
-                            src="{{this.restaurantConfigurationDTO?.waApiConfigDTO?.profilePicUrl}}"
-                            alt="User avatar">
-                    </div>
-
-                    <!-- Separator -->
-                    <div class="hidden lg:flex h-4 mx-4 border-l-2"></div>
-
-                    <!-- Stats -->
-                    <div class="flex items-center mt-2 lg:mt-0 space-x-2 flex-grow">
-
-                        <div class="flex flex-col items-center">
-                            <span class="font-bold text-xs">ATTIVITA'</span>
-                            <span class="text-xxs text-secondary">{{this.currentBranch?.name}}</span>
-                        </div>
-
-
-                        <div class="hidden lg:flex h-4 mx-4 border-l-2"></div>
-                        <div class="flex flex-col items-center">
-                            <span class="font-bold text-xs">ADMIN</span>
-                            <span class="text-xxs text-secondary">{{this.restaurantConfigurationDTO?.waApiConfigDTO?.displayName}}</span>
-                        </div>
-
-
-                        <div class="hidden lg:flex h-4 mx-4 border-l-2"></div>
-
-                        <div class="flex flex-col items-center">
-                            <span class="font-bold text-xs">STATO</span>
-                            <span class="text-xxs text-secondary">{{this.restaurantConfigurationDTO?.waApiConfigDTO?.instanceStatus}}</span>
-                        </div>
-                        <!-- Separator -->
-                        <div class="hidden lg:flex h-4 mx-4 border-l-2"></div>
-
-
-                        <div class="flex flex-col items-center">
-                            <span class="font-bold text-xs">CELLULARE</span>
-                            <span class="text-xxs text-secondary">{{this.restaurantConfigurationDTO?.waApiConfigDTO?.formattedNumber}}</span>
-                        </div>
-                        <div class="hidden lg:flex h-4 mx-4 border-l-2"></div>
-
-
-                        <div class="flex flex-col items-center">
-                            <span class="font-bold text-xs">EMAIL</span>
-                            <span class="text-xxs text-secondary">{{this.restaurantConfigurationDTO?.waApiConfigDTO?.owner}}</span>
-                        </div>
-
-                    </div>
+            <div class="flex flex-auto items-center min-w-0">
+                <div class="flex-0 w-16 h-16 rounded-full overflow-hidden">
+                    <img
+                        class="w-20 h-20 rounded-full ring-2 ring-bg-card"
+                        src="{{this.restaurantConfigurationDTO?.waApiConfigDTO?.profilePicUrl}}"
+                        alt="User avatar">
                 </div>
+                <div class="flex flex-col min-w-0 ml-4">
+                    <ng-container>
+                        <div class="text-2xl md:text-5xl font-semibold tracking-tight leading-7 md:leading-snug truncate">{{this.restaurantConfigurationDTO?.waApiConfigDTO?.displayName}}</div>
+                    </ng-container>
+                    <div class="flex items-center">
+                        <mat-icon
+                            class="icon-size-5"
+                            [svgIcon]="'heroicons_outline:star'"></mat-icon>
+                        <div class="ml-1.5 leading-6 truncate text-secondary">{{this.currentBranch?.name}}</div><mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_outline:device-phone-mobile'"></mat-icon>
+                        <div class="ml-1.5 leading-6 truncate text-secondary">{{this.restaurantConfigurationDTO?.waApiConfigDTO?.formattedNumber}}</div><mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_outline:hand-thumb-up'"></mat-icon>
+                        <div class="ml-1.5 leading-6 truncate text-secondary">{{this.restaurantConfigurationDTO?.waApiConfigDTO?.instanceStatus}}</div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
+                <button
+                    mat-flat-button
+                    [color]="'accent'">
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'mat_outline:phonelink_setup'"></mat-icon>
+                    <span class="ml-2">Cambia Numbero</span>
+                </button>
             </div>
 
             <div class="flex flex-col w-full mt-2">

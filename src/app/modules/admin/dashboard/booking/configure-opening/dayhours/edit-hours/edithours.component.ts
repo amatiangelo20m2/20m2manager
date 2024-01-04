@@ -1,5 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {
+    AbstractControl,
+    FormArray,
+    FormBuilder,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule,
+    ValidationErrors,
+    Validators
+} from "@angular/forms";
 import {DataproviderService} from "../../../../dataprovider.service";
 import {MatInputModule} from "@angular/material/input";
 import {MatIconModule} from "@angular/material/icon";
@@ -70,13 +79,62 @@ export class EdithoursComponent implements OnInit {
 
         if (parentGroup) {
             const openingTime = parentGroup.get(`openingTime${index}`).value;
+            const closingTime = control.value;
 
-            if (openingTime && control.value <= openingTime) {
-                return { invalidClosingTime: true };
+            // Check if both openingTime and closingTime have valid values
+            if (openingTime && closingTime) {
+                const openingDateTime = new Date(`2022-01-01T${openingTime}`);
+                const closingDateTime = new Date(`2022-01-01T${closingTime}`);
+
+                // Check if closingTime is smaller than openingTime
+                if (closingDateTime < openingDateTime) {
+                    return { invalidClosingTime: true, message: 'Ora chiusura deve essere successiva a ora apertura.' };
+                }
+
+                // Calculate the time difference in minutes
+                const timeDifference = (closingDateTime.getTime() - openingDateTime.getTime()) / (1000 * 60);
+
+                // Check if time difference is less than 60 minutes
+                if (timeDifference <= 60) {
+                    return { invalidTimeRange: true, message: 'L\'intervallo di tempo deve essere almeno di 60 minuti.' };
+                    }
+                }
+            }
+
+            return null;
+        }
+    validateTimeRangesOverlap(control: AbstractControl): ValidationErrors | null {
+        const timeRanges = control.value;
+
+        if (timeRanges && timeRanges.length > 1) {
+            for (let i = 0; i < timeRanges.length - 1; i++) {
+                const currentRange = timeRanges[i];
+
+                for (let j = i + 1; j < timeRanges.length; j++) {
+                    const otherRange = timeRanges[j];
+
+                    const currentStart = this.convertTimeToMinutes(currentRange.startTime);
+                    const currentEnd = this.convertTimeToMinutes(currentRange.endTime);
+
+                    const otherStart = this.convertTimeToMinutes(otherRange.startTime);
+                    const otherEnd = this.convertTimeToMinutes(otherRange.endTime);
+
+                    // Check for overlap
+                    if (
+                        (currentStart <= otherStart && otherStart < currentEnd) ||
+                        (otherStart <= currentStart && currentStart < otherEnd)
+                    ) {
+                        return { overlappingTimeRanges: true, message: 'Time ranges cannot overlap.' };
+                    }
+                }
             }
         }
 
         return null;
+    }
+
+    convertTimeToMinutes(time: LocalTime): number {
+        return time.hour * 60 + time.minute;
     }
 
 
@@ -141,7 +199,7 @@ export class EdithoursComponent implements OnInit {
 
             // Clear the form array
             const timeRangesFormArray = this.branchTimeForm.get('timeRanges') as FormArray;
-            timeRangesFormArray.clear();
+            timeRangesFormArray?.clear();
 
             // Rebuild the form array based on the updated timeRanges
             for (let j = 0; j < this.branchTimeRangeDTO.timeRanges.length; j++) {

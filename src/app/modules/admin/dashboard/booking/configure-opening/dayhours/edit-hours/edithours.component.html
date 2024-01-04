@@ -21,7 +21,11 @@
                     <mat-label>Ora chiusura</mat-label>
                     <input type="time" matInput placeholder="Ora Chiusura" [formControlName]="'closingTime' + i">
                     <mat-error *ngIf="branchTimeForm.get('closingTime' + i).hasError('invalidClosingTime')">
-                        Ora chiusura deve essere successiva a ora apertura
+                        {{ branchTimeForm.get('closingTime' + i).getError('invalidClosingTime').message || 'Ora chiusura deve essere successiva a ora apertura.' }}
+                    </mat-error>
+
+                    <mat-error *ngIf="branchTimeForm.get('closingTime' + i).hasError('invalidTimeRange')">
+                        {{ branchTimeForm.get('closingTime' + i).getError('invalidTimeRange').message || 'L\'intervallo di tempo deve essere almeno di 60 minuti.' }}
                     </mat-error>
                 </mat-form-field>
                 <button mat-icon-button (click)="removeTimeRange(i)">
@@ -30,6 +34,7 @@
             </div>
         </div>
     </div>
+
     <mat-button-toggle (click)="addTimeRange()">
         <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
         Aggiungi fascia oraria
