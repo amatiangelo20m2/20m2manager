@@ -40,28 +40,25 @@ export class EdithoursComponent implements OnInit{
 
     days: string[] = Object.values(BranchTimeRangeDTO.DayOfWeekEnum).filter(day => day !== 'FESTIVO');
     constructor(private fb: FormBuilder,
-                private _dataProvideService: DataproviderService,
-                private cdr: ChangeDetectorRef) {
-
-    }
+                private _dataProvideService: DataproviderService) {}
 
     hours: number;
     minutes: number;
 
     ngOnInit(): void {
-        this._dataProvideService.branchTimeRangeDTO$.subscribe((branchRange)=>{
-            console.log("Working on day : " + branchRange.dayOfWeek)
+        this._dataProvideService?.branchTimeRangeDTO$?.subscribe((branchRange)=>{
+            console.log("Working on day : " + branchRange?.dayOfWeek)
             this.branchTimeRangeDTO = branchRange;
 
+
             this.selectedDays.push(this.branchTimeRangeDTO.dayOfWeek);
-            this.branchTimeForm = this.fb.group({
-                openingTime: [this.transform(this.branchTimeRangeDTO?.timeRanges[0]?.startTime), Validators.required],
-                closingTime: [this.transform(this.branchTimeRangeDTO?.timeRanges[0]?.endTime), Validators.required],
-            });
+            for (let i = 0; i < this.branchTimeRangeDTO.timeRanges.length; i++) {
+                const timeRange = this.branchTimeRangeDTO.timeRanges[i];
+                console.log(`Index: ${i}, startTime: ${timeRange.startTime}, endTime: ${timeRange.endTime}`);
+                this.branchTimeForm.addControl('startTime'+i, this.fb.control(this.transform(timeRange?.startTime), Validators.required));
+                this.branchTimeForm.addControl('endTime'+i, this.fb.control(this.transform(timeRange?.endTime), Validators.required));
+            }
         });
-
-
-
     }
 
     transform(localTime: LocalTime): string {
@@ -101,7 +98,6 @@ export class EdithoursComponent implements OnInit{
             },
             open: false,
         });
-        this.cdr.detectChanges();
         console.log(this.branchTimeRangeDTO.timeRanges.length)
     }
 

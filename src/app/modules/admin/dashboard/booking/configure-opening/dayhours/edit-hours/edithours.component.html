@@ -16,11 +16,11 @@
                 <mat-form-field appearance="outline" class="form-field">
                     <mat-label>Ora apertura</mat-label>
                     <!-- Use formControlName with index to bind to specific form controls -->
-                    <input matInput placeholder="Placeholder" [formControlName]="'startTime' + i">
+                    <input matInput placeholder="Ora Apertura" [formControlName]="'startTime' + i">
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="form-field">
                     <mat-label>Ora chiusura</mat-label>
-                    <input matInput placeholder="Placeholder" [formControlName]="'endTime' + i">
+                    <input matInput placeholder="Ora Chiusura" [formControlName]="'endTime' + i">
                 </mat-form-field>
                 <button mat-icon-button (click)="removeTimeRange(i)">
                     <mat-icon [svgIcon]="'heroicons_outline:minus'"></mat-icon>
