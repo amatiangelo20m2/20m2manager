@@ -16,6 +16,7 @@ export interface RestaurantConfigurationDTO {
     branchCode?: string;
     guests?: number;
     allowOverbooking?: boolean;
+    allowOverlap?: boolean;
     confirmReservation?: boolean;
     bookingSlotInMinutes?: number;
     recoveryNumber?: string;

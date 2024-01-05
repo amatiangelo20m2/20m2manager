@@ -9,7 +9,7 @@ import {MatInputModule} from "@angular/material/input";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
-import {NgForOf, NgIf} from "@angular/common";
+import {NgForOf, NgIf, NgStyle} from "@angular/common";
 import {MatDialog} from "@angular/material/dialog";
 import {DayhoursComponent} from "./dayhours/dayhours.component";
 import {BranchResponseEntity} from "../../../../../core/dashboard";
@@ -27,6 +27,7 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {EdithoursComponent} from "./dayhours/edit-hours/edithours.component";
 import {MatSelectModule} from "@angular/material/select";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatChipsModule} from "@angular/material/chips";
 
 
 @Component({
@@ -52,7 +53,9 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
         MatTooltipModule,
         MatTabsModule,
         MatSelectModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        MatChipsModule,
+        NgStyle
     ],
     standalone: true
 })
@@ -74,7 +77,7 @@ export class ConfigureOpeningComponent implements OnInit{
             this.url = 'http://localhost:4200/reservation?branchCode=' + this.currentBranch.branchCode;
             this.urlform = this.fb.group({
                 url: [this.url, /* Other Validators if needed */],
-                iframe: [`<iframe src="${this.url}" width="600" height="400" frameborder="0" allowfullscreen></iframe>\n`]
+                iframe: [`<iframe src="${this.url}" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>\n`]
             });
             // this.cdr.detectChanges();
         });
@@ -105,15 +108,19 @@ export class ConfigureOpeningComponent implements OnInit{
     }
 
     saveConfiguration(): void {
-        // Check if the form is valid
+
         if (this.restaurantConfigForm.valid) {
-            // Update the instance with the form values
             this.restaurantConfigDTO = { ...this.restaurantConfigForm.value };
 
-            // Call your API to save the modified object
-            // Example: this.apiService.updateConfiguration(this.restaurantConfigDTO);
+            this.restaurantConfigForm = this.fb.group({
+                guests: [this.restaurantConfigDTO.guests, [Validators.required, Validators.min(1)]],
+                allowOverbooking: [this.restaurantConfigDTO.allowOverbooking],
+                confirmReservation: [this.restaurantConfigDTO.confirmReservation],
+                bookingSlotInMinutes: [this.restaurantConfigDTO.bookingSlotInMinutes, [Validators.required, Validators.min(1)]],
+                recoveryNumber: [this.restaurantConfigDTO.recoveryNumber, Validators.required]
+            });
+
         } else {
-            // Handle invalid form
             console.log('Invalid form. Please check the entered values.');
         }
     }
@@ -121,7 +128,6 @@ export class ConfigureOpeningComponent implements OnInit{
     constructor(private _matDialog: MatDialog,
                 private _dataProvideService: DataproviderService,
                 private _bookingControllerService: BookingControllerService,
-                // private cdr: ChangeDetectorRef,
                 private fb: FormBuilder,
                 // private clipboard: Clipboard,
                 // private snackBar: MatSnackBar

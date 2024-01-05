@@ -7,9 +7,15 @@
                 <div class="flex flex-col sm:flex-row items-start justify-between">
                     <div class="text-lg font-medium tracking-tight leading-6 truncate">Configurazioni generali</div>
                 </div>
+                Permettere overbooking?
                 <div class="flex flex-col flex-auto mt-1">
-
+                    <mat-chip-listbox aria-label="Fish selection">
+                        <mat-chip-option selected>Permetti Overbooking</mat-chip-option>
+                        <mat-chip-option color="warn">Non permettere overbooking</mat-chip-option>
+                    </mat-chip-listbox>
                 </div>
+
+
             </div>
             <div class="sm:col-span-2 md:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                 <div class="flex flex-col sm:flex-row items-start justify-between">
@@ -32,14 +38,24 @@
                                     <ng-container>
                                         <div class="flex items-center">
                                             <mat-icon class="icon-size-4 text-hint" [svgIcon]="'heroicons_solid:clock'"></mat-icon> <!-- Adjusted icon size -->
-                                            <div class="ml-1 text-sm text-secondary">{{ getTime(element.timeRanges) }}</div> <!-- Smaller text -->
+                                            <div class="ml-1 text-sm" [ngStyle]="{'color': getTime(element.timeRanges) == 'CHIUSO' ? 'red' : 'inherit'}">
+                                                {{ getTime(element.timeRanges) }}
+                                            </div>
+                                            <!-- Smaller text -->
                                         </div>
                                     </ng-container>
                                 </div>
                             </div>
-                            <button mat-icon-button (click)="editHour(element)">
-                                <mat-icon [svgIcon]="'mat_outline:edit'"></mat-icon>
-                            </button>
+                            <div>
+                                <button mat-icon-button (click)="editHour(element)">
+                                    <mat-icon [svgIcon]="'mat_outline:vpn_key'"></mat-icon>
+                                </button>
+                                <button mat-icon-button (click)="editHour(element)">
+                                    <mat-icon [svgIcon]="'mat_outline:edit'"></mat-icon>
+                                </button>
+
+                            </div>
+
                         </div>
                     </ng-container>
 
